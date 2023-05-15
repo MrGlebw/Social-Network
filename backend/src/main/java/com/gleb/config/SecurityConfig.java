@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@ComponentScan("com.gleb")
 public class SecurityConfig {
     // here will be security config
     @Bean

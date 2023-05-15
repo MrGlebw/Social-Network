@@ -9,6 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class UserFacade {
+
     private final UserService userService;
 
     public UserFacade(UserService userService) {
@@ -16,9 +17,14 @@ public class UserFacade {
     }
 
     public Mono<ResponseEntity<Object>> createUser(UserRegisterDTO userRegisterDTO) {
+        User user = UserRegisterDTOtoUser(userRegisterDTO);
+        return userService.createUser(user)
+                .map(createdUser -> ResponseEntity.ok().body(createdUser));
+    }
+
+    private User UserRegisterDTOtoUser (UserRegisterDTO userRegisterDTO) {
         User user = new User();
         BeanUtils.copyProperties(userRegisterDTO, user);
-        return userService.createUser(user)
-                .map(savedUser -> ResponseEntity.ok().body(savedUser.toUserRegisterDTO()));
+        return user;
     }
 }
