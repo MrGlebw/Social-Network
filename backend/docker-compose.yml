@@ -2,17 +2,17 @@
 
 services:
   db:
-    container_name: postgres
+    container_name: myDatabase
     image: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: customer_db
+      POSTGRES_DB: user_db
 
     volumes:
       - db:/var/lib/postgresql/data
     ports:
-      - "5332:5432"
+      - "5432:5432"
     networks:
       - db
     restart: unless-stopped

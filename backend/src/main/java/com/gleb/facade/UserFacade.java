@@ -1,11 +1,11 @@
 package com.gleb.facade;
-
 import com.gleb.data.User.User;
 import com.gleb.dto.UserRegisterDTO;
 import com.gleb.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @Service
 public class UserFacade {
@@ -15,9 +15,10 @@ public class UserFacade {
         this.userService = userService;
     }
 
-    public ResponseEntity<UserRegisterDTO> createUser(UserRegisterDTO userRegisterDTO) {
+    public Mono<ResponseEntity<Object>> createUser(UserRegisterDTO userRegisterDTO) {
         User user = new User();
         BeanUtils.copyProperties(userRegisterDTO, user);
-        return ResponseEntity.ok().body(userService.createUser(user))
+        return userService.createUser(user)
+                .map(savedUser -> ResponseEntity.ok().body(savedUser.toUserRegisterDTO()));
     }
 }

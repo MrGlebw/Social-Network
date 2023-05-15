@@ -70,4 +70,16 @@ public class User {
         return getClass().hashCode();
     }
 
+
+    public User toUserRegisterDTO() {
+        User user = new User();
+        user.setUsername(this.username);
+        user.setFirstName(this.firstName);
+        user.setSurname(this.surname);
+        user.setBirthDate(this.birthDate);
+        user.setEmail(this.email);
+        user.setPassword(this.password);
+        user.setRoles(this.roles);
+        return user;
+    }
 }
