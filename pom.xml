@@ -14,7 +14,7 @@
 	<name>spring-web-application</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -118,15 +118,12 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
+						<mainClass>com.gleb.main.SocialNetworkApplication</mainClass>
 				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>
