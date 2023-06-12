@@ -1,9 +1,11 @@
 package com.gleb.facade;
-import com.gleb.data.User.User;
-import com.gleb.dto.UserRegisterDTO;
+import com.gleb.data.user.User;
+import com.gleb.dto.user.UserRegisterDTO;
 import com.gleb.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -27,4 +29,34 @@ public class UserFacade {
         BeanUtils.copyProperties(userRegisterDTO, user);
         return user;
     }
+    private UserRegisterDTO UserToUserRegisterDTO (User user) {
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
+        BeanUtils.copyProperties(user, userRegisterDTO);
+        return userRegisterDTO;
+    }
+
+    public Mono<ResponseEntity<Object>> getUserByUsername(String username) {
+        return userService.findByUsername(username)
+                .map(user -> ResponseEntity.ok().body(UserToUserRegisterDTO(user.get())));
+    }
+    public ResponseEntity<UserRegisterDTO> getMyUser(Authentication authentication) {
+        return ResponseEntity.ok(UserToUserRegisterDTO((User) authentication.getPrincipal()));
+    }
+
+    public ResponseEntity<UserRegisterDTO> updateUser(UserRegisterDTO userRegisterDTO, Authentication authentication) {
+        User user = UserRegisterDTOtoUser(userRegisterDTO);
+        return ResponseEntity.ok(UserToUserRegisterDTO(userService.updateUser(user).block()));
+    }
+
+    public Mono<Void> deleteUser(String username) {
+        return userService.deleteUser(username)
+                .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found with username: " + username)));
+    }
+
+
+
+
+
+
+
 }
