@@ -1,5 +1,5 @@
 package com.gleb.facade;
-import com.gleb.data.user.User;
+import com.gleb.data.User.User;
 import com.gleb.dto.user.UserRegisterDTO;
 import com.gleb.service.UserService;
 import org.springframework.beans.BeanUtils;

@@ -1,8 +1,8 @@
 package com.gleb.service;
 
 import com.gleb.config.SecurityConfig;
-import com.gleb.data.user.RoleName;
-import com.gleb.data.user.User;
+import com.gleb.data.User.RoleName;
+import com.gleb.data.User.User;
 import com.gleb.exceptions.UserAlreadyExistsException;
 import com.gleb.repo.UserRepo;
 import org.springframework.beans.BeanUtils;
@@ -44,7 +44,7 @@ public class UserService {
                                         return Mono.error(new UserAlreadyExistsException("User with username " + user.getUsername() + " already exists"));
                                     } else {
                                         user.setPassword(securityConfig.passwordEncoder().encode(user.getPassword()));
-                                        user.setRoles(Collections.singleton(RoleName.ROLE_USER));
+                                        user.setRole(Collections.singleton(RoleName.ROLE_USER));
                                         return userRepo.save(user);
                                     }
                                 });

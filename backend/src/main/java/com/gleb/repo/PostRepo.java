@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 @Repository
-public interface PostRepo extends R2dbcRepository <Post, Long> {
+public interface PostRepo extends ReactiveCrudRepository <Post, Long> {
     Flux<Post> findAllByUserId(Long userId);
 }
