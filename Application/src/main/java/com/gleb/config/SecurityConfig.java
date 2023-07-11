@@ -1,5 +1,6 @@
 package com.gleb.config;
 
+import com.gleb.data.RoleName;
 import com.gleb.repo.UserRepo;
 import com.gleb.security.JwtTokenAuthenticationFilter;
 import com.gleb.security.JwtTokenProvider;
@@ -13,9 +14,10 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
+
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -33,13 +35,16 @@ public class SecurityConfig {
                                                 ReactiveAuthenticationManager reactiveAuthenticationManager) {
         final String PATH_POSTS = "/posts/**";
 
+
+
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .authenticationManager(reactiveAuthenticationManager)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(it -> it
                         .pathMatchers(HttpMethod.GET, PATH_POSTS).permitAll()
-                        .pathMatchers(HttpMethod.DELETE, PATH_POSTS).hasRole("ADMIN")
+                        .pathMatchers(HttpMethod.DELETE, PATH_POSTS).hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                        .pathMatchers(HttpMethod.POST, PATH_POSTS).hasAnyRole("ROLE_ADMIN", "ROLE_USER")
                         .pathMatchers(PATH_POSTS).authenticated()
                         .pathMatchers("/me").authenticated()
                         .pathMatchers("/users/{user}/**").access(this::currentUserMatchesPath)
@@ -59,14 +64,13 @@ public class SecurityConfig {
                 .map(AuthorizationDecision::new);
 
     }
-
     @Bean
     public ReactiveUserDetailsService userDetailsService(UserRepo users) {
 
         return username -> users.findByUsername(username)
                 .map(u -> User
-                        .withUsername(u.getUsername()).password( "{noop}" + u.getPassword())
-                        .authorities(u.getRoles().toArray(new String[0]))
+                        .withUsername(u.getUsername()).password(u.getPassword())
+                        .authorities(u.getRoles().stream().map(RoleName::name).toArray(String[]::new))
                         .accountExpired(!u.isActive())
                         .credentialsExpired(!u.isActive())
                         .disabled(!u.isActive())

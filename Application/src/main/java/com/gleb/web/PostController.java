@@ -3,6 +3,8 @@ package com.gleb.web;
 import com.gleb.data.Comment;
 import com.gleb.data.Post;
 import com.gleb.data.PostId;
+import com.gleb.dto.CommentForm;
+import com.gleb.dto.PostForm;
 import com.gleb.exceptions.PostNotFoundException;
 import com.gleb.repo.CommentRepo;
 import com.gleb.repo.PostRepo;

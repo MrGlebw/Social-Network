@@ -1,18 +1,21 @@
-package com.gleb.web;
-
+package com.gleb.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import jakarta.validation.constraints.NotBlank;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentForm {
+public class PostForm implements Serializable {
+
+    @NotBlank
+    private String title;
 
     @NotBlank
     private String content;

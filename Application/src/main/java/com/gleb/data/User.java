@@ -3,35 +3,41 @@ package com.gleb.data;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Table("users")
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-     @Builder
+    @Builder
     public class User {
         @Id
-        private Long id;
+        private Integer id;
 
         private String username;
+        @Column("first_name")
+        private String firstName;
+        @Column("last_name")
+        private String lastName;
         @JsonIgnore
         private String password;
         @Email
         private String email;
         private LocalDate birthdate;
+        private LocalDateTime createdAt;
 
         @Builder.Default()
         private boolean active = true;
 
-        @Builder.Default()
-        private List<String> roles = new ArrayList<>();
-    }
+
+    private Set<RoleName> roles;
+
+}
+
+

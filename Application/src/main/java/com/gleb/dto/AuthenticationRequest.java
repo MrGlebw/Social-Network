@@ -1,4 +1,4 @@
-package com.gleb.web;
+package com.gleb.dto;
 
 
 import lombok.AllArgsConstructor;

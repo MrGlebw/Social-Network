@@ -7,7 +7,7 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface CommentRepo extends R2dbcRepository<Comment, String> {
+public interface CommentRepo extends R2dbcRepository<Comment, Integer> {
 
 
     Flux<Comment> findByPost(PostId id);

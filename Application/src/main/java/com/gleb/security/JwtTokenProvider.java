@@ -1,6 +1,5 @@
 package com.gleb.security;
 
-import com.gleb.security.JwtProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -82,7 +81,6 @@ public class JwtTokenProvider {
         try {
             Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(this.secretKey)
                     .build().parseClaimsJws(token);
-            // parseClaimsJws will check expiration date. No need do here.
             log.info("expiration date: {}", claims.getBody().getExpiration());
             return true;
         }

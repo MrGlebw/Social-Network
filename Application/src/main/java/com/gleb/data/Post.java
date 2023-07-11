@@ -15,6 +15,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("posts")
@@ -22,10 +23,13 @@ import org.springframework.data.relational.core.mapping.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Post implements PersistentEntity, Serializable {
+public class Post implements Serializable {
 
     @Id
-    private String id;
+    private Integer id;
+
+    @Column("author_name")
+    private String authorName;
 
     @NotBlank
     private String title;
@@ -37,16 +41,14 @@ public class Post implements PersistentEntity, Serializable {
     private Status status = Status.DRAFT;
 
     @CreatedDate
+    @Column("created_date")
     private LocalDateTime createdDate;
 
-    @CreatedBy
-    private Username createdBy;
 
     @LastModifiedDate
+    @Column("last_modified_date")
     private LocalDateTime lastModifiedDate;
 
-    @LastModifiedBy
-    private Username lastModifiedBy;
 
     public enum Status {
 
