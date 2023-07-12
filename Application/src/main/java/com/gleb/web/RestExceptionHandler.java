@@ -2,7 +2,6 @@ package com.gleb.web;
 
 
 import com.gleb.exceptions.PostNotFoundException;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

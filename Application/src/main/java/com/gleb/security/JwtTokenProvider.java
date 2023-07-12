@@ -1,11 +1,9 @@
 package com.gleb.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.gleb.service.UserService;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,12 +13,11 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Date;
-import jakarta.annotation.PostConstruct;
-import javax.crypto.SecretKey;
 
 import static java.util.stream.Collectors.joining;
 
@@ -30,15 +27,15 @@ import static java.util.stream.Collectors.joining;
 public class JwtTokenProvider {
 
     private static final String AUTHORITIES_KEY = "roles";
+    private final UserService userService;
 
     private final JwtProperties jwtProperties;
-
     private SecretKey secretKey;
 
     @PostConstruct
     public void init() {
         var secret = Base64.getEncoder()
-                .encodeToString(this.jwtProperties.getSecretKey().getBytes());
+                .encodeToString(this.jwtProperties.getSecret().getBytes());
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -54,12 +51,13 @@ public class JwtTokenProvider {
         }
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + this.jwtProperties.getValidityInMs());
+        Date validity = new Date(now.getTime() + this.jwtProperties.getExpirationInMs());
 
         return Jwts.builder().setClaims(claims).setIssuedAt(now).setExpiration(validity)
-                .signWith( this.secretKey, SignatureAlgorithm.HS256).compact();
+                .signWith(this.secretKey, SignatureAlgorithm.HS256).compact();
 
     }
+
 
     public Authentication getAuthentication(String token) {
         Claims claims = Jwts.parserBuilder().setSigningKey(this.secretKey).build()
@@ -79,8 +77,9 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(this.secretKey)
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(this.jwtProperties.getSecret())
                     .build().parseClaimsJws(token);
+            // parseClaimsJws will check expiration date. No need do here.
             log.info("expiration date: {}", claims.getBody().getExpiration());
             return true;
         }
@@ -90,5 +89,7 @@ public class JwtTokenProvider {
         }
         return false;
     }
+
+
 
 }

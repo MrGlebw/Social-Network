@@ -1,6 +1,5 @@
 package com.gleb.security;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -13,7 +12,7 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
-public class JwtTokenAuthenticationFilter implements WebFilter {
+public class JwtTokenAuthFilter implements WebFilter {
 
     public static final String HEADER_PREFIX = "Bearer ";
 

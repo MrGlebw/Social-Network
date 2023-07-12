@@ -1,9 +1,10 @@
 package com.gleb.config;
 
-import com.gleb.data.RoleName;
+
 import com.gleb.repo.UserRepo;
-import com.gleb.security.JwtTokenAuthenticationFilter;
+import com.gleb.security.JwtTokenAuthFilter;
 import com.gleb.security.JwtTokenProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,43 +15,42 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authorization.AuthorizationContext;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
+@Slf4j
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
+
 
     @Bean
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http,
                                                 JwtTokenProvider tokenProvider,
                                                 ReactiveAuthenticationManager reactiveAuthenticationManager) {
-        final String PATH_POSTS = "/posts/**";
-
-
+        ;
 
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .authenticationManager(reactiveAuthenticationManager)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(it -> it
-                        .pathMatchers(HttpMethod.GET, PATH_POSTS).permitAll()
-                        .pathMatchers(HttpMethod.DELETE, PATH_POSTS).hasAnyRole("ROLE_USER", "ROLE_ADMIN")
-                        .pathMatchers(HttpMethod.POST, PATH_POSTS).hasAnyRole("ROLE_ADMIN", "ROLE_USER")
-                        .pathMatchers(PATH_POSTS).authenticated()
+                        .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                        .pathMatchers(HttpMethod.DELETE, "/posts/**").hasRole("ADMIN")
+                        .pathMatchers("/posts/**").authenticated()
                         .pathMatchers("/me").authenticated()
                         .pathMatchers("/users/{user}/**").access(this::currentUserMatchesPath)
                         .anyExchange().permitAll()
                 )
-                .addFilterAt(new JwtTokenAuthenticationFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
+                .addFilterAt(new JwtTokenAuthFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
 
 
@@ -64,19 +64,24 @@ public class SecurityConfig {
                 .map(AuthorizationDecision::new);
 
     }
+
     @Bean
     public ReactiveUserDetailsService userDetailsService(UserRepo users) {
 
         return username -> users.findByUsername(username)
-                .map(u -> User
-                        .withUsername(u.getUsername()).password(u.getPassword())
-                        .authorities(u.getRoles().stream().map(RoleName::name).toArray(String[]::new))
-                        .accountExpired(!u.isActive())
-                        .credentialsExpired(!u.isActive())
-                        .disabled(!u.isActive())
-                        .accountLocked(!u.isActive())
-                        .build()
-                );
+                .flatMap(u -> {
+                    List<String> roles = u.getRoles(); // Assuming getRoles() returns a List<String>
+                    String[] authorities = roles.toArray(new String[roles.size()]);
+                    return Mono.just(User
+                            .withUsername(u.getUsername())
+                            .password(u.getPassword())
+                            .authorities(authorities)
+                            .accountExpired(!u.isActive())
+                            .credentialsExpired(!u.isActive())
+                            .disabled(!u.isActive())
+                            .accountLocked(!u.isActive())
+                            .build());
+                });
     }
 
     @Bean
@@ -87,11 +92,10 @@ public class SecurityConfig {
         return authenticationManager;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return new BCryptPasswordEncoder(10);
     }
-}
 
+}
 

@@ -8,6 +8,7 @@ import com.gleb.dto.PostForm;
 import com.gleb.exceptions.PostNotFoundException;
 import com.gleb.repo.CommentRepo;
 import com.gleb.repo.PostRepo;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-import jakarta.validation.Valid;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.created;
