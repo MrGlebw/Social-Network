@@ -1,6 +1,8 @@
 package com.gleb.web;
 
-import com.gleb.data.User;
+
+
+import com.gleb.data.Roles;
 import com.gleb.dto.AuthenticationRequestDto;
 import com.gleb.dto.RegisterRequestDto;
 import com.gleb.facade.UserFacade;
@@ -54,10 +56,12 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public Mono<ResponseEntity> registerUser (@RequestBody RegisterRequestDto registerRequestDto) {
-        return userFacade.registerUser(registerRequestDto)
-                .thenReturn(ResponseEntity.ok("User registered successfully"));
+    public Mono<ResponseEntity<String>> registerUser(@RequestBody RegisterRequestDto registerRequestDto) {
+        // Pass the desired role for the user when calling registerUser
+        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerUser(registerRequestDto, Roles.USER);
 
-
+        return registeredUserMono
+                .map(registeredUser -> ResponseEntity.ok("User registered successfully"))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 }

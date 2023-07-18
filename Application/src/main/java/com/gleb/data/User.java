@@ -9,20 +9,23 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.OffsetDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Table("users")
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder(toBuilder = true)
-    public class User {
+    public class User implements UserDetails{
         @Id
-        private Long id;
+        private Integer id;
 
         private String username;
         @Column("first_name")
@@ -34,14 +37,58 @@ import java.util.List;
         @Email
         private String email;
         private LocalDate birthdate;
-        private boolean enabled;
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
-         @Builder.Default()
-         private boolean active = true;
+         private Set <Roles> roles = new HashSet<>();
 
-         @Builder.Default()
-         private List<String> roles = new ArrayList<>();
+    private Boolean isActive;
+
+
+    private Boolean isDeleted;
+
+
+    private Boolean isBanned;
+
+
+    private Boolean isPrivate;
+
+
+    private LocalDateTime created;
+
+    private LocalDateTime updated;
+
+    private Boolean enabled;
+
+
+
+
+
+
+    @Override
+        public Collection<? extends GrantedAuthority> getAuthorities() {
+            return roles.stream()
+                    .map(GrantedAuthority.class::cast)
+                    .collect(Collectors.toSet());
+        }
+
+        @Override
+        public boolean isAccountNonExpired() {
+            return true;
+        }
+
+        @Override
+        public boolean isAccountNonLocked() {
+            return true;
+        }
+
+        @Override
+        public boolean isCredentialsNonExpired() {
+            return true;
+        }
+
+    @Override
+    public boolean isEnabled() {
+        return true ;
+    }
+
 }
 
 

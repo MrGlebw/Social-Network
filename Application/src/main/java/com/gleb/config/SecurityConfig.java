@@ -1,12 +1,16 @@
 package com.gleb.config;
 
 
+import com.gleb.data.Roles;
 import com.gleb.repo.UserRepo;
 import com.gleb.security.JwtTokenAuthFilter;
 import com.gleb.security.JwtTokenProvider;
+import com.gleb.service.UserDetailsServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
@@ -15,6 +19,8 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,19 +31,24 @@ import org.springframework.security.web.server.context.NoOpServerSecurityContext
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
+    private final ReactiveUserDetailsService userDetailsService;
+
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl")UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http,
                                                 JwtTokenProvider tokenProvider,
                                                 ReactiveAuthenticationManager reactiveAuthenticationManager) {
-        ;
-
         return http.csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .authenticationManager(reactiveAuthenticationManager)
@@ -52,41 +63,24 @@ public class SecurityConfig {
                 )
                 .addFilterAt(new JwtTokenAuthFilter(tokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();
-
-
     }
 
     private Mono<AuthorizationDecision> currentUserMatchesPath(Mono<Authentication> authentication,
                                                                AuthorizationContext context) {
-
         return authentication
                 .map(a -> context.getVariables().get("user").equals(a.getName()))
                 .map(AuthorizationDecision::new);
-
     }
 
     @Bean
-    public ReactiveUserDetailsService userDetailsService(UserRepo users) {
-
-        return username -> users.findByUsername(username)
-                .flatMap(u -> {
-                    List<String> roles = u.getRoles(); // Assuming getRoles() returns a List<String>
-                    String[] authorities = roles.toArray(new String[roles.size()]);
-                    return Mono.just(User
-                            .withUsername(u.getUsername())
-                            .password(u.getPassword())
-                            .authorities(authorities)
-                            .accountExpired(!u.isActive())
-                            .credentialsExpired(!u.isActive())
-                            .disabled(!u.isActive())
-                            .accountLocked(!u.isActive())
-                            .build());
-                });
+    @Primary
+    public ReactiveUserDetailsService userDetailsService() {
+        return userDetailsService;
     }
 
+
     @Bean
-    public ReactiveAuthenticationManager reactiveAuthenticationManager(ReactiveUserDetailsService userDetailsService,
-                                                                       PasswordEncoder passwordEncoder) {
+    public ReactiveAuthenticationManager reactiveAuthenticationManager(PasswordEncoder passwordEncoder) {
         var authenticationManager = new UserDetailsRepositoryReactiveAuthenticationManager(userDetailsService);
         authenticationManager.setPasswordEncoder(passwordEncoder);
         return authenticationManager;
@@ -96,6 +90,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(10);
     }
-
 }
 
