@@ -25,6 +25,27 @@ public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
+
+
+    public Mono<UserDetails> findByUsername(String username) {
+        return userRepo.findByUsername(username)
+                .map(user -> org.springframework.security.core.userdetails.User
+                        .withUsername(user.getUsername())
+                        .password(user.getPassword())
+                        .roles(user.getRoles().toArray(new String[0]))
+                        .build());
+    }
+
+    public Mono<User> saveUser(User user) {
+        // Hash the password before saving the user
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepo.save(user);
+    }
+
+    public Mono<User> findByRefreshToken(String refreshToken) {
+        return userRepo.findByRefreshToken(refreshToken);
+    }
+
     public Mono<User> registerUser(User user) {
         // Convert Set<Roles> to a comma-separated string
 
@@ -39,13 +60,6 @@ public class UserService {
         ).doOnSuccess(u -> {
             log.info("IN registerUser - user: {} created", u);
         });
-    }
-
-
-    public Mono<UserDetails> findByUsername(String username) {
-        return userRepo.findByUsername(username)
-                .map(user -> (UserDetails) user)
-                .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found")));
     }
 
 

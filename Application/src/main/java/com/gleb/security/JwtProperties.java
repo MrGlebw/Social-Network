@@ -15,4 +15,7 @@ public class JwtProperties {
     @Value("${jwt.issuer}")
     private String issuer;
 
+    @Value("${jwt.refreshExpirationInMs}")
+    private Integer refreshExpirationInMs;
+
 }
