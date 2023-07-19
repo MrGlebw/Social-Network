@@ -1,9 +1,6 @@
 package com.gleb.security;
 
-import com.gleb.data.RefreshToken;
-import com.gleb.repo.RefreshTokenRepo;
 import com.gleb.repo.UserRepo;
-import com.gleb.service.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -14,17 +11,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,10 +35,8 @@ public class JwtTokenProvider {
     private final JwtProperties jwtProperties;
     private SecretKey secretKey;
 
-    @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private RefreshTokenRepo refreshTokenRepo;
+
+
 
     @PostConstruct
     public void init() {
@@ -117,85 +107,34 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token);
 
             return !claims.getBody().getExpiration().before(new Date());
+        } catch (ExpiredJwtException e) {
+            log.debug("JWT token has expired: {}", e.getMessage());
+            return false;
         } catch (Exception e) {
-            log.info("Invalid JWT token: {}", e.getMessage());
+            // Log other exceptions, but don't include the message for JWT signature mismatch.
+            if (!(e instanceof SignatureException)) {
+                log.info("Invalid JWT token: {}", e.getMessage());
+            }
             return false;
         }
     }
 
-
-
-    public boolean validateRefreshToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            log.info("Invalid refresh token: {}", e.getMessage());
-            log.trace("Invalid refresh token trace.", e);
-            return false;
-        }
-    }
-
-    public String createAccessTokenFromRefreshToken(String refreshToken) {
-        // Get the user details from the refresh token, assuming you have a method to get the user from the refresh token
-        UserDetails userDetails = getUserDetailsFromRefreshToken(refreshToken);
-
-        // Generate a new access token for the user
-        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-        Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
-        if (!authorities.isEmpty()) {
-            claims.put(AUTHORITIES_KEY, authorities.stream()
-                    .map(GrantedAuthority::getAuthority).collect(joining(",")));
-        }
-
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + jwtProperties.getExpirationInMs());
-
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(secretKey, SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public UserDetails getUserDetailsFromRefreshToken(String refreshToken) {
+    public boolean validateRefreshToken(String refreshToken) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(refreshToken);
 
-            // Extract user details from the claims and return the UserDetails object
-            String username = claims.getBody().getSubject();
-            com.gleb.data.User user = userRepo.findByUsername(username).block(); // Blocking call
-
-            if (user != null) {
-                // Create and return the UserDetails object based on the User entity
-                // You may need to adjust this based on your User entity structure
-                return new org.springframework.security.core.userdetails.User(
-                        user.getUsername(),
-                        user.getPassword(),
-                        Collections.emptyList()
-                );
-            } else {
-                throw new UsernameNotFoundException("User not found for refresh token: " + refreshToken);
-            }
+            return "refresh_token".equals(claims.getBody().getSubject()) &&
+                    !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
-            log.info("Error getting user details from refresh token: {}", e.getMessage());
-            log.trace("Error getting user details from refresh token trace.", e);
-            throw new RuntimeException("Invalid refresh token", e);
+            log.info("Invalid refresh token: {}", e.getMessage());
+            return false;
         }
     }
 
-    public void saveRefreshTokenToDatabase(String refreshToken, String username) {
-        RefreshToken refreshTokenEntity = new RefreshToken();
-        refreshTokenEntity.setToken(refreshToken);
-        refreshTokenEntity.setUserId(username);
-        refreshTokenEntity.setExpiryDate(LocalDateTime.now().plusMinutes((jwtProperties.getRefreshExpirationInMs()/60000)));
-        refreshTokenEntity.setCreatedAt(LocalDateTime.now());
 
-        refreshTokenRepo.save(refreshTokenEntity).subscribe(); // Save the refresh token to the database asynchronously
-    }
+
 
 }
