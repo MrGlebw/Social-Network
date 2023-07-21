@@ -42,7 +42,7 @@ public class UserFacade {
     public Mono<RegisterRequestDto> registerUser(RegisterRequestDto registerRequestDto, Roles role) {
         User user = registerRequestDtoToUser(registerRequestDto);
         user.setRoles(Collections.singleton(role)); // Set the role for the user
-        return userService.save(user)
+        return userService.registerUser(user)
                 .map(this::userToRegisterRequestDto);
     }
 
@@ -81,12 +81,12 @@ public class UserFacade {
     public Mono<User> updateUserByUsername(String username, UpdateDto updateDto) {
         return userService.findUserByUsername(username)
                 .map(user -> {
-                    user.setUsername(updateDto.getUsername());
+                    user.setUsername(username);
                     user.setFirstName(updateDto.getFirstName());
                     user.setLastName(updateDto.getLastName());
                     user.setEmail(updateDto.getEmail());
                     user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
-                    user.setUpdated(updateDto.getUpdated());
+                    user.setUpdated(LocalDateTime.now()); // Set the updated field in the entity
                     return user;
                 })
                 .flatMap(userService::save);
@@ -94,11 +94,12 @@ public class UserFacade {
 
     public UpdateDto userToUpdateDto(User user) {
         UpdateDto updateDto = new UpdateDto();
+        updateDto.setUsername(user.getUsername());
         updateDto.setFirstName(user.getFirstName());
         updateDto.setLastName(user.getLastName());
         updateDto.setEmail(user.getEmail());
         updateDto.setPassword(user.getPassword());
-        updateDto.setUpdated(LocalDateTime.now());
+        updateDto.setUpdated(user.getUpdated());
         return updateDto;
     }
 
