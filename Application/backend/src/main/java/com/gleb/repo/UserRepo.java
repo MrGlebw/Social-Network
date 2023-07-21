@@ -24,9 +24,4 @@ public interface UserRepo extends R2dbcRepository<User, Integer> {
     Mono <Void> deleteByUsername (String username);
 
 
-
-
-
-
-
 }

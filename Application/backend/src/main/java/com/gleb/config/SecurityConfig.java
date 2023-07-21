@@ -55,7 +55,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
                         .pathMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
                         .pathMatchers(HttpMethod.GET, "/users/**").hasAnyRole("ADMIN", "USER")
-                        .pathMatchers("/me/**").authenticated()
+                        .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
 
                         .anyExchange().permitAll()

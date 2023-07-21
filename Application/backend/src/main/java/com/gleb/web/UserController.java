@@ -2,7 +2,6 @@ package com.gleb.web;
 
 
 import com.gleb.data.User;
-import com.gleb.dto.UpdateDto;
 import com.gleb.dto.UserShowDto;
 import com.gleb.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +19,6 @@ public class UserController {
 
 
 
-    @PatchMapping("/users/{username}/update")
-    public Mono<ResponseEntity<String>> updateUser(
-            @PathVariable String username,
-            @RequestBody UpdateDto userUpdateDto
-    ) {
-        return userFacade.updateUserByUsername(username, userUpdateDto)
-                .map(user -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User updated successfully"))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }
 
     @DeleteMapping("/users/{username}/delete")
     public Mono<ResponseEntity<String>> deleteUser(@PathVariable String username) {

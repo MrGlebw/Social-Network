@@ -3,12 +3,14 @@ package com.gleb.facade;
 import com.gleb.data.Roles;
 import com.gleb.data.User;
 import com.gleb.dto.RegisterRequestDto;
+
 import com.gleb.dto.UpdateDto;
 import com.gleb.dto.UserShowDto;
 import com.gleb.security.JwtTokenProvider;
 import com.gleb.service.UserDetailsServiceImpl;
 import com.gleb.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,6 +29,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserFacade {
 
@@ -39,22 +42,8 @@ public class UserFacade {
     public Mono<RegisterRequestDto> registerUser(RegisterRequestDto registerRequestDto, Roles role) {
         User user = registerRequestDtoToUser(registerRequestDto);
         user.setRoles(Collections.singleton(role)); // Set the role for the user
-        return userService.registerUser(user)
+        return userService.save(user)
                 .map(this::userToRegisterRequestDto);
-    }
-
-
-
-    public Mono<String> login(String username, String password) {
-        return userDetailsService.findByUsername(username)
-                .filter(userDetails -> passwordEncoder.matches(password, userDetails.getPassword()))
-                .map(UserDetails::getUsername)
-                .map(this::generateToken);
-    }
-
-    private String generateToken(String username) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null);
-        return tokenProvider.createAccessToken(authentication);
     }
 
 
@@ -69,41 +58,6 @@ public class UserFacade {
         BeanUtils.copyProperties(registerRequestDto, user);
         return user;
     }
-
-    private User updateUserDtoToUser(UpdateDto updateDto) {
-        User user = new User();
-        BeanUtils.copyProperties(updateDto, user);
-        return user;
-
-    }
-
-    private UpdateDto userToUpdateDto(User user) {
-        UpdateDto updateDto = new UpdateDto();
-        BeanUtils.copyProperties(user, updateDto);
-        return updateDto;
-    }
-
-    public Mono<UpdateDto> updateUserByUsername(String username, UpdateDto userUpdateDto) {
-        return userDetailsService.findByUsername(username)
-                .flatMap(user -> {
-                    updateUserFields((User) user, userUpdateDto);
-                    return userService.save((User) user);
-                })
-                .map(this::userToUpdateDto);
-    }
-
-    private void updateUserFields(User user, UpdateDto userUpdateDto) {
-        user.setUsername(userUpdateDto.getUsername());
-        user.setFirstName(userUpdateDto.getFirstName());
-        user.setLastName(userUpdateDto.getLastName());
-        user.setBirthdate(LocalDate.parse(userUpdateDto.getBirthdate()));
-        user.setEmail(userUpdateDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
-        user.setUpdated(LocalDateTime.now());
-        user.setIsPrivate(userUpdateDto.getIsPrivate());
-
-    }
-
 
 
 
@@ -122,6 +76,30 @@ public class UserFacade {
                     return userService.findUserByUsername(username)
                             .map(this::mapToUserShowDto);
                 });
+    }
+
+    public Mono<User> updateUserByUsername(String username, UpdateDto updateDto) {
+        return userService.findUserByUsername(username)
+                .map(user -> {
+                    user.setUsername(updateDto.getUsername());
+                    user.setFirstName(updateDto.getFirstName());
+                    user.setLastName(updateDto.getLastName());
+                    user.setEmail(updateDto.getEmail());
+                    user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+                    user.setUpdated(updateDto.getUpdated());
+                    return user;
+                })
+                .flatMap(userService::save);
+    }
+
+    public UpdateDto userToUpdateDto(User user) {
+        UpdateDto updateDto = new UpdateDto();
+        updateDto.setFirstName(user.getFirstName());
+        updateDto.setLastName(user.getLastName());
+        updateDto.setEmail(user.getEmail());
+        updateDto.setPassword(user.getPassword());
+        updateDto.setUpdated(LocalDateTime.now());
+        return updateDto;
     }
 
     private UserShowDto mapToUserShowDto(User user) {
