@@ -11,11 +11,11 @@ public class JwtProperties {
     @Value("${jwt.secret}")
     private String secret;
     @Value("${jwt.expiration}")
-    private Integer expirationInMs;
+    private Long expirationInMs;
     @Value("${jwt.issuer}")
     private String issuer;
 
     @Value("${jwt.refreshExpirationInMs}")
-    private Integer refreshExpirationInMs;
+    private Long refreshExpirationInMs;
 
 }

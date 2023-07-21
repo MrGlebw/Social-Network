@@ -1,25 +1,20 @@
 package com.gleb.security;
 
-import com.gleb.repo.UserRepo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 
 import static java.util.stream.Collectors.joining;
@@ -30,7 +25,6 @@ import static java.util.stream.Collectors.joining;
 public class JwtTokenProvider {
 
     private static final String AUTHORITIES_KEY = "roles";
-    private static final String REFRESH_TOKEN_AUTHORITIES_KEY = "refresh_token";
 
     private final JwtProperties jwtProperties;
     private SecretKey secretKey;

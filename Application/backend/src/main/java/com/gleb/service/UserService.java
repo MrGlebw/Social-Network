@@ -1,11 +1,9 @@
 package com.gleb.service;
 
-import com.gleb.data.Roles;
 import com.gleb.data.User;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,9 +11,8 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,27 +24,17 @@ public class UserService {
 
 
 
-    public Mono<UserDetails> findByUsername(String username) {
+    public Mono<User> findUserByUsername(String username) {
         return userRepo.findByUsername(username)
-                .map(user -> org.springframework.security.core.userdetails.User
-                        .withUsername(user.getUsername())
-                        .password(user.getPassword())
-                        .roles(user.getRoles().toArray(new String[0]))
-                        .build());
+                .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found")));
     }
 
-    public Mono<User> saveUser(User user) {
-        // Hash the password before saving the user
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
-    }
 
     public Mono<User> findByRefreshToken(String refreshToken) {
         return userRepo.findByRefreshToken(refreshToken);
     }
 
     public Mono<User> registerUser(User user) {
-        // Convert Set<Roles> to a comma-separated string
 
         return userRepo.save(
                 user.toBuilder()
@@ -62,6 +49,20 @@ public class UserService {
         });
     }
 
+    public Flux<User> findAllByBirthdate (LocalDate birthdate) {
+        return userRepo.findAllByBirthdate(birthdate);
+    }
+
+    public Mono <User> findByFirstNameAndLastName (String firstName, String lastName) {
+        return userRepo.findByFirstNameAndLastName(firstName, lastName);
+    }
+     public Mono <User> save (User user) {
+        return userRepo.save(user);
+     }
+
+     public Mono <Void> deleteByUsername (String username) {
+        return userRepo.deleteByUsername(username);
+     }
 
 
 
