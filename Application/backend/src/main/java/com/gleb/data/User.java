@@ -58,6 +58,7 @@ import java.util.stream.Collectors;
 
     private Boolean enabled;
 
+
     @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
             return roles.stream()

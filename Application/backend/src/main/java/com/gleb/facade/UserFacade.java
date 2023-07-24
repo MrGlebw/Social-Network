@@ -3,30 +3,20 @@ package com.gleb.facade;
 import com.gleb.data.Roles;
 import com.gleb.data.User;
 import com.gleb.dto.RegisterRequestDto;
-
 import com.gleb.dto.UpdateDto;
 import com.gleb.dto.UserShowDto;
-import com.gleb.security.JwtTokenProvider;
-import com.gleb.service.UserDetailsServiceImpl;
 import com.gleb.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -34,14 +24,13 @@ import java.util.stream.Collectors;
 public class UserFacade {
 
     private final UserService userService;
-    private final JwtTokenProvider tokenProvider;
+
     private final PasswordEncoder passwordEncoder;
-    private final UserDetailsServiceImpl userDetailsService;
 
 
     public Mono<RegisterRequestDto> registerUser(RegisterRequestDto registerRequestDto, Roles role) {
         User user = registerRequestDtoToUser(registerRequestDto);
-        user.setRoles(Collections.singleton(role)); // Set the role for the user
+        user.setRoles(Collections.singleton(Roles.USER)); // Set the role for the user
         return userService.registerUser(user)
                 .map(this::userToRegisterRequestDto);
     }
@@ -65,9 +54,6 @@ public class UserFacade {
         return userService.deleteByUsername(username);
     }
 
-    public Mono<User> getUserByUsername(String username) {
-        return userService.findUserByUsername(username);
-    }
     public Mono<UserShowDto> getCurrentUserInformation() {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
@@ -92,16 +78,6 @@ public class UserFacade {
                 .flatMap(userService::save);
     }
 
-    public UpdateDto userToUpdateDto(User user) {
-        UpdateDto updateDto = new UpdateDto();
-        updateDto.setUsername(user.getUsername());
-        updateDto.setFirstName(user.getFirstName());
-        updateDto.setLastName(user.getLastName());
-        updateDto.setEmail(user.getEmail());
-        updateDto.setPassword(user.getPassword());
-        updateDto.setUpdated(user.getUpdated());
-        return updateDto;
-    }
 
     private UserShowDto mapToUserShowDto(User user) {
         UserShowDto userShowDto = new UserShowDto();
@@ -111,6 +87,16 @@ public class UserFacade {
         userShowDto.setBirthdate(user.getBirthdate());
         userShowDto.setRoles(user.getRoles());
         return userShowDto;
+    }
+
+
+    public Mono<Void> deleteCurrentUser() {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.deleteByUsername(username);
+                });
     }
 
 

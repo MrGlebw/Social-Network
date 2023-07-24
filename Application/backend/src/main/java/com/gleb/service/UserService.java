@@ -4,7 +4,6 @@ import com.gleb.data.User;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,9 +29,6 @@ public class UserService {
     }
 
 
-    public Mono<User> findByRefreshToken(String refreshToken) {
-        return userRepo.findByRefreshToken(refreshToken);
-    }
 
     public Mono<User> registerUser(User user) {
 
@@ -60,9 +56,15 @@ public class UserService {
         return userRepo.save(user);
      }
 
+
      public Mono <Void> deleteByUsername (String username) {
         return userRepo.deleteByUsername(username);
      }
+
+
+
+
+
 
 
 
