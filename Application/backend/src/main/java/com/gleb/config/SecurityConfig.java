@@ -24,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Configuration
@@ -50,21 +51,43 @@ public class SecurityConfig {
                 .authenticationManager(reactiveAuthenticationManager)
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
                 .authorizeExchange(it -> it
-                        .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
-                        .pathMatchers(HttpMethod.DELETE, "/users/**").access((authentication, object) ->
-                                authentication
-                                        .map(Authentication::getName)
-                                        .flatMap(userWrapperService::findUserByUsername)
-                                        .map(user -> user.getRoles().contains(Roles.ADMIN.name()))
-                                        .map(AuthorizationDecision::new))
-                        .pathMatchers(HttpMethod.GET, "/users/**").hasAnyRole("ADMIN", "USER")
+                        .pathMatchers(HttpMethod.DELETE, "/users/**").access((authentication, object) -> isAdmin(authentication))
+                        .pathMatchers(HttpMethod.GET, "/users/id/**").access((authentication, object) -> isAdmin(authentication))
+                        .pathMatchers(HttpMethod.GET, "/users").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/users/username/**").authenticated()
                         .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
-
+                        .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
                         .anyExchange().permitAll()
                 )
                 .build();
     }
+
+
+     private Mono<AuthorizationDecision> isAdmin(Mono<Authentication> authentication) {
+    return authentication
+    .map(Authentication::getName)
+    .flatMap(userWrapperService::findUserByUsername)
+    .map(user -> user.getRoles().contains(Roles.ADMIN.name()))
+     .map(AuthorizationDecision::new);
+    }
+    private Mono<AuthorizationDecision> isModerator(Mono<Authentication> authentication) {
+    return authentication
+    .map(Authentication::getName)
+    .flatMap(userWrapperService::findUserByUsername)
+     .map(user -> user.getRoles().contains(Roles.MODERATOR.name()) )
+    .map(AuthorizationDecision::new);
+    }
+
+    private Mono<AuthorizationDecision> isAdminOrModerator(Mono<Authentication> authentication) {
+        return authentication
+                .map(Authentication::getName)
+                .flatMap(userWrapperService::findUserByUsername)
+                .map(user -> user.getRoles().contains(Roles.MODERATOR.name()) || user.getRoles().contains(Roles.ADMIN.name()))
+                .map(AuthorizationDecision::new);
+    }
+
+
 
 
 

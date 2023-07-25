@@ -54,6 +54,7 @@ public class UserFacade {
         return userService.deleteByUsername(username);
     }
 
+
     public Mono<UserShowDto> getCurrentUserInformation() {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
@@ -97,6 +98,21 @@ public class UserFacade {
                     String username = authentication.getName();
                     return userService.deleteByUsername(username);
                 });
+    }
+
+    public Mono<UserShowDto> findByUsername(String username) {
+        return userService.findUserByUsername(username)
+                .map(this::mapToUserShowDto);
+    }
+
+    public Mono <UserShowDto> findByFirstNameAndLastName (String firstName, String lastName) {
+        return userService.findByFirstNameAndLastName(firstName, lastName)
+                .map(this::mapToUserShowDto);
+    }
+
+    public Mono <UserShowDto> findById (Integer id) {
+        return userService.findById(id)
+                .map(this::mapToUserShowDto);
     }
 
 

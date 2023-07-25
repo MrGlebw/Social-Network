@@ -62,6 +62,10 @@ public class UserService {
      }
 
 
+     public Mono <User> findById (Integer id) {
+        return userRepo.findById(id);
+     }
+
 
 
 
