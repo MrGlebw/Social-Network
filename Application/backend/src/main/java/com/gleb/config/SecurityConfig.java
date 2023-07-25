@@ -55,6 +55,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/users/id/**").access((authentication, object) -> isAdmin(authentication))
                         .pathMatchers(HttpMethod.GET, "/users").authenticated()
                         .pathMatchers(HttpMethod.GET, "/users/username/**").authenticated()
+                        .pathMatchers(HttpMethod.GET, "/users/name/{firstName}+{lastName}").authenticated()
                         .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
                         .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()

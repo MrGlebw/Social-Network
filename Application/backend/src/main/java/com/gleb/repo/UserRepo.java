@@ -16,7 +16,7 @@ public interface UserRepo extends R2dbcRepository<User, Integer> {
 
     Flux<User> findAllByBirthdate (LocalDate birthdate);
 
-    Mono <User> findByFirstNameAndLastName (String firstName, String lastName);
+    Flux <User> findByFirstNameAndLastName (String firstName, String lastName);
 
     Mono <Void> deleteByUsername (String username);
 

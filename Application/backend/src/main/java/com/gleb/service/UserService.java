@@ -49,7 +49,7 @@ public class UserService {
         return userRepo.findAllByBirthdate(birthdate);
     }
 
-    public Mono <User> findByFirstNameAndLastName (String firstName, String lastName) {
+    public Flux<User> findByFirstNameAndLastName(String firstName, String lastName) {
         return userRepo.findByFirstNameAndLastName(firstName, lastName);
     }
      public Mono <User> save (User user) {

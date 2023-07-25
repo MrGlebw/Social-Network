@@ -1,14 +1,17 @@
 package com.gleb.web;
 
 
-import com.gleb.data.User;
 import com.gleb.dto.UserShowDto;
 import com.gleb.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,6 +44,14 @@ public class UserController {
     public Mono<ResponseEntity<UserShowDto>> getUserById(@PathVariable String id) {
         Integer userId = Integer.parseInt(id);
         return userFacade.findById(userId)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    @GetMapping("/name/{firstName}+{lastName}")
+    public Mono<ResponseEntity<List<UserShowDto>>> getUserByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName) {
+        return userFacade.findByFirstNameAndLastName(firstName, lastName).collect(Collectors.toList())
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());

@@ -13,6 +13,7 @@ import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -105,7 +106,7 @@ public class UserFacade {
                 .map(this::mapToUserShowDto);
     }
 
-    public Mono <UserShowDto> findByFirstNameAndLastName (String firstName, String lastName) {
+    public Flux<UserShowDto> findByFirstNameAndLastName(String firstName, String lastName) {
         return userService.findByFirstNameAndLastName(firstName, lastName)
                 .map(this::mapToUserShowDto);
     }
