@@ -1,6 +1,6 @@
-package com.gleb.service;
+package com.gleb.service.user;
 
-import com.gleb.data.User;
+import com.gleb.data.user.User;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

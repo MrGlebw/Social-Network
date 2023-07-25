@@ -47,11 +47,7 @@ public class Post implements Serializable {
     private LocalDateTime lastModifiedDate;
 
 
-    public enum Status {
 
-        DRAFT, PUBLISHED
-
-    }
 
 }
 

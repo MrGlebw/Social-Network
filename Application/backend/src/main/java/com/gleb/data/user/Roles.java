@@ -1,4 +1,4 @@
-package com.gleb.data;
+package com.gleb.data.user;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,4 +1,4 @@
-package com.gleb.web;
+package com.gleb.web.user;
 
 
 import com.gleb.dto.UserShowDto;

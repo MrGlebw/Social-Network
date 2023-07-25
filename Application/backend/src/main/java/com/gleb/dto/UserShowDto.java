@@ -1,6 +1,6 @@
 package com.gleb.dto;
 
-import com.gleb.data.Roles;
+import com.gleb.data.user.Roles;
 import lombok.Data;
 
 import java.time.LocalDate;

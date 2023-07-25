@@ -1,10 +1,10 @@
 package com.gleb.config;
 
 
-import com.gleb.data.Roles;
+import com.gleb.data.user.Roles;
 import com.gleb.security.JwtTokenAuthFilter;
 import com.gleb.security.JwtTokenProvider;
-import com.gleb.service.UserDetailsServiceImpl;
+import com.gleb.service.user.UserDetailsServiceImpl;
 import com.gleb.util.wrapper.UserWrapperService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;

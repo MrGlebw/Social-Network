@@ -1,7 +1,7 @@
 package com.gleb.util.wrapper;
 
-import com.gleb.data.Roles;
-import com.gleb.data.User;
+import com.gleb.data.user.Roles;
+import com.gleb.data.user.User;
 import com.gleb.repo.UserRepo;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

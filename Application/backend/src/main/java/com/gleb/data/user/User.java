@@ -1,4 +1,4 @@
-package com.gleb.data;
+package com.gleb.data.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;

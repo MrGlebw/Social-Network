@@ -1,8 +1,8 @@
-package com.gleb.web;
+package com.gleb.web.user;
 
 
 
-import com.gleb.data.Roles;
+import com.gleb.data.user.Roles;
 import com.gleb.dto.AuthenticationRequestDto;
 import com.gleb.dto.RegisterRequestDto;
 import com.gleb.facade.UserFacade;

@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 @Repository
-public interface PostRepo extends R2dbcRepository<Post, String> {
+public interface PostRepo extends R2dbcRepository<Post, Integer> {
 
-    Flux<Post> findByTitleContains(String q, Pageable pageable);
+    Flux<Post> findByTitleContains(String title, Pageable pageable);
 
-    Mono<Long> countByTitleContains(String q);
+
 
 
 

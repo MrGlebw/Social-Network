@@ -1,11 +1,11 @@
 package com.gleb.facade;
 
-import com.gleb.data.Roles;
-import com.gleb.data.User;
+import com.gleb.data.user.Roles;
+import com.gleb.data.user.User;
 import com.gleb.dto.RegisterRequestDto;
 import com.gleb.dto.UpdateDto;
 import com.gleb.dto.UserShowDto;
-import com.gleb.service.UserService;
+import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
