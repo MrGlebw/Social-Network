@@ -17,9 +17,9 @@ import java.time.LocalDateTime;
 
 @Table("posts")
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 public class Post implements Serializable {
 
     @Id
@@ -45,6 +45,9 @@ public class Post implements Serializable {
     @LastModifiedDate
     @Column("last_modified_date")
     private LocalDateTime lastModifiedDate;
+
+    @Column("post_id_for_user")
+    private Integer postIdForUser;
 
 
 

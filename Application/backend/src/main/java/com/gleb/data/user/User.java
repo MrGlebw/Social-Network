@@ -58,6 +58,8 @@ import java.util.stream.Collectors;
 
     private Boolean enabled;
 
+    private Integer postsCount;
+
 
     @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {

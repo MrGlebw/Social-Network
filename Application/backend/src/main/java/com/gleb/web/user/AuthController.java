@@ -2,9 +2,8 @@ package com.gleb.web.user;
 
 
 
-import com.gleb.data.user.Roles;
-import com.gleb.dto.AuthenticationRequestDto;
-import com.gleb.dto.RegisterRequestDto;
+import com.gleb.dto.user.AuthenticationRequestDto;
+import com.gleb.dto.user.RegisterRequestDto;
 import com.gleb.facade.UserFacade;
 import com.gleb.security.JwtProperties;
 import com.gleb.security.JwtTokenProvider;
@@ -44,7 +43,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public Mono<ResponseEntity<String>> registerUser(@RequestBody RegisterRequestDto registerRequestDto) {
-        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerUser(registerRequestDto, Roles.USER);
+        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerUser(registerRequestDto);
 
         return registeredUserMono
                 .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))

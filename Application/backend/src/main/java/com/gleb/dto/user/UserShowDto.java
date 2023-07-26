@@ -1,4 +1,4 @@
-package com.gleb.dto;
+package com.gleb.dto.user;
 
 import com.gleb.data.user.Roles;
 import lombok.Data;

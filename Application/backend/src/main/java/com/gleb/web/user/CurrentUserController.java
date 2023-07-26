@@ -1,8 +1,8 @@
 package com.gleb.web.user;
 
 
-import com.gleb.dto.UpdateDto;
-import com.gleb.dto.UserShowDto;
+import com.gleb.dto.user.UpdateDto;
+import com.gleb.dto.user.UserShowDto;
 import com.gleb.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

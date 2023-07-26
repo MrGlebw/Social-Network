@@ -58,7 +58,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/users/name/{firstName}+{lastName}").authenticated()
                         .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
-                        .pathMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                        .pathMatchers( "/me/posts/**").authenticated()
                         .anyExchange().permitAll()
                 )
                 .build();

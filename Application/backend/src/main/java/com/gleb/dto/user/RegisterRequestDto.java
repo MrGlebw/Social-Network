@@ -1,4 +1,4 @@
-package com.gleb.dto;
+package com.gleb.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

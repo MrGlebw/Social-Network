@@ -1,6 +1,7 @@
 package com.gleb.service.user;
 
 import com.gleb.data.user.User;
+import com.gleb.repo.PostRepo;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class UserService {
 
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final PostRepo postRepo;
 
 
 
@@ -45,9 +47,6 @@ public class UserService {
         });
     }
 
-    public Flux<User> findAllByBirthdate (LocalDate birthdate) {
-        return userRepo.findAllByBirthdate(birthdate);
-    }
 
     public Flux<User> findByFirstNameAndLastName(String firstName, String lastName) {
         return userRepo.findByFirstNameAndLastName(firstName, lastName);
@@ -66,6 +65,16 @@ public class UserService {
         return userRepo.findById(id);
      }
 
+    public Mono<Integer> getPostsCountByAuthor(String authorName) {
+        return postRepo.allPostsByAuthorName(authorName)
+                .collectList()
+                .map(posts -> posts.size());
+    }
+
+    public Mono<Void> updatePostCountForUser(String username) {
+        return getPostsCountByAuthor(username)
+                .flatMap(postCount -> userRepo.updatePostsCount(username, postCount));
+    }
 
 
 

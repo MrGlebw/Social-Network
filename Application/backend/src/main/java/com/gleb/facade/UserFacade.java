@@ -2,9 +2,9 @@ package com.gleb.facade;
 
 import com.gleb.data.user.Roles;
 import com.gleb.data.user.User;
-import com.gleb.dto.RegisterRequestDto;
-import com.gleb.dto.UpdateDto;
-import com.gleb.dto.UserShowDto;
+import com.gleb.dto.user.RegisterRequestDto;
+import com.gleb.dto.user.UpdateDto;
+import com.gleb.dto.user.UserShowDto;
 import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class UserFacade {
     private final PasswordEncoder passwordEncoder;
 
 
-    public Mono<RegisterRequestDto> registerUser(RegisterRequestDto registerRequestDto, Roles role) {
+    public Mono<RegisterRequestDto> registerUser(RegisterRequestDto registerRequestDto) {
         User user = registerRequestDtoToUser(registerRequestDto);
         user.setRoles(Collections.singleton(Roles.USER)); // Set the role for the user
         return userService.registerUser(user)

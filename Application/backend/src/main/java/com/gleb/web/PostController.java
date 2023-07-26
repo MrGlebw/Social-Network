@@ -25,7 +25,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static org.springframework.http.ResponseEntity.created;
 
 @RestController()
-@RequestMapping(value = "users//posts")
+@RequestMapping(value = "users/username/{username}/posts")
 @RequiredArgsConstructor
 @Validated
 public class PostController {
