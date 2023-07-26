@@ -15,6 +15,7 @@ public interface PostRepo extends R2dbcRepository<Post, Integer> {
     @Query("SELECT * FROM posts WHERE author_name = :author_name")
     Flux<Post> allPostsByAuthorName(String authorName);
 
+
 }
 
 

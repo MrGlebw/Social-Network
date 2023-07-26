@@ -50,6 +50,9 @@ public class Post implements Serializable {
     private Integer postIdForUser;
 
 
+    private LocalDateTime publishedDate;
+
+
 
 
 }

@@ -34,20 +34,8 @@ public class PostService {
     }
 
 
-    public void getAllPostsByAuthor(String authorName) {
-        Flux<Post> allPostsFlux = postRepo.allPostsByAuthorName(authorName);
-
-        allPostsFlux.collectList().subscribe(
-                posts -> {
-                    // Here, you can process the list of posts (List<Post>)
-                    int postCount = posts.size();
-                    System.out.println("Post count for author " + authorName + ": " + postCount);
-                },
-                error -> {
-                    // Handle any errors that may occur during the retrieval process
-                    System.err.println("Error retrieving posts: " + error.getMessage());
-                }
-        );
+    public Flux<Post> getAllPostsByAuthor(String authorName) {
+        return postRepo.allPostsByAuthorName(authorName);
     }
 
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
@@ -57,8 +45,18 @@ public class PostService {
                 .map(posts -> posts.size());
     }
 
-
-
+    public Mono<Post> publishPost(Integer postIdForUser , String authorName) {
+        return postRepo.allPostsByAuthorName(authorName)
+                .filter(post -> post.getPostIdForUser().equals(postIdForUser))
+                .filter(post -> post.getAuthorName().equals(authorName))
+                .single()
+                .flatMap(post -> postRepo.save(
+                        post.toBuilder()
+                                .status(Status.PUBLISHED)
+                                .publishedDate(LocalDateTime.now())
+                                .build()
+                ));
+    }
 
 
 

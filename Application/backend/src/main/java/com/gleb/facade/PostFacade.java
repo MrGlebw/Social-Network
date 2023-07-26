@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -53,8 +54,21 @@ public class PostFacade {
                 });
     }
 
-     private Integer getPostsCountByAuthor(String authorName) {
-        return postService.getPostsCountByAuthor(authorName).block();
+
+    public Flux<Post> getAllPosts() {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .map(Principal::getName)
+                .flatMap(userService::findUserByUsername)
+                .flatMapMany(user -> postService.getAllPostsByAuthor(user.getUsername()));
+    }
+
+    public Mono<Post> publishPost(Integer postIdForUser) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .map(Principal::getName)
+                .flatMap(userService::findUserByUsername)
+                .flatMap(user -> postService.publishPost(postIdForUser, user.getUsername()));
     }
 }
 
