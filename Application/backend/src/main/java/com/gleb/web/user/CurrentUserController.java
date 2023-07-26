@@ -27,7 +27,7 @@ public class CurrentUserController {
 
     @PatchMapping("/update")
     public Mono<ResponseEntity<String>> updateCurrentUser(@RequestBody UpdateDto updateDto) {
-        return userFacade.updateUserByUsername(updateDto.getUsername(), updateDto)
+        return userFacade.updateUserByUsername( updateDto)
                 .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User updated successfully")))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());

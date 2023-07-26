@@ -66,18 +66,21 @@ public class UserFacade {
                 });
     }
 
-    public Mono<User> updateUserByUsername(String username, UpdateDto updateDto) {
-        return userService.findUserByUsername(username)
-                .map(user -> {
-                    user.setUsername(username);
-                    user.setFirstName(updateDto.getFirstName());
-                    user.setLastName(updateDto.getLastName());
-                    user.setEmail(updateDto.getEmail());
-                    user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
-                    user.setUpdated(LocalDateTime.now()); // Set the updated field in the entity
-                    return user;
-                })
+    public Mono<User> updateUserByUsername(UpdateDto updateDto) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication).flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.findUserByUsername(username)
+                            .map(user -> {
+                                user.setFirstName(updateDto.getFirstName());
+                                user.setLastName(updateDto.getLastName());
+                                user.setEmail(updateDto.getEmail());
+                                user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+                                user.setUpdated(LocalDateTime.now()); // Set the updated field in the entity
+                                return user;
+                            })
                 .flatMap(userService::save);
+    });
     }
 
 

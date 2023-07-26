@@ -11,5 +11,4 @@ public class UpdateDto {
     private String email;
     private String password;
     private LocalDateTime updated;
-    private String username;
 }
