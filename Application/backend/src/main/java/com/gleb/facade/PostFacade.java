@@ -1,10 +1,12 @@
 package com.gleb.facade;
 
 import com.gleb.data.Post;
+import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
 import com.gleb.dto.post.PostShowDto;
 import com.gleb.service.post.PostService;
 import com.gleb.service.user.UserService;
+import com.gleb.web.post.CurrentUserPostController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +18,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.math.BigInteger;
 import java.security.Principal;
 
 @Service
@@ -66,20 +69,22 @@ public class PostFacade {
                 .flatMap(user -> postService.publishPost(postIdForUser, user.getUsername()));
     }
 
-    public Flux <Post> getAllPublishedPosts () {
+    public Flux <CurrentUserPostDto> getAllPublishedPosts () {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
                 .flatMap(userService::findUserByUsername)
-                .flatMapMany(user -> postService.getAllPublishedPostsByAuthor(user.getUsername()));
+                .flatMapMany(user -> postService.getAllPublishedPostsByAuthor(user.getUsername()))
+                .map(this::postToCurrentUserPostDto);
     }
 
-    public Flux <Post> getAllUnpublishedPosts () {
+    public Flux <CurrentUserPostDto> getAllUnpublishedPosts () {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
                 .flatMap(userService::findUserByUsername)
-                .flatMapMany(user -> postService.getAllUnpublishedPostsByAuthor(user.getUsername()));
+                .flatMapMany(user -> postService.getAllUnpublishedPostsByAuthor(user.getUsername()))
+                .map(this::postToCurrentUserPostDto);
     }
 
     public Mono<PostForm> updatePost(Integer postIdForUser, PostForm postForm) {
@@ -123,6 +128,18 @@ public class PostFacade {
         return postService.deleteByPostId(id)
                 .thenReturn(true)
                 .defaultIfEmpty(false);
+    }
+
+    public Mono <Boolean> disapprovePost (Integer postId) {
+        return postService.disapprovePost(postId)
+                .thenReturn(true)
+                .defaultIfEmpty(false);
+    }
+
+    private CurrentUserPostDto postToCurrentUserPostDto (Post post){
+        CurrentUserPostDto currentUserPostDto = new CurrentUserPostDto();
+        BeanUtils.copyProperties(post, currentUserPostDto);
+        return currentUserPostDto;
     }
 
 

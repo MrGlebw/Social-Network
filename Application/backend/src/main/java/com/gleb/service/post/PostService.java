@@ -35,9 +35,6 @@ public class PostService {
     }
 
 
-    public Flux<Post> getAllPostsByAuthor(String authorName) {
-        return postRepo.allPostsByAuthorName(authorName);
-    }
 
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
         Flux<Post> allPostsFlux = postRepo.allPostsByAuthorName(authorName);
@@ -66,7 +63,7 @@ public class PostService {
 
     public Flux <Post> getAllUnpublishedPostsByAuthor(String authorName) {
         return postRepo.allPostsByAuthorName(authorName)
-                .filter(post -> post.getStatus().equals(Status.DRAFT));
+                .filter(post -> post.getStatus().equals(Status.DISAPPROVED) | post.getStatus().equals(Status.DRAFT));
     }
 
 
@@ -102,6 +99,15 @@ public class PostService {
 
     public Flux<Post> getFeed (Pageable pageable) {
         return postRepo.findByStatus(Status.PUBLISHED, pageable);
+    }
+
+    public Mono <Void> disapprovePost (Integer postId){
+        return postRepo.findById(postId)
+                .flatMap(post -> postRepo.save(
+                        post.toBuilder()
+                                .status(Status.DISAPPROVED)
+                                .build()
+                )).then();
     }
 
 }

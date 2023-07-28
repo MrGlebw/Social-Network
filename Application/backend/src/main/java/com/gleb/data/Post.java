@@ -52,6 +52,8 @@ public class Post implements Serializable {
 
     private LocalDateTime publishedDate;
 
+    private LocalDateTime disapprovedDate;
+
 
 
 

@@ -1,6 +1,7 @@
 package com.gleb.web.post;
 
 import com.gleb.data.Post;
+import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
 import com.gleb.facade.PostFacade;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class CurrentUserPostController {
                 .map(post -> ResponseEntity.status(HttpStatus.CREATED).body("Post created"));
     }
 
-    @PostMapping("/publish/{id}")
+    @PatchMapping("/publish/{id}")
     public Mono<ResponseEntity<String>> publishPost(@PathVariable Integer id) {
         return postFacade.publishPost(id)
                 .map(post -> ResponseEntity.status(HttpStatus.OK).body("Post published"));
@@ -34,14 +35,14 @@ public class CurrentUserPostController {
 
 
     @GetMapping("/allPublishedPosts")
-    public Mono<ResponseEntity<List<Post>>> getAllPublishedPosts() {
+    public Mono<ResponseEntity<List<CurrentUserPostDto>>> getAllPublishedPosts() {
         return postFacade.getAllPublishedPosts()
                 .collectList()
                 .map(ResponseEntity::ok);
     }
 
     @GetMapping("/allUnpublishedPosts")
-    public Mono<ResponseEntity<List<Post>>> getAllUnpublishedPosts() {
+    public Mono<ResponseEntity<List<CurrentUserPostDto>>> getAllUnpublishedPosts() {
         return postFacade.getAllUnpublishedPosts()
                 .collectList()
                 .map(ResponseEntity::ok);

@@ -86,6 +86,18 @@ public class PostController {
                 });
     }
 
+    @PatchMapping("/moderatorFeed/disapprove/{id}")
+    public Mono<ResponseEntity<String>> disapprovePost(@PathVariable Integer id) {
+        return postFacade.disapprovePost(id)
+                .flatMap(disapproved -> {
+                    if (disapproved) {
+                        return Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post disapproved"));
+                    } else {
+                        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found or disapproved"));
+                    }
+                });
+    }
+
 
 
 }
