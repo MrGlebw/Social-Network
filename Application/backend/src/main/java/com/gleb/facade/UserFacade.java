@@ -86,11 +86,7 @@ public class UserFacade {
 
     private UserShowDto mapToUserShowDto(User user) {
         UserShowDto userShowDto = new UserShowDto();
-        userShowDto.setUsername(user.getUsername());
-        userShowDto.setFirstName(user.getFirstName());
-        userShowDto.setLastName(user.getLastName());
-        userShowDto.setBirthdate(user.getBirthdate());
-        userShowDto.setRoles(user.getRoles());
+        BeanUtils.copyProperties(userShowDto,user);
         return userShowDto;
     }
 

@@ -1,14 +1,13 @@
-package com.gleb.web;
+package com.gleb.web.post;
 
 import com.gleb.data.Post;
-import com.gleb.dto.PostForm;
+import com.gleb.dto.post.PostForm;
 import com.gleb.facade.PostFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -33,10 +32,31 @@ public class CurrentUserPostController {
                 .map(post -> ResponseEntity.status(HttpStatus.OK).body("Post published"));
     }
 
-    @GetMapping("/allPosts")
-    public Mono<ResponseEntity<List<Post>>> getAllPosts() {
-        return postFacade.getAllPosts()
+
+    @GetMapping("/allPublishedPosts")
+    public Mono<ResponseEntity<List<Post>>> getAllPublishedPosts() {
+        return postFacade.getAllPublishedPosts()
                 .collectList()
                 .map(ResponseEntity::ok);
+    }
+
+    @GetMapping("/allUnpublishedPosts")
+    public Mono<ResponseEntity<List<Post>>> getAllUnpublishedPosts() {
+        return postFacade.getAllUnpublishedPosts()
+                .collectList()
+                .map(ResponseEntity::ok);
+    }
+
+    @PatchMapping("/update/{id}")
+    public Mono<ResponseEntity<String>> updatePost(@PathVariable Integer id, @Validated @RequestBody Mono<PostForm> postForm) {
+        return postForm
+                .flatMap(post -> postFacade.updatePost(id, post))
+                .map(post -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post updated"));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public Mono<ResponseEntity<String>> deletePost(@PathVariable Integer id) {
+        return postFacade.deletePost(id)
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post deleted")));
     }
 }

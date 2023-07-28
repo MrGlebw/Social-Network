@@ -1,4 +1,4 @@
-package com.gleb.dto;
+package com.gleb.dto.post;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
