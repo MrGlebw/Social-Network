@@ -56,7 +56,7 @@ public class CurrentUserPostController {
 
     @DeleteMapping("/delete/{id}")
     public Mono<ResponseEntity<String>> deletePost(@PathVariable Integer id) {
-        return postFacade.deletePost(id)
+        return postFacade.deleteMyPost(id)
                 .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post deleted")));
     }
 }

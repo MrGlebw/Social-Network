@@ -90,17 +90,18 @@ public class PostService {
         return postRepo.deleteByPostIdForUserAndAuthorName(postIdForUser , authorName);
     }
 
-    public Flux <Post> getFeed () {
-        return postRepo.findAll()
-                .filter(post -> post.getStatus().equals(Status.PUBLISHED));
+    public Mono <Void> deleteByPostId (Integer postId) {
+        return postRepo.deleteById(postId);
     }
+
 
     public Flux <Post> findByTitleContains (String title, Pageable pageable) {
         return postRepo.findByTitleContains(title , pageable)
                 .filter(post -> post.getStatus().equals(Status.PUBLISHED));
     }
 
-    public Flux <Post> findAll () {
-        return postRepo.findAll();
+    public Flux<Post> getFeed (Pageable pageable) {
+        return postRepo.findByStatus(Status.PUBLISHED, pageable);
     }
+
 }

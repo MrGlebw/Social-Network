@@ -58,6 +58,9 @@ public class SecurityConfig {
                         .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
                         .pathMatchers( "/me/posts/**").authenticated()
+                        .pathMatchers("/feed").authenticated()
+                        .pathMatchers("/feed/moderatorFeed/delete/{id}").access((authentication, object) -> isModerator(authentication))
+                        .pathMatchers("/feed/moderatorFeed").access((authentication, object) -> isModerator(authentication))
                         .anyExchange().permitAll()
                 )
                 .build();

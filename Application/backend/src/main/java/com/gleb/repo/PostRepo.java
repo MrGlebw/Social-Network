@@ -1,6 +1,7 @@
 package com.gleb.repo;
 
 import com.gleb.data.Post;
+import com.gleb.data.Status;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
@@ -19,6 +20,9 @@ public interface PostRepo extends R2dbcRepository<Post, Integer> {
 
     @Query("DELETE FROM posts WHERE post_id_for_user = :postIdForUser AND author_name = :authorName")
     Mono <Void> deleteByPostIdForUserAndAuthorName (Integer postIdForUser , String authorName);
+
+    @Query("SELECT * FROM posts WHERE status = :status")
+    Flux<Post> findByStatus(Status status, Pageable pageable);
 
 
 

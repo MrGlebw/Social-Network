@@ -94,7 +94,7 @@ public class PostFacade {
                 });
     }
 
-    public Mono <Void> deletePost (Integer postIdForUser) {
+    public Mono <Void> deleteMyPost (Integer postIdForUser) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
@@ -102,12 +102,8 @@ public class PostFacade {
                 .flatMap(user -> postService.deleteByPostIdForUser(postIdForUser, user.getUsername()));
     }
 
-    public Flux <PostShowDto> getFeed () {
-        return postService.getFeed()
-                .map(this::postToShowDto);
-    }
 
-    public PostShowDto postToShowDto (Post post){
+    private PostShowDto postToShowDto (Post post){
         PostShowDto postShowDto = new PostShowDto();
         BeanUtils.copyProperties(post, postShowDto);
         return postShowDto;
@@ -116,6 +112,17 @@ public class PostFacade {
     public Flux <PostShowDto> findByTitleContains (String q , Pageable pageable) {
         return postService.findByTitleContains(q , pageable)
                 .map(this::postToShowDto);
+    }
+
+    public Flux <PostShowDto> getFeed(Pageable pageable) {
+        return postService.getFeed(pageable)
+                .map(this::postToShowDto);
+    }
+
+    public Mono<Boolean> deletePost(Integer id) {
+        return postService.deleteByPostId(id)
+                .thenReturn(true)
+                .defaultIfEmpty(false);
     }
 
 
