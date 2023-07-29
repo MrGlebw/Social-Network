@@ -86,7 +86,7 @@ public class UserFacade {
 
     private UserShowDto mapToUserShowDto(User user) {
         UserShowDto userShowDto = new UserShowDto();
-        BeanUtils.copyProperties(userShowDto,user);
+        BeanUtils.copyProperties(user, userShowDto);
         return userShowDto;
     }
 

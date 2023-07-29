@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 @Repository
 public interface UserRepo extends R2dbcRepository<User, Integer> {
+    @Query("SELECT * FROM users WHERE username = :username")
     Mono<User> findByUsername(String username);
 
 
