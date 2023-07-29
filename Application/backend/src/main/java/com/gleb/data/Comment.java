@@ -26,7 +26,7 @@ public class Comment {
     @NotBlank
     private String content;
 
-    private Integer post;
+    private Integer postId;
 
 
 
