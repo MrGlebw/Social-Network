@@ -1,7 +1,7 @@
 package com.gleb.service.post;
 
-import com.gleb.data.Post;
-import com.gleb.data.Status;
+import com.gleb.data.post.Post;
+import com.gleb.data.post.Status;
 import com.gleb.repo.PostRepo;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;

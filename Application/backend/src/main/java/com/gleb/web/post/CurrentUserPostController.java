@@ -1,6 +1,5 @@
 package com.gleb.web.post;
 
-import com.gleb.data.Post;
 import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
 import com.gleb.facade.PostFacade;

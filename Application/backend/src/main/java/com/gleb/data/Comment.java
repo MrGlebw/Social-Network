@@ -7,36 +7,40 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.*;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 
+@Table("comments")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Comment implements PersistentEntity, Serializable {
+public class Comment {
 
     @Id
-    private String id;
+    private Integer id;
 
     @NotBlank
     private String content;
 
-    private PostId post;
+    private Integer post;
 
-    @CreatedDate
+
+
+    private String authorName;
+
+
     private LocalDateTime createdDate;
 
-    @CreatedBy
-    private Username createdBy;
-
-    @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
-    @LastModifiedBy
-    private Username lastModifiedBy;
+
+    private String lastModifiedBy;
+
+    private Integer commentIdForPost;
 
 }
 

@@ -1,12 +1,11 @@
 package com.gleb.facade;
 
-import com.gleb.data.Post;
+import com.gleb.data.post.Post;
 import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
 import com.gleb.dto.post.PostShowDto;
 import com.gleb.service.post.PostService;
 import com.gleb.service.user.UserService;
-import com.gleb.web.post.CurrentUserPostController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -18,7 +17,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-import java.math.BigInteger;
 import java.security.Principal;
 
 @Service

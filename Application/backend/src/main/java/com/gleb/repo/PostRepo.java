@@ -1,7 +1,7 @@
 package com.gleb.repo;
 
-import com.gleb.data.Post;
-import com.gleb.data.Status;
+import com.gleb.data.post.Post;
+import com.gleb.data.post.Status;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;

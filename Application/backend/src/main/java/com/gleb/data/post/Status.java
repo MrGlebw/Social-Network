@@ -1,4 +1,4 @@
-package com.gleb.data;
+package com.gleb.data.post;
 
 public enum Status {
 

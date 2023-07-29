@@ -1,10 +1,9 @@
 package com.gleb.web.post;
 
-import com.gleb.data.Post;
+import com.gleb.data.post.Post;
 import com.gleb.dto.post.PostShowDto;
 import com.gleb.facade.PostFacade;
 import com.gleb.repo.CommentRepo;
-import com.gleb.repo.PostRepo;
 import com.gleb.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

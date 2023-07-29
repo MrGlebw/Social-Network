@@ -1,6 +1,5 @@
 package com.gleb.service.user;
 
-import com.gleb.data.Post;
 import com.gleb.data.user.User;
 import com.gleb.repo.PostRepo;
 import com.gleb.repo.UserRepo;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service

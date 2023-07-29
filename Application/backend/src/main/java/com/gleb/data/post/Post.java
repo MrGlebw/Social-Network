@@ -1,4 +1,4 @@
-package com.gleb.data;
+package com.gleb.data.post;
 
 
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +14,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Table("posts")
 @Data
@@ -53,6 +54,8 @@ public class Post implements Serializable {
     private LocalDateTime publishedDate;
 
     private LocalDateTime disapprovedDate;
+
+    private Integer commentsCount;
 
 
 
