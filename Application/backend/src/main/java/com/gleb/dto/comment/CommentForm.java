@@ -1,4 +1,4 @@
-package com.gleb.dto;
+package com.gleb.dto.comment;
 
 
 import jakarta.validation.constraints.NotBlank;

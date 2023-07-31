@@ -20,7 +20,6 @@ import java.util.List;
 public class PostService {
 
     private final PostRepo postRepo;
-    private final UserRepo userRepo;
 
     public Mono<Post> createPost(Post post) {
         return postRepo.save(
@@ -109,5 +108,15 @@ public class PostService {
                                 .build()
                 )).then();
     }
+
+    public Mono <Post> findById (Integer postId) {
+        return postRepo.findById(postId);
+    }
+
+    public Mono <Post> save (Post post) {
+        return postRepo.save(post);
+    }
+
+
 
 }

@@ -17,6 +17,8 @@ public interface CommentRepo extends R2dbcRepository<Comment, Integer> {
     @Query("SELECT * FROM comments WHERE id = :id")
     Mono<Comment> findById(Integer id);
 
+    @Query("SELECT * FROM comments WHERE author_name = :authorName AND comment_id_for_post = :commentIdForPost AND post_id = :postId")
+    Mono <Comment> findCommentByAuthorName (String authorName , Integer commentIdForPost, Integer postId);
 
 
 }

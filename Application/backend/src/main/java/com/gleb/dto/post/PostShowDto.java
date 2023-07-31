@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostShowDto {
+    private Integer id;
     private String  title;
     private String  content;
     private String  authorName;

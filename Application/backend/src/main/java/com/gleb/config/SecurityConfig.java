@@ -61,6 +61,9 @@ public class SecurityConfig {
                         .pathMatchers("/feed").authenticated()
                         .pathMatchers("/feed/moderatorFeed/delete/{id}").access((authentication, object) -> isModerator(authentication))
                         .pathMatchers("/feed/moderatorFeed").access((authentication, object) -> isModerator(authentication))
+                        .pathMatchers("/feed/moderatorFeed/disapprove/**").access((authentication, object) -> isModerator(authentication))
+                        .pathMatchers("/me/{id}/commentPost").authenticated()
+                        .pathMatchers("/me/myComments").authenticated()
                         .anyExchange().permitAll()
                 )
                 .build();

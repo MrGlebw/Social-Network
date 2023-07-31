@@ -46,7 +46,8 @@ public class PostController {
             return postFacade.getFeed(PageRequest.of(page, size, sort))
                     .collectList()
                     .map(ResponseEntity::ok)
-                    .defaultIfEmpty(ResponseEntity.notFound().build());
+                    .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                    .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
         }
     }
 
@@ -66,7 +67,8 @@ public class PostController {
             return postService.getFeed(PageRequest.of(page, size, sort))
                     .collectList()
                     .map(ResponseEntity::ok)
-                    .defaultIfEmpty(ResponseEntity.notFound().build());
+                    .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                    .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
         }
     }
 
