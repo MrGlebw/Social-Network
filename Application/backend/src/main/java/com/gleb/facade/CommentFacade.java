@@ -4,7 +4,6 @@ import com.gleb.data.Comment;
 import com.gleb.dto.comment.CommentForm;
 import com.gleb.dto.comment.CommentShowDto;
 import com.gleb.dto.comment.CurrentUserCommentDto;
-import com.gleb.dto.post.PostForm;
 import com.gleb.service.CommentService;
 import com.gleb.service.post.PostService;
 import com.gleb.service.user.UserService;

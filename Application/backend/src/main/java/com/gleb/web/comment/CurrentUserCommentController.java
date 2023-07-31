@@ -1,6 +1,6 @@
 package com.gleb.web.comment;
 
-import com.gleb.data.Comment;
+
 import com.gleb.dto.comment.CommentForm;
 import com.gleb.dto.comment.CurrentUserCommentDto;
 import com.gleb.facade.CommentFacade;

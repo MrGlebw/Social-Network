@@ -8,8 +8,7 @@ import reactor.core.publisher.Mono;
 
 public interface CommentRepo extends R2dbcRepository<Comment, Integer> {
 
-    @Query("SELECT * FROM comments WHERE post_id = :postId")
-    Flux<Comment> findByPost(Integer postId);
+
 
     @Query("SELECT * FROM comments WHERE author_name = :authorName")
     Flux<Comment> findByAuthorName(String authorName);

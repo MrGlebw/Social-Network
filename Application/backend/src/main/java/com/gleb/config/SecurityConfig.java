@@ -90,13 +90,6 @@ public class SecurityConfig {
     .map(AuthorizationDecision::new);
     }
 
-    private Mono<AuthorizationDecision> isAdminOrModerator(Mono<Authentication> authentication) {
-        return authentication
-                .map(Authentication::getName)
-                .flatMap(userWrapperService::findUserByUsername)
-                .map(user -> user.getRoles().contains(Roles.MODERATOR.name()) || user.getRoles().contains(Roles.ADMIN.name()))
-                .map(AuthorizationDecision::new);
-    }
 
     @Bean
     @Primary

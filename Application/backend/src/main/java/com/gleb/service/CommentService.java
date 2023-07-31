@@ -50,20 +50,18 @@ public class CommentService {
     @Transactional
     public Mono<Boolean> deleteComment(Integer postId, Integer commentIdForPost, String authorName) {
         return commentRepo.findByAuthorName(authorName, commentIdForPost, postId)
-                .flatMap(comment -> {
-                    return postRepo.findById(postId)
-                            .flatMap(post -> {
-                                int newCommentsCount = post.getCommentsCount() - 1;
-                                if (newCommentsCount >= 0) {
-                                    post.setCommentsCount(newCommentsCount);
-                                    return commentRepo.delete(comment)
-                                            .then(postRepo.save(post))
-                                            .thenReturn(true); // Comment found and deleted successfully
-                                } else {
-                                    return Mono.just(false); // Comment found, but deleting will result in a negative count
-                                }
-                            });
-                })
+                .flatMap(comment -> postRepo.findById(postId)
+                        .flatMap(post -> {
+                            int newCommentsCount = post.getCommentsCount() - 1;
+                            if (newCommentsCount >= 0) {
+                                post.setCommentsCount(newCommentsCount);
+                                return commentRepo.delete(comment)
+                                        .then(postRepo.save(post))
+                                        .thenReturn(true); // Comment found and deleted successfully
+                            } else {
+                                return Mono.just(false); // Comment found, but deleting will result in a negative count
+                            }
+                        }))
                 .defaultIfEmpty(false); // Comment not found
     }
 
