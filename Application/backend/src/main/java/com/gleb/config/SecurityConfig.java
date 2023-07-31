@@ -64,6 +64,11 @@ public class SecurityConfig {
                         .pathMatchers("/feed/moderatorFeed/disapprove/**").access((authentication, object) -> isModerator(authentication))
                         .pathMatchers("/me/{id}/commentPost").authenticated()
                         .pathMatchers("/me/myComments").authenticated()
+                        .pathMatchers("/me//{postId}/deleteComment/{commentIdForPost}").authenticated()
+                        .pathMatchers("/posts/{postId}/comments)").authenticated()
+                        .pathMatchers("/posts/{postId}/comments)/{authorName}").access((authentication, object) -> isModerator(authentication))
+                        .pathMatchers("/posts/{postId}/comments/deleteComment/{commentIdForPost}").access((authentication, object) -> isModerator(authentication))
+
                         .anyExchange().permitAll()
                 )
                 .build();
@@ -92,10 +97,6 @@ public class SecurityConfig {
                 .map(user -> user.getRoles().contains(Roles.MODERATOR.name()) || user.getRoles().contains(Roles.ADMIN.name()))
                 .map(AuthorizationDecision::new);
     }
-
-
-
-
 
     @Bean
     @Primary
