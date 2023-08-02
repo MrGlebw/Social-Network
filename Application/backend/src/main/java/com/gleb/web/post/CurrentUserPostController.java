@@ -58,7 +58,7 @@ public class CurrentUserPostController {
     @PatchMapping("/update/{id}")
     public Mono<ResponseEntity<String>> updatePost(@PathVariable Integer id, @Validated @RequestBody Mono<PostForm> postForm) {
         return postForm
-                .flatMap(post -> postFacade.updatePost(id, post))
+                .map(post -> postFacade.updatePost(id, post))
                 .map(post -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post updated"))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());

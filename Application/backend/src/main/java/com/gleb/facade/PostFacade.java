@@ -1,6 +1,7 @@
 package com.gleb.facade;
 
 import com.gleb.data.post.Post;
+import com.gleb.data.user.User;
 import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
 import com.gleb.dto.post.PostShowDto;
@@ -97,12 +98,25 @@ public class PostFacade {
                 });
     }
 
-    public Mono <Void> deleteMyPost (Integer postIdForUser) {
+    public Mono<Object> deleteMyPost(Integer postIdForUser) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
                 .flatMap(userService::findUserByUsername)
-                .flatMap(user -> postService.deleteByPostIdForUser(postIdForUser, user.getUsername()));
+                .flatMap(user -> {
+                    // Decrement the post count first
+                    int updatedPostCount = user.getPostsCount() - 1;
+                    user.setPostsCount(updatedPostCount);
+
+                    // Save the updated user post count
+                    Mono<User> saveUserMono = userService.save(user);
+
+                    // Delete the post
+                    Mono<Void> deleted = postService.deleteByPostIdForUser(postIdForUser, user.getUsername())
+                            .then();
+
+                    return Mono.when(saveUserMono, deleted);
+                });
     }
 
 

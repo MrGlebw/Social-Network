@@ -82,8 +82,8 @@ public class PostService {
                 ));
     }
 
-    public Mono<Void> deleteByPostIdForUser (Integer postIdForUser , String authorName) {
-        return postRepo.deleteByPostIdForUserAndAuthorName(postIdForUser , authorName);
+    public Mono<Boolean> deleteByPostIdForUser(Integer postIdForUser, String authorName) {
+        return postRepo.deleteByPostIdForUserAndAuthorName(postIdForUser, authorName);
     }
 
     public Mono <Void> deleteByPostId (Integer postId) {

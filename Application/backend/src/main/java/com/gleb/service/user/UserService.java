@@ -15,6 +15,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,9 +62,7 @@ public class UserService {
                                 });
                     }
                 })
-                .doOnSuccess(u -> {
-                    log.info("IN registerUser - user: {} created", u);
-                })
+                .doOnSuccess(u -> log.info("IN registerUser - user: {} created", u))
                 .onErrorMap(DataIntegrityViolationException.class, ex -> new EmailAlreadyTakenException("Email or username already exist.")); // Optional: Handle DataIntegrityViolationException from userRepo.save() if necessary
     }
 
@@ -88,7 +87,7 @@ public class UserService {
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
         return postRepo.allPostsByAuthorName(authorName)
                 .collectList()
-                .map(posts -> posts.size());
+                .map(List::size);
     }
 
     public Mono<Void> updatePostCountForUser(String username) {
