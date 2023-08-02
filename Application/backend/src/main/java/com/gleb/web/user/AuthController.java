@@ -48,7 +48,7 @@ public class AuthController {
         return registerRequestDtoMono
                 .flatMap(registerRequestDto -> {
                     // Perform validation on the RegisterRequestDto using UserValidator
-                    UserValidator.ValidationField invalidField = UserValidator.validateUser(registerRequestDto);
+                    UserValidator.ValidationField invalidField = UserValidator.validateRegisteredUser(registerRequestDto);
 
                     if (invalidField != null) {
                         String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + registerRequestDto.getFieldValue(invalidField);
@@ -58,7 +58,7 @@ public class AuthController {
                         return userFacade.registerUser(registerRequestDto)
                                 .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
                                 .onErrorResume(DataIntegrityViolationException.class, ex -> {
-                                    String usernameErrorMessage = "Username already exists.";
+                                    String usernameErrorMessage = "Username or email already exists.";
                                     return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
                                 })
                                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
@@ -67,21 +67,49 @@ public class AuthController {
     }
 
     @PostMapping("/registerAdmin")
-    public Mono<ResponseEntity<String>> registerAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
-        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerAdmin(registerRequestDto);
+    public Mono<ResponseEntity<String>> registerAdmin(@Valid @RequestBody Mono<RegisterRequestDto> registerRequestDtoMono) {
+        return registerRequestDtoMono
+                .flatMap(registerRequestDto -> {
+                    // Perform validation on the RegisterRequestDto using UserValidator
+                    UserValidator.ValidationField invalidField = UserValidator.validateRegisteredUser(registerRequestDto);
 
-        return registeredUserMono
-                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("Admin registered successfully"))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    if (invalidField != null) {
+                        String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + registerRequestDto.getFieldValue(invalidField);
+                        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage));
+                    } else {
+                        // If there are no validation errors, proceed with user registration
+                        return userFacade.registerAdmin(registerRequestDto)
+                                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
+                                .onErrorResume(DataIntegrityViolationException.class, ex -> {
+                                    String usernameErrorMessage = "Username or email already exists.";
+                                    return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
+                                })
+                                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    }
+                });
     }
 
     @PostMapping("/registerModerator")
-    public Mono<ResponseEntity<String>> registerModerator(@RequestBody RegisterRequestDto registerRequestDto) {
-        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerModerator(registerRequestDto);
+    public Mono<ResponseEntity<String>> registerModerator(@Valid @RequestBody Mono<RegisterRequestDto> registerRequestDtoMono) {
+        return registerRequestDtoMono
+                .flatMap(registerRequestDto -> {
+                    // Perform validation on the RegisterRequestDto using UserValidator
+                    UserValidator.ValidationField invalidField = UserValidator.validateRegisteredUser(registerRequestDto);
 
-        return registeredUserMono
-                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("Moderator registered successfully"))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    if (invalidField != null) {
+                        String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + registerRequestDto.getFieldValue(invalidField);
+                        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage));
+                    } else {
+                        // If there are no validation errors, proceed with user registration
+                        return userFacade.registerModerator(registerRequestDto)
+                                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
+                                .onErrorResume(DataIntegrityViolationException.class, ex -> {
+                                    String usernameErrorMessage = "Username or email already exists.";
+                                    return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
+                                })
+                                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    }
+                });
     }
 
 

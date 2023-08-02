@@ -4,6 +4,8 @@ package com.gleb.web.user;
 import com.gleb.dto.user.UpdateDto;
 import com.gleb.dto.user.UserShowDto;
 import com.gleb.facade.UserFacade;
+import com.gleb.validation.UserValidator;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,12 +28,18 @@ public class CurrentUserController {
     }
 
     @PatchMapping("/update")
-    public Mono<ResponseEntity<String>> updateCurrentUser(@RequestBody UpdateDto updateDto) {
-        return userFacade.updateUserByUsername( updateDto)
-                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User updated successfully")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    public Mono<ResponseEntity<String>> updateCurrentUser(@Valid @RequestBody UpdateDto updateDto) {
+        UserValidator.ValidationField invalidField = UserValidator.validateUpdatedUser(updateDto);
 
+        if (invalidField != null) {
+            String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + updateDto.getFieldValue(invalidField);
+            return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage));
+        } else {
+            return userFacade.updateUserByUsername(updateDto)
+                    .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User updated successfully")))
+                    .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                    .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+        }
     }
 
     @DeleteMapping("/delete")

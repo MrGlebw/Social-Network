@@ -1,10 +1,13 @@
 package com.gleb.service.user;
 
 import com.gleb.data.user.User;
+import com.gleb.exceptions.EmailAlreadyTakenException;
+import com.gleb.exceptions.UsernameAlreadyTakenException;
 import com.gleb.repo.PostRepo;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,18 +35,36 @@ public class UserService {
 
 
     public Mono<User> registerUser(User user) {
+        String username = user.getUsername();
+        String email = user.getEmail();
 
-        return userRepo.save(
-                user.toBuilder()
-                        .password(passwordEncoder.encode(user.getPassword()))
-                        .roles(user.getRoles())
-                        .enabled(true)
-                        .created(LocalDateTime.now())
-                        .updated(LocalDateTime.now())
-                        .build()
-        ).doOnSuccess(u -> {
-            log.info("IN registerUser - user: {} created", u);
-        });
+        return userRepo.existsByUsername(username)
+                .flatMap(exists -> {
+                    if (exists) {
+                        return Mono.error(new UsernameAlreadyTakenException("Username already exists."));
+                    } else {
+                        return userRepo.existsByEmail(email)
+                                .flatMap(existsByEmail -> {
+                                    if (existsByEmail) {
+                                        return Mono.error(new EmailAlreadyTakenException("Email already exists."));
+                                    } else {
+                                        return userRepo.save(
+                                                user.toBuilder()
+                                                        .password(passwordEncoder.encode(user.getPassword()))
+                                                        .roles(user.getRoles())
+                                                        .enabled(true)
+                                                        .created(LocalDateTime.now())
+                                                        .updated(LocalDateTime.now())
+                                                        .build()
+                                        );
+                                    }
+                                });
+                    }
+                })
+                .doOnSuccess(u -> {
+                    log.info("IN registerUser - user: {} created", u);
+                })
+                .onErrorMap(DataIntegrityViolationException.class, ex -> new EmailAlreadyTakenException("Email or username already exist.")); // Optional: Handle DataIntegrityViolationException from userRepo.save() if necessary
     }
 
 

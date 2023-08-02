@@ -1,6 +1,7 @@
 package com.gleb.validation;
 
 import com.gleb.dto.user.RegisterRequestDto;
+import com.gleb.dto.user.UpdateDto;
 
 public class UserValidator {
     public static boolean isValidEmail(String email) {
@@ -19,7 +20,7 @@ public class UserValidator {
         EMAIL, FIRST_NAME, LAST_NAME, PASSWORD
     }
 
-    public static ValidationField validateUser(RegisterRequestDto registerRequestDto) {
+    public static ValidationField validateRegisteredUser(RegisterRequestDto registerRequestDto) {
         if (!isValidEmail(registerRequestDto.getEmail())) {
             return ValidationField.EMAIL;
         }
@@ -34,6 +35,27 @@ public class UserValidator {
 
         if (!isValidPassword(registerRequestDto.getPassword())) {
             return ValidationField.PASSWORD;
+        }
+
+        return null;
+    }
+
+    public static ValidationField validateUpdatedUser(UpdateDto updateDto) {
+
+        if (!isValidName(updateDto.getFirstName())) {
+            return ValidationField.FIRST_NAME;
+        }
+
+        if (!isValidName(updateDto.getLastName())) {
+            return ValidationField.LAST_NAME;
+        }
+
+        if (!isValidPassword(updateDto.getPassword())) {
+            return ValidationField.PASSWORD;
+        }
+
+        if(!isValidEmail(updateDto.getEmail())){
+            return ValidationField.EMAIL;
         }
 
         return null;

@@ -1,6 +1,7 @@
 package com.gleb.web;
 
 import com.gleb.error.ApiError;
+import com.gleb.exceptions.EmailAlreadyTakenException;
 import com.gleb.exceptions.UsernameAlreadyTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameAlreadyTakenException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Mono<String> handleUsernameAlreadyTakenException(UsernameAlreadyTakenException ex) {
-        return Mono.just(ex.getMessage());
+    public Mono<ResponseEntity<ApiError>> handleUsernameAlreadyTakenException(UsernameAlreadyTakenException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
     }
+
+    @ExceptionHandler(EmailAlreadyTakenException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<ResponseEntity<ApiError>> handleEmailAlreadyTakenException(EmailAlreadyTakenException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Mono<ApiError> handleValidationException(MethodArgumentNotValidException ex) {
+    public Mono<ResponseEntity<ApiError>> handleValidationException(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         List<FieldError> fieldErrors = bindingResult.getFieldErrors();
         List<String> errorMessages = fieldErrors.stream()
@@ -36,12 +46,13 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.toList());
         String errorMessage = String.join(", ", errorMessages);
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), errorMessage);
-        return Mono.just(apiError);
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Mono<String> handleOtherExceptions(Exception ex) {
-        return Mono.just("An unexpected error occurred: " + ex.getMessage());
+    public Mono<ResponseEntity<ApiError>> handleOtherExceptions(Exception ex) {
+        ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred: " + ex.getMessage());
+        return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError));
     }
 }
