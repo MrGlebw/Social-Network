@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -45,9 +46,14 @@ public class CurrentUserController {
     @DeleteMapping("/delete")
     public Mono<ResponseEntity<String>> deleteCurrentUser() {
         return userFacade.deleteCurrentUser()
-                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User deleted successfully")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .flatMap(deleted -> {
+                    if (deleted) {
+                        return Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).body("Your account deleted successfully"));
+                    } else {
+                        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
+                    }
+                })
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"));
     }
 
 }

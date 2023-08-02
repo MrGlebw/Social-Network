@@ -57,6 +57,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/users/name/{firstName}+{lastName}").authenticated()
                         .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
+                        .pathMatchers("/me/delete").authenticated()
                         .pathMatchers( "/me/posts/**").authenticated()
                         .pathMatchers("/feed").authenticated()
                         .pathMatchers("/feed/moderatorFeed/delete/{id}").access((authentication, object) -> isModerator(authentication))

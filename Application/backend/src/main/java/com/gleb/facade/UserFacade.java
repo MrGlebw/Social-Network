@@ -9,8 +9,10 @@ import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -105,14 +107,21 @@ public class UserFacade {
     }
 
 
-    public Mono<Void> deleteCurrentUser() {
+    public Mono<Boolean> deleteCurrentUser() {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
                     String username = authentication.getName();
-                    return userService.deleteByUsername(username);
+                    return userService.deleteByUsername(username)
+                            .thenReturn(true) // Return true if deletion was successful
+                            .onErrorResume(UsernameNotFoundException.class, ex -> Mono.just(false));
                 });
+
     }
+
+
+
+
 
     public Mono<UserShowDto> findByUsername(String username) {
         return userService.findUserByUsername(username)
