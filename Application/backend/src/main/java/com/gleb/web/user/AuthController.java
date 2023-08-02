@@ -50,6 +50,24 @@ public class AuthController {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
+    @PostMapping("/registerAdmin")
+    public Mono<ResponseEntity<String>> registerAdmin(@RequestBody RegisterRequestDto registerRequestDto) {
+        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerAdmin(registerRequestDto);
+
+        return registeredUserMono
+                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("Admin registered successfully"))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    @PostMapping("/registerModerator")
+    public Mono<ResponseEntity<String>> registerModerator(@RequestBody RegisterRequestDto registerRequestDto) {
+        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerModerator(registerRequestDto);
+
+        return registeredUserMono
+                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("Moderator registered successfully"))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
 
     @PostMapping("/login")
     public Mono<ResponseEntity<Object>> login(@Valid @RequestBody Mono<AuthenticationRequestDto> authRequest) {

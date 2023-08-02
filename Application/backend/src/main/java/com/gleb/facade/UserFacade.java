@@ -36,6 +36,20 @@ public class UserFacade {
                 .map(this::userToRegisterRequestDto);
     }
 
+    public Mono<RegisterRequestDto> registerAdmin (RegisterRequestDto registerRequestDto) {
+        User user = registerRequestDtoToUser(registerRequestDto);
+        user.setRoles(Collections.singleton(Roles.ADMIN));
+        return userService.registerUser(user)
+                .map(this::userToRegisterRequestDto);
+    }
+
+    public Mono<RegisterRequestDto> registerModerator (RegisterRequestDto registerRequestDto) {
+        User user = registerRequestDtoToUser(registerRequestDto);
+        user.setRoles(Collections.singleton(Roles.MODERATOR));
+        return userService.registerUser(user)
+                .map(this::userToRegisterRequestDto);
+    }
+
 
     private RegisterRequestDto userToRegisterRequestDto(User user) {
         RegisterRequestDto registerRequestDto = new RegisterRequestDto();
