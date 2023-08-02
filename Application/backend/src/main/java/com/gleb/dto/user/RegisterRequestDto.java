@@ -1,6 +1,7 @@
 package com.gleb.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gleb.validation.UserValidator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,14 @@ public class RegisterRequestDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthdate;
 
-
+    public String getFieldValue(UserValidator.ValidationField field) {
+        return switch (field) {
+            case EMAIL -> email;
+            case FIRST_NAME -> firstName;
+            case LAST_NAME -> lastName;
+            case PASSWORD -> "Password must be at least 8 characters long.";
+            default -> "Unknown field.";
+        };
+    }
 
 }

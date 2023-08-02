@@ -7,8 +7,10 @@ import com.gleb.dto.user.RegisterRequestDto;
 import com.gleb.facade.UserFacade;
 import com.gleb.security.JwtProperties;
 import com.gleb.security.JwtTokenProvider;
+import com.gleb.validation.UserValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,12 +44,26 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public Mono<ResponseEntity<String>> registerUser(@RequestBody RegisterRequestDto registerRequestDto) {
-        Mono<RegisterRequestDto> registeredUserMono = userFacade.registerUser(registerRequestDto);
+    public Mono<ResponseEntity<String>> registerUser(@Valid @RequestBody Mono<RegisterRequestDto> registerRequestDtoMono) {
+        return registerRequestDtoMono
+                .flatMap(registerRequestDto -> {
+                    // Perform validation on the RegisterRequestDto using UserValidator
+                    UserValidator.ValidationField invalidField = UserValidator.validateUser(registerRequestDto);
 
-        return registeredUserMono
-                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    if (invalidField != null) {
+                        String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + registerRequestDto.getFieldValue(invalidField);
+                        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage));
+                    } else {
+                        // If there are no validation errors, proceed with user registration
+                        return userFacade.registerUser(registerRequestDto)
+                                .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
+                                .onErrorResume(DataIntegrityViolationException.class, ex -> {
+                                    String usernameErrorMessage = "Username already exists.";
+                                    return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
+                                })
+                                .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    }
+                });
     }
 
     @PostMapping("/registerAdmin")
