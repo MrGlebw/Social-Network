@@ -14,9 +14,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -114,7 +116,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<Object>> login(@Valid @RequestBody Mono<AuthenticationRequestDto> authRequest) {
+    public Mono<ResponseEntity<Map<String, String>>> login(@Valid @RequestBody Mono<AuthenticationRequestDto> authRequest) {
         return authRequest
                 .flatMap(login -> this.authenticationManager
                         .authenticate(new UsernamePasswordAuthenticationToken(
@@ -133,11 +135,30 @@ public class AuthController {
                     HttpHeaders httpHeaders = new HttpHeaders();
                     httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + tokens.get("access_token"));
                     return new ResponseEntity<>(tokens, httpHeaders, HttpStatus.OK);
+                })
+                .onErrorResume(BadCredentialsException.class, ex -> {
+                    Map<String, String> errorResponse = new HashMap<>();
+                    errorResponse.put("error", "Invalid username or password");
+
+                    return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse));
+                })
+                .onErrorResume(AuthenticationException.class, ex -> {
+                    Map<String, String> errorResponse = new HashMap<>();
+                    errorResponse.put("error", "Authentication failed");
+
+                    return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse));
+                })
+                .onErrorResume(Throwable.class, ex -> {
+                    Map<String, String> errorResponse = new HashMap<>();
+                    errorResponse.put("error", "Internal Server Error");
+
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse));
                 });
     }
 
 
-        @PostMapping("/refresh")
+
+    @PostMapping("/refresh")
         public Mono<ResponseEntity<Object>> refreshToken(@RequestBody Mono<Map<String, String>> refreshTokenMapMono) {
             return refreshTokenMapMono.flatMap(refreshTokenMap -> {
                 String refreshToken = refreshTokenMap.get("refresh_token");
