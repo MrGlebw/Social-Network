@@ -2,16 +2,20 @@ package com.gleb.web.comment;
 
 
 import com.gleb.dto.comment.CommentForm;
+import com.gleb.dto.comment.CommentShowDto;
 import com.gleb.dto.comment.CurrentUserCommentDto;
 import com.gleb.facade.CommentFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
+import static java.util.Comparator.comparing;
 
 @RestController
 @RequestMapping("/me")
@@ -36,8 +40,11 @@ public class CurrentUserCommentController {
     }
 
     @GetMapping("/myComments")
-    public Mono<ResponseEntity<List<CurrentUserCommentDto>>> getMyComments() {
-        return commentFacade.getMyComments()
+    public Mono<ResponseEntity<List<CurrentUserCommentDto>>> getMyComments(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                                           @RequestParam(value = "size", defaultValue = "10") int size) {
+        return commentFacade.getMyComments(PageRequest.of(page, size))
+                .sort(comparing(CurrentUserCommentDto::getCreatedDate).reversed())
+                .skip((long) page * size).take(size)
                 .collectList()
                 .map(comments -> ResponseEntity.status(HttpStatus.OK).body(comments))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())

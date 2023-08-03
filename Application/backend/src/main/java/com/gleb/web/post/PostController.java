@@ -17,6 +17,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static java.util.Comparator.comparing;
+
 @RestController()
 @RequestMapping(value = "/feed")
 @RequiredArgsConstructor
@@ -34,20 +36,22 @@ public class PostController {
     public Mono<ResponseEntity<List<PostShowDto>>> all(@RequestParam(value = "q", required = false) String q,
                                                        @RequestParam(value = "page", defaultValue = "0") int page,
                                                        @RequestParam(value = "size", defaultValue = "10") int size) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
 
         if (StringUtils.hasText(q)) {
-            return postFacade.findByTitleContains(q, PageRequest.of(page, size, sort))
+            return postFacade.findByTitleContains(q, PageRequest.of(page, size))
+                    .sort(comparing(PostShowDto::getPublishedDate).reversed())
+                    .skip((long) page * size).take(size)
                     .collectList()
                     .map(ResponseEntity::ok)
                     .defaultIfEmpty(ResponseEntity.notFound().build());
         } else {
             // Use the getFeed method directly to get published posts
-            return postFacade.getFeed(PageRequest.of(page, size, sort))
+            return postFacade.getFeed(PageRequest.of(page, size))
+                    .sort(comparing(PostShowDto::getPublishedDate).reversed())
+                    .skip((long) page * size).take(size)
                     .collectList()
                     .map(ResponseEntity::ok)
-                    .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-                    .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                    .defaultIfEmpty(ResponseEntity.notFound().build());
         }
     }
 
@@ -55,16 +59,19 @@ public class PostController {
     public Mono<ResponseEntity<List<Post>>> moderatorFeed(@RequestParam(value = "q", required = false) String q,
                                                                  @RequestParam(value = "page", defaultValue = "0") int page,
                                                                  @RequestParam(value = "size", defaultValue = "10") int size) {
-        Sort sort = Sort.by(Sort.Direction.DESC, "id");
 
         if (StringUtils.hasText(q)) {
-            return postService.findByTitleContains(q, PageRequest.of(page, size, sort))
+            return postService.findByTitleContains(q, PageRequest.of(page, size))
+                    .sort(comparing(Post::getPublishedDate).reversed())
+                    .skip((long) page * size).take(size)
                     .collectList()
                     .map(ResponseEntity::ok)
                     .defaultIfEmpty(ResponseEntity.notFound().build());
         } else {
             // Use the getPublishedPosts method directly to get all published posts
-            return postService.getFeed(PageRequest.of(page, size, sort))
+            return postService.getFeed(PageRequest.of(page, size))
+                    .sort(comparing(Post::getPublishedDate).reversed())
+                    .skip((long) page * size).take(size)
                     .collectList()
                     .map(ResponseEntity::ok)
                     .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())

@@ -19,6 +19,10 @@ public interface UserRepo extends R2dbcRepository<User, Integer> {
 
     Flux <User> findByFirstNameAndLastName (String firstName, String lastName);
 
+    @Query("SELECT * FROM users WHERE is_private = false")
+    Flux <User> findAllPublicUsers ();
+
+
     Mono <Void> deleteByUsername (String username);
 
     @Query("UPDATE users SET posts_count = :postsCount WHERE username = :username")
@@ -29,4 +33,14 @@ public interface UserRepo extends R2dbcRepository<User, Integer> {
     Mono<Boolean> existsByUsername(String username);
 
     Mono<Boolean> existsByEmail(String email);
+
+    @Query("UPDATE users SET is_private = true WHERE username = :username")
+    Mono <Void> makePrivate (String username);
+    @Query("UPDATE users SET is_private = false WHERE username = :username")
+    Mono <Void> makePublic (String username);
+    @Query("UPDATE users SET is_banned = true WHERE username = :username")
+    Mono <Void> ban (String username);
+    @Query("UPDATE users SET is_banned = false WHERE username = :username")
+    Mono <Void> unban (String username);
+
 }

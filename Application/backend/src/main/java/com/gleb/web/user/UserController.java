@@ -1,9 +1,12 @@
 package com.gleb.web.user;
 
 
+import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.user.UserShowDto;
 import com.gleb.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -19,6 +24,7 @@ public class UserController {
 
 
     private final UserFacade userFacade;
+
 
 
 
@@ -49,12 +55,60 @@ public class UserController {
     }
 
     @GetMapping("/name/{firstName}+{lastName}")
-    public Mono<ResponseEntity<List<UserShowDto>>> getUserByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName) {
-        return userFacade.findByFirstNameAndLastName(firstName, lastName).collect(Collectors.toList())
+    public Mono<ResponseEntity<List<UserShowDto>>> getUserByFirstNameAndLastName(@PathVariable String firstName, @PathVariable String lastName,
+                                                                                 @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                                 @RequestParam(value = "size", defaultValue = "10") int size) {
+        return userFacade.findByFirstNameAndLastName(firstName, lastName, PageRequest.of(page, size))
+                .sort(comparing(UserShowDto::getUsername).reversed())
+                .skip((long) page * size).take(size)
+                .collect(Collectors.toList())
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
+
+    @GetMapping("/all")
+    public Mono<ResponseEntity<List<UserShowDto>>> getAllUsers(   @RequestParam(value = "page", defaultValue = "0") int page,
+                                                                  @RequestParam(value = "size", defaultValue = "10") int size) {
+        return userFacade.findAll(PageRequest.of(page, size))
+                .sort(comparing(UserShowDto::getUsername).reversed())
+                .skip((long) page * size).take(size)
+                .collect(Collectors.toList())
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    @GetMapping("")
+    public Mono<ResponseEntity<List<UserShowDto>>> getAllPublicUsers(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                                     @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        return userFacade.findAllPublicUsers(PageRequest.of(page, size))
+                .sort(comparing(UserShowDto::getUsername).reversed())
+                .skip((long) page * size).take(size)
+                .collect(Collectors.toList())
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    @PatchMapping("/{username}/ban")
+    public Mono<ResponseEntity<String>> banUser(@PathVariable String username) {
+        return userFacade.ban(username)
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User banned successfully")))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    @PatchMapping("/{username}/unban")
+    public Mono<ResponseEntity<String>> unbanUser(@PathVariable String username) {
+        return userFacade.unban(username)
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User unbanned successfully")))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+
 
 
 }

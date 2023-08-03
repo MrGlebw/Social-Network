@@ -56,4 +56,20 @@ public class CurrentUserController {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"));
     }
 
+    @PatchMapping("/makePrivate")
+    public Mono<ResponseEntity<String>> makePrivate() {
+        return userFacade.makePrivate()
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Your account is now private")))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
+    @PatchMapping("/makePublic")
+    public Mono<ResponseEntity<String>> makePublic() {
+        return userFacade.makePublic()
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Your account is now public")))
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+    }
+
 }

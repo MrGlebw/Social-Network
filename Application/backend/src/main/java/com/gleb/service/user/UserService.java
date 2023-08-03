@@ -8,6 +8,7 @@ import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,7 @@ public class UserService {
     }
 
 
-    public Flux<User> findByFirstNameAndLastName(String firstName, String lastName) {
+    public Flux<User> findByFirstNameAndLastName(String firstName, String lastName, Pageable pageable) {
         return userRepo.findByFirstNameAndLastName(firstName, lastName);
     }
      public Mono <User> save (User user) {
@@ -84,6 +85,15 @@ public class UserService {
         return userRepo.findById(id);
      }
 
+
+     public Flux <User> findAll (Pageable pageable) {
+        return userRepo.findAll();
+     }
+
+     public Flux <User> findAllPublicUsers (Pageable pageable) {
+        return userRepo.findAllPublicUsers();
+     }
+
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
         return postRepo.allPostsByAuthorName(authorName)
                 .collectList()
@@ -93,6 +103,22 @@ public class UserService {
     public Mono<Void> updatePostCountForUser(String username) {
         return getPostsCountByAuthor(username)
                 .flatMap(postCount -> userRepo.updatePostsCount(username, postCount));
+    }
+
+    public Mono <Void> makePrivate (String username) {
+        return userRepo.makePrivate(username);
+    }
+
+    public Mono <Void> makePublic (String username) {
+        return userRepo.makePublic(username);
+    }
+
+    public Mono <Void> ban (String username) {
+        return userRepo.ban(username);
+    }
+
+    public Mono <Void> unban (String username) {
+        return userRepo.unban(username);
     }
 
 

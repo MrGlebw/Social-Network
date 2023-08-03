@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -99,12 +100,26 @@ public class UserFacade {
     });
     }
 
-
-    private UserShowDto mapToUserShowDto(User user) {
-        UserShowDto userShowDto = new UserShowDto();
-        BeanUtils.copyProperties(user, userShowDto);
-        return userShowDto;
+    public Mono <Void> makePrivate () {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.makePrivate(username);
+                });
     }
+
+    public Mono <Void> makePublic () {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.makePublic(username);
+                });
+    }
+
+
+
 
 
     public Mono<Boolean> deleteCurrentUser() {
@@ -119,6 +134,14 @@ public class UserFacade {
 
     }
 
+    public Mono <Void> ban (String username) {
+        return userService.ban(username);
+    }
+
+    public Mono <Void> unban (String username) {
+        return userService.unban(username);
+    }
+
 
 
 
@@ -128,14 +151,31 @@ public class UserFacade {
                 .map(this::mapToUserShowDto);
     }
 
-    public Flux<UserShowDto> findByFirstNameAndLastName(String firstName, String lastName) {
-        return userService.findByFirstNameAndLastName(firstName, lastName)
+    public Flux<UserShowDto> findByFirstNameAndLastName(String firstName, String lastName, Pageable pageable) {
+        return userService.findByFirstNameAndLastName(firstName, lastName , pageable)
                 .map(this::mapToUserShowDto);
     }
 
     public Mono <UserShowDto> findById (Integer id) {
         return userService.findById(id)
                 .map(this::mapToUserShowDto);
+    }
+
+    public Flux <UserShowDto> findAll (Pageable pageable) {
+        return userService.findAllPublicUsers(pageable)
+                .map(this::mapToUserShowDto);
+    }
+
+    public Flux <UserShowDto> findAllPublicUsers (Pageable pageable) {
+        return userService.findAllPublicUsers(pageable)
+                .map(this::mapToUserShowDto);
+    }
+
+
+    private UserShowDto mapToUserShowDto(User user) {
+        UserShowDto userShowDto = new UserShowDto();
+        BeanUtils.copyProperties(user, userShowDto);
+        return userShowDto;
     }
 
 

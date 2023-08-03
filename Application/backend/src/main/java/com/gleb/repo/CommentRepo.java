@@ -1,6 +1,7 @@
 package com.gleb.repo;
 
 import com.gleb.data.Comment;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import reactor.core.publisher.Flux;
@@ -20,8 +21,7 @@ public interface CommentRepo extends R2dbcRepository<Comment, Integer> {
     Mono <Comment> findByAuthorName(String authorName , Integer commentIdForPost, Integer postId);
 
     @Query("SELECT * FROM comments WHERE author_name = :authorName AND post_id = :postId")
-    Flux <Comment> findAllByPostIdAndAuthorName(Integer postId, String authorName);
-
+    Flux<Comment> findAllByPostIdAndAuthorName(Integer postId, String authorName, Pageable pageable);
     @Query("DELETE FROM comments WHERE  comment_id_for_post = :commentIdForPost AND post_id = :postId")
     Mono <Void> deleteComment (Integer commentIdForPost, Integer postId);
 

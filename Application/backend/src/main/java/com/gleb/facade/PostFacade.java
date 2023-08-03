@@ -10,6 +10,7 @@ import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -68,21 +69,21 @@ public class PostFacade {
                 .flatMap(user -> postService.publishPost(postIdForUser, user.getUsername()));
     }
 
-    public Flux <CurrentUserPostDto> getAllPublishedPosts () {
+    public Flux <CurrentUserPostDto> getAllPublishedPosts (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
                 .flatMap(userService::findUserByUsername)
-                .flatMapMany(user -> postService.getAllPublishedPostsByAuthor(user.getUsername()))
+                .flatMapMany(user -> postService.getAllPublishedPostsByAuthor(user.getUsername(), pageable))
                 .map(this::postToCurrentUserPostDto);
     }
 
-    public Flux <CurrentUserPostDto> getAllUnpublishedPosts () {
+    public Flux <CurrentUserPostDto> getAllUnpublishedPosts (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
                 .flatMap(userService::findUserByUsername)
-                .flatMapMany(user -> postService.getAllUnpublishedPostsByAuthor(user.getUsername()))
+                .flatMapMany(user -> postService.getAllUnpublishedPostsByAuthor(user.getUsername(), pageable))
                 .map(this::postToCurrentUserPostDto);
     }
 

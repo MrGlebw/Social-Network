@@ -10,6 +10,7 @@ import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
@@ -74,7 +75,7 @@ public class CommentFacade {
 
 
 
-    public Flux <CurrentUserCommentDto> getMyComments(){
+    public Flux <CurrentUserCommentDto> getMyComments(Pageable pageable){
            return ReactiveSecurityContextHolder.getContext()
                     .map(SecurityContext::getAuthentication)
                     .map(Principal::getName)
@@ -96,13 +97,13 @@ public class CommentFacade {
                 .defaultIfEmpty(false);
 
     }
-    public Flux <CommentShowDto> findAllByPostId (Integer postId){
-        return commentService.findAllByPostId(postId)
+    public Flux <CommentShowDto> findAllByPostId (Integer postId, Pageable pageable){
+        return commentService.findAllByPostId(postId , pageable)
                 .map(this::CommentToCommentShowDto);
     }
 
-    public Flux <CommentShowDto> findAllByPostIdAndAuthorName (Integer postId, String authorName){
-        return commentService.findAllByPostIdAndAuthorName(postId, authorName)
+    public Flux <CommentShowDto> findAllByPostIdAndAuthorName (Integer postId, String authorName, Pageable pageable){
+        return commentService.findAllByPostIdAndAuthorName(postId, authorName, pageable)
                 .map(this::CommentToCommentShowDto);
     }
 

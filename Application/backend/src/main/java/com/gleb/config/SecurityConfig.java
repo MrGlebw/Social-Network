@@ -26,6 +26,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 @Slf4j
 @Configuration
 @EnableWebFluxSecurity
@@ -57,6 +59,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/users/name/{firstName}+{lastName}").authenticated()
                         .pathMatchers("/me/update").authenticated()
                         .pathMatchers("/me").authenticated()
+                        .pathMatchers("/me/makePrivate").authenticated()
+                        .pathMatchers("/me/makePublic").authenticated()
                         .pathMatchers("/me/delete").authenticated()
                         .pathMatchers( "/me/posts/**").authenticated()
                         .pathMatchers("/feed").authenticated()
@@ -65,9 +69,9 @@ public class SecurityConfig {
                         .pathMatchers("/feed/moderatorFeed/disapprove/**").access((authentication, object) -> isModerator(authentication))
                         .pathMatchers("/me/{id}/commentPost").authenticated()
                         .pathMatchers("/me/myComments").authenticated()
-                        .pathMatchers("/me//{postId}/deleteComment/{commentIdForPost}").authenticated()
-                        .pathMatchers("/posts/{postId}/comments)").authenticated()
-                        .pathMatchers("/posts/{postId}/comments)/{authorName}").access((authentication, object) -> isModerator(authentication))
+                        .pathMatchers("/me/{postId}/deleteComment/{commentIdForPost}").authenticated()
+                        .pathMatchers("/posts/{postId}/comments").authenticated()
+                        .pathMatchers("/posts/{postId}/comments/author/{authorName}").access((authentication, object) -> isModerator(authentication))
                         .pathMatchers("/posts/{postId}/comments/deleteComment/{commentIdForPost}").access((authentication, object) -> isModerator(authentication))
 
                         .anyExchange().permitAll()
@@ -90,7 +94,6 @@ public class SecurityConfig {
      .map(user -> user.getRoles().contains(Roles.MODERATOR.name()) )
     .map(AuthorizationDecision::new);
     }
-
 
     @Bean
     @Primary

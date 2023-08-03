@@ -5,6 +5,7 @@ import com.gleb.repo.CommentRepo;
 import com.gleb.repo.PostRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -81,12 +82,12 @@ public class CommentService {
                         })
                         .defaultIfEmpty(false); // Comment not found
     }
-   public Flux <Comment> findAllByPostId(Integer postId) {
+   public Flux <Comment> findAllByPostId(Integer postId , Pageable pageable) {
         return commentRepo.findAllByPostId(postId);
     }
 
-    public Flux <Comment> findAllByPostIdAndAuthorName (Integer postId, String authorName) {
-        return commentRepo.findAllByPostIdAndAuthorName(postId, authorName);
+    public Flux <Comment> findAllByPostIdAndAuthorName (Integer postId, String authorName, Pageable pageable) {
+        return commentRepo.findAllByPostIdAndAuthorName(postId, authorName , pageable);
     }
 
 

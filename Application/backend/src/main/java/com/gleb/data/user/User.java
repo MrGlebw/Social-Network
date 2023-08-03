@@ -38,18 +38,21 @@ import java.util.stream.Collectors;
         @Email
         private String email;
         private LocalDate birthdate;
-         private Set <Roles> roles = new HashSet<>();
 
-    private Boolean isActive;
-
-
-    private Boolean isDeleted;
+        private Set <Roles> roles = new HashSet<>();
 
 
-    private Boolean isBanned;
+
+       private Boolean isActive;
 
 
-    private Boolean isPrivate;
+       private Boolean isDeleted;
+
+
+        private Boolean isBanned;
+
+
+        private Boolean isPrivate;
 
 
     private LocalDateTime created;
