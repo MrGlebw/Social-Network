@@ -7,7 +7,6 @@ import com.gleb.repo.CommentRepo;
 import com.gleb.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -57,8 +56,8 @@ public class PostController {
 
     @GetMapping("/moderatorFeed")
     public Mono<ResponseEntity<List<Post>>> moderatorFeed(@RequestParam(value = "q", required = false) String q,
-                                                                 @RequestParam(value = "page", defaultValue = "0") int page,
-                                                                 @RequestParam(value = "size", defaultValue = "10") int size) {
+                                                          @RequestParam(value = "page", defaultValue = "0") int page,
+                                                          @RequestParam(value = "size", defaultValue = "10") int size) {
 
         if (StringUtils.hasText(q)) {
             return postService.findByTitleContains(q, PageRequest.of(page, size))
@@ -78,7 +77,6 @@ public class PostController {
                     .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
         }
     }
-
 
 
     @DeleteMapping("/moderatorFeed/delete/{id}")
@@ -104,7 +102,6 @@ public class PostController {
                     }
                 });
     }
-
 
 
 }

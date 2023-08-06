@@ -30,7 +30,7 @@ public class CurrentUserController {
     }
 
     @PatchMapping("/updateName")
-    public Mono<ResponseEntity<String>> update (@Valid @RequestBody FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
+    public Mono<ResponseEntity<String>> update(@Valid @RequestBody FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
         UserValidator.ValidationField invalidField = UserValidator.validateFirstAndLastnameUpdate(firstAndLastnameUpdateDto);
 
         if (invalidField != null) {
@@ -60,7 +60,7 @@ public class CurrentUserController {
     }
 
     @PatchMapping("/updateEmail")
-    public Mono <ResponseEntity<String>> updateCurrentUserEmail (@Valid @RequestBody EmailUpdateDto emailUpdateDto) {
+    public Mono<ResponseEntity<String>> updateCurrentUserEmail(@Valid @RequestBody EmailUpdateDto emailUpdateDto) {
         UserValidator.ValidationField invalidField = UserValidator.validateEmail(emailUpdateDto.getEmail());
 
         if (invalidField != null) {
@@ -69,8 +69,8 @@ public class CurrentUserController {
         } else {
             return userFacade.updateEmail(emailUpdateDto)
                     .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Email updated successfully")))
-                            .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
-                            .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"));
+                    .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                    .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"));
         }
 
     }

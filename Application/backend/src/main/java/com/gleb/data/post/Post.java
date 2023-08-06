@@ -14,7 +14,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Table("posts")
 @Data
@@ -56,8 +55,6 @@ public class Post implements Serializable {
     private LocalDateTime disapprovedDate;
 
     private Integer commentsCount;
-
-
 
 
 }

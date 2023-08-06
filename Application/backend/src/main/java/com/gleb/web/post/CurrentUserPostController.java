@@ -2,7 +2,6 @@ package com.gleb.web.post;
 
 import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
-import com.gleb.dto.post.PostShowDto;
 import com.gleb.facade.PostFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +27,7 @@ public class CurrentUserPostController {
         return postForm
                 .flatMap(postFacade::createPost)
                 .map(post -> ResponseEntity.status(HttpStatus.CREATED).body("Post created"))
-                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 

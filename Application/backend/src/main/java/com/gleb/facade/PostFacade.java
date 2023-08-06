@@ -10,7 +10,6 @@ import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
@@ -60,7 +59,6 @@ public class PostFacade {
     }
 
 
-
     public Mono<Post> publishPost(Integer postIdForUser) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
@@ -69,7 +67,7 @@ public class PostFacade {
                 .flatMap(user -> postService.publishPost(postIdForUser, user.getUsername()));
     }
 
-    public Flux <CurrentUserPostDto> getAllPublishedPosts (Pageable pageable) {
+    public Flux<CurrentUserPostDto> getAllPublishedPosts(Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
@@ -78,7 +76,7 @@ public class PostFacade {
                 .map(this::postToCurrentUserPostDto);
     }
 
-    public Flux <CurrentUserPostDto> getAllUnpublishedPosts (Pageable pageable) {
+    public Flux<CurrentUserPostDto> getAllUnpublishedPosts(Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
@@ -94,7 +92,7 @@ public class PostFacade {
                 .flatMap(userService::findUserByUsername)
                 .flatMap(user -> postService.updatePost(postIdForUser, postForm.getTitle(), postForm.getContent(), user.getUsername()))
                 .map(post -> {
-                    BeanUtils.copyProperties(postForm , post);
+                    BeanUtils.copyProperties(postForm, post);
                     return postForm;
                 });
     }
@@ -121,18 +119,18 @@ public class PostFacade {
     }
 
 
-    private PostShowDto postToShowDto (Post post){
+    private PostShowDto postToShowDto(Post post) {
         PostShowDto postShowDto = new PostShowDto();
         BeanUtils.copyProperties(post, postShowDto);
         return postShowDto;
     }
 
-    public Flux <PostShowDto> findByTitleContains (String q , Pageable pageable) {
-        return postService.findByTitleContains(q , pageable)
+    public Flux<PostShowDto> findByTitleContains(String q, Pageable pageable) {
+        return postService.findByTitleContains(q, pageable)
                 .map(this::postToShowDto);
     }
 
-    public Flux <PostShowDto> getFeed(Pageable pageable) {
+    public Flux<PostShowDto> getFeed(Pageable pageable) {
         return postService.getFeed(pageable)
                 .map(this::postToShowDto);
     }
@@ -143,19 +141,17 @@ public class PostFacade {
                 .defaultIfEmpty(false);
     }
 
-    public Mono <Boolean> disapprovePost (Integer postId) {
+    public Mono<Boolean> disapprovePost(Integer postId) {
         return postService.disapprovePost(postId)
                 .thenReturn(true)
                 .defaultIfEmpty(false);
     }
 
-    private CurrentUserPostDto postToCurrentUserPostDto (Post post){
+    private CurrentUserPostDto postToCurrentUserPostDto(Post post) {
         CurrentUserPostDto currentUserPostDto = new CurrentUserPostDto();
         BeanUtils.copyProperties(post, currentUserPostDto);
         return currentUserPostDto;
     }
-
-
 
 
 }

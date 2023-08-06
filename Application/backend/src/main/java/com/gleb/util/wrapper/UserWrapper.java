@@ -1,5 +1,8 @@
 package com.gleb.util.wrapper;
 
+import lombok.Getter;
+
+@Getter
 public class UserWrapper {
     private final String username;
     private final String roles;
@@ -9,11 +12,4 @@ public class UserWrapper {
         this.roles = roles;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getRoles() {
-        return roles;
-    }
 }

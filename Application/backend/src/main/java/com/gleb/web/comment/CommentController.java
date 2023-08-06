@@ -1,9 +1,6 @@
 package com.gleb.web.comment;
 
-import com.gleb.dto.comment.CommentForm;
 import com.gleb.dto.comment.CommentShowDto;
-import com.gleb.dto.comment.CurrentUserCommentDto;
-import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.facade.CommentFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +25,7 @@ public class CommentController {
     @GetMapping()
     public Mono<ResponseEntity<List<CommentShowDto>>> getAllComments(@PathVariable Integer postId, @RequestParam(value = "page", defaultValue = "0") int page,
                                                                      @RequestParam(value = "size", defaultValue = "10") int size) {
-        return commentFacade.findAllByPostId(postId, PageRequest.of(page,size))
+        return commentFacade.findAllByPostId(postId, PageRequest.of(page, size))
                 .sort(comparing(CommentShowDto::getCreatedDate).reversed())
                 .skip((long) page * size).take(size)
                 .collectList()
@@ -38,9 +35,9 @@ public class CommentController {
     }
 
     @GetMapping("/author/{authorName}")
-    public Mono<ResponseEntity<List<CommentShowDto>>> getAllCommentsOfUser(@PathVariable Integer postId, @PathVariable String authorName,  @RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<CommentShowDto>>> getAllCommentsOfUser(@PathVariable Integer postId, @PathVariable String authorName, @RequestParam(value = "page", defaultValue = "0") int page,
                                                                            @RequestParam(value = "size", defaultValue = "10") int size) {
-        return commentFacade.findAllByPostIdAndAuthorName(postId, authorName, PageRequest.of(page,size) )
+        return commentFacade.findAllByPostIdAndAuthorName(postId, authorName, PageRequest.of(page, size))
                 .sort(comparing(CommentShowDto::getCreatedDate).reversed())
                 .skip((long) page * size).take(size)
                 .collectList()

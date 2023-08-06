@@ -49,7 +49,7 @@ public class CommentFacade {
 
                                 // Save the post with the updated comments count
                                 return postService.save(post)
-                                                .then(commentService.commentPost(comment, postId));
+                                        .then(commentService.commentPost(comment, postId));
                             });
                 });
     }
@@ -74,14 +74,13 @@ public class CommentFacade {
     }
 
 
-
-    public Flux <CurrentUserCommentDto> getMyComments(Pageable pageable){
-           return ReactiveSecurityContextHolder.getContext()
-                    .map(SecurityContext::getAuthentication)
-                    .map(Principal::getName)
-                    .flatMapMany(commentService::findByAuthorName)
-                    .map(this::CommentToCurrentUserCommentDto);
-        }
+    public Flux<CurrentUserCommentDto> getMyComments(Pageable pageable) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .map(Principal::getName)
+                .flatMapMany(commentService::findByAuthorName)
+                .map(this::CommentToCurrentUserCommentDto);
+    }
 
     public Mono<Boolean> deleteComment(Integer postId, Integer commentIdForPost) {
         return ReactiveSecurityContextHolder.getContext()
@@ -97,12 +96,13 @@ public class CommentFacade {
                 .defaultIfEmpty(false);
 
     }
-    public Flux <CommentShowDto> findAllByPostId (Integer postId, Pageable pageable){
-        return commentService.findAllByPostId(postId , pageable)
+
+    public Flux<CommentShowDto> findAllByPostId(Integer postId, Pageable pageable) {
+        return commentService.findAllByPostId(postId, pageable)
                 .map(this::CommentToCommentShowDto);
     }
 
-    public Flux <CommentShowDto> findAllByPostIdAndAuthorName (Integer postId, String authorName, Pageable pageable){
+    public Flux<CommentShowDto> findAllByPostIdAndAuthorName(Integer postId, String authorName, Pageable pageable) {
         return commentService.findAllByPostIdAndAuthorName(postId, authorName, pageable)
                 .map(this::CommentToCommentShowDto);
     }
@@ -113,13 +113,13 @@ public class CommentFacade {
         return comment;
     }
 
-    private CurrentUserCommentDto CommentToCurrentUserCommentDto (Comment comment){
+    private CurrentUserCommentDto CommentToCurrentUserCommentDto(Comment comment) {
         CurrentUserCommentDto currentUserPostDto = new CurrentUserCommentDto();
         BeanUtils.copyProperties(comment, currentUserPostDto);
         return currentUserPostDto;
     }
 
-    private CommentShowDto CommentToCommentShowDto (Comment comment){
+    private CommentShowDto CommentToCommentShowDto(Comment comment) {
         CommentShowDto commentShowDto = new CommentShowDto();
         BeanUtils.copyProperties(comment, commentShowDto);
         return commentShowDto;

@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 
 @Data
 public class EmailUpdateDto {
-    private String email;
     LocalDateTime updated;
+    private String email;
 
     public String getFieldValue(UserValidator.ValidationField field) {
 
-            if (field == UserValidator.ValidationField.EMAIL) {
-                return email;
-            } else {
-                return "Unknown field.";
-            }
+        if (field == UserValidator.ValidationField.EMAIL) {
+            return email;
+        } else {
+            return "Unknown field.";
+        }
     }
 }

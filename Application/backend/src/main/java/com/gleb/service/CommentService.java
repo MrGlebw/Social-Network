@@ -21,13 +21,13 @@ public class CommentService {
     private final PostRepo postRepo;
 
     @Transactional
-    public Mono<Comment> commentPost (Comment comment , Integer postId) {
+    public Mono<Comment> commentPost(Comment comment, Integer postId) {
         return commentRepo.save(
-               comment.toBuilder()
-                          .postId(postId)
-                          .lastModifiedDate(LocalDateTime.now())
-                          .createdDate(LocalDateTime.now())
-                       .build()
+                comment.toBuilder()
+                        .postId(postId)
+                        .lastModifiedDate(LocalDateTime.now())
+                        .createdDate(LocalDateTime.now())
+                        .build()
         ).doOnSuccess(p -> {
             log.info("IN commentPost - comment: {} created", p);
         });
@@ -43,7 +43,7 @@ public class CommentService {
                 });
     }
 
-    public Flux <Comment> findByAuthorName(String authorName) {
+    public Flux<Comment> findByAuthorName(String authorName) {
         return commentRepo.findByAuthorName(authorName);
     }
 
@@ -69,28 +69,27 @@ public class CommentService {
     @Transactional
     public Mono<Boolean> deleteCommentByModerator(Integer postId, Integer commentIdForPost) {
         return postRepo.findById(postId)
-                        .flatMap(post -> {
-                            int newCommentsCount = post.getCommentsCount() - 1;
-                            if (newCommentsCount >= 0) {
-                                post.setCommentsCount(newCommentsCount);
-                                return commentRepo.deleteComment(commentIdForPost, postId)
-                                        .then(postRepo.save(post))
-                                        .thenReturn(true);
-                            } else {
-                                return Mono.just(false); // Comment found, but deleting will result in a negative count
-                            }
-                        })
-                        .defaultIfEmpty(false); // Comment not found
+                .flatMap(post -> {
+                    int newCommentsCount = post.getCommentsCount() - 1;
+                    if (newCommentsCount >= 0) {
+                        post.setCommentsCount(newCommentsCount);
+                        return commentRepo.deleteComment(commentIdForPost, postId)
+                                .then(postRepo.save(post))
+                                .thenReturn(true);
+                    } else {
+                        return Mono.just(false); // Comment found, but deleting will result in a negative count
+                    }
+                })
+                .defaultIfEmpty(false); // Comment not found
     }
-   public Flux <Comment> findAllByPostId(Integer postId , Pageable pageable) {
+
+    public Flux<Comment> findAllByPostId(Integer postId, Pageable pageable) {
         return commentRepo.findAllByPostId(postId);
     }
 
-    public Flux <Comment> findAllByPostIdAndAuthorName (Integer postId, String authorName, Pageable pageable) {
-        return commentRepo.findAllByPostIdAndAuthorName(postId, authorName , pageable);
+    public Flux<Comment> findAllByPostIdAndAuthorName(Integer postId, String authorName, Pageable pageable) {
+        return commentRepo.findAllByPostIdAndAuthorName(postId, authorName, pageable);
     }
-
-
 
 
 }

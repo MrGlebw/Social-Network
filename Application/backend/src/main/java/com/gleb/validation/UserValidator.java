@@ -14,11 +14,7 @@ public class UserValidator {
     }
 
     public static boolean isValidPassword(String password) {
-        return password != null && password.length() >= 8 && password.length() <=30 && password.matches("^[A-Z][a-z]*${8,30}$");
-    }
-
-    public enum ValidationField {
-        EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, NEW_PASSWORD, NEW_PASSWORD_CONFIRM
+        return password != null && password.length() >= 8 && password.length() <= 30 && password.matches("^[A-Z][a-z]*${8,30}$");
     }
 
     public static ValidationField validateRegisteredUser(RegisterRequestDto registerRequestDto) {
@@ -70,19 +66,7 @@ public class UserValidator {
         }
 
         if (!passwordUpdateDto.getNewPassword().equals(passwordUpdateDto.getNewPasswordConfirm())) {
-            return ValidationField.NEW_PASSWORD_CONFIRM ;
-        }
-
-        return null;
-    }
-
-    public static ValidationField validateFirstAndLastName(String firstName, String lastName) {
-        if (!isValidName(firstName)) {
-            return ValidationField.FIRST_NAME;
-        }
-
-        if (!isValidName(lastName)) {
-            return ValidationField.LAST_NAME;
+            return ValidationField.NEW_PASSWORD_CONFIRM;
         }
 
         return null;
@@ -93,6 +77,11 @@ public class UserValidator {
             return ValidationField.EMAIL;
         }
         return null;
+    }
+
+
+    public enum ValidationField {
+        EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, NEW_PASSWORD, NEW_PASSWORD_CONFIRM
     }
 
 }

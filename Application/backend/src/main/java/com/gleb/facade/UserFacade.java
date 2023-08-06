@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -37,14 +36,14 @@ public class UserFacade {
                 .map(this::userToRegisterRequestDto);
     }
 
-    public Mono<RegisterRequestDto> registerAdmin (RegisterRequestDto registerRequestDto) {
+    public Mono<RegisterRequestDto> registerAdmin(RegisterRequestDto registerRequestDto) {
         User user = registerRequestDtoToUser(registerRequestDto);
         user.setRoles(Collections.singleton(Roles.ADMIN));
         return userService.registerUser(user)
                 .map(this::userToRegisterRequestDto);
     }
 
-    public Mono<RegisterRequestDto> registerModerator (RegisterRequestDto registerRequestDto) {
+    public Mono<RegisterRequestDto> registerModerator(RegisterRequestDto registerRequestDto) {
         User user = registerRequestDtoToUser(registerRequestDto);
         user.setRoles(Collections.singleton(Roles.MODERATOR));
         return userService.registerUser(user)
@@ -65,7 +64,6 @@ public class UserFacade {
     }
 
 
-
     public Mono<Void> deleteUserByUsername(String username) {
         return userService.deleteByUsername(username);
     }
@@ -80,8 +78,6 @@ public class UserFacade {
                             .map(this::mapToUserShowDto);
                 });
     }
-
-
 
 
     public Mono<User> updatePassword(PasswordUpdateDto passwordUpdateDto) {
@@ -100,7 +96,7 @@ public class UserFacade {
                 });
     }
 
-    public Mono<User> updateEmail (EmailUpdateDto emailUpdateDto) {
+    public Mono<User> updateEmail(EmailUpdateDto emailUpdateDto) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
@@ -114,7 +110,7 @@ public class UserFacade {
                 });
     }
 
-    public Mono <User> updateFirstAndLastName (FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
+    public Mono<User> updateFirstAndLastName(FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
@@ -130,7 +126,7 @@ public class UserFacade {
     }
 
 
-    public Mono <Void> makePrivate () {
+    public Mono<Void> makePrivate() {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
@@ -139,7 +135,7 @@ public class UserFacade {
                 });
     }
 
-    public Mono <Void> makePublic () {
+    public Mono<Void> makePublic() {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
@@ -147,9 +143,6 @@ public class UserFacade {
                     return userService.makePublic(username);
                 });
     }
-
-
-
 
 
     public Mono<Boolean> deleteCurrentUser() {
@@ -164,11 +157,11 @@ public class UserFacade {
 
     }
 
-    public Mono <Void> ban (String username) {
+    public Mono<Void> ban(String username) {
         return userService.ban(username);
     }
 
-    public Mono <Void> unban (String username) {
+    public Mono<Void> unban(String username) {
         return userService.unban(username);
     }
 
@@ -178,21 +171,21 @@ public class UserFacade {
     }
 
     public Flux<UserShowDto> findByFirstNameAndLastName(String firstName, String lastName, Pageable pageable) {
-        return userService.findByFirstNameAndLastName(firstName, lastName , pageable)
+        return userService.findByFirstNameAndLastName(firstName, lastName, pageable)
                 .map(this::mapToUserShowDto);
     }
 
-    public Mono <UserShowDto> findById (Integer id) {
+    public Mono<UserShowDto> findById(Integer id) {
         return userService.findById(id)
                 .map(this::mapToUserShowDto);
     }
 
-    public Flux <UserShowDto> findAll (Pageable pageable) {
+    public Flux<UserShowDto> findAll(Pageable pageable) {
         return userService.findAllPublicUsers(pageable)
                 .map(this::mapToUserShowDto);
     }
 
-    public Flux <UserShowDto> findAllPublicUsers (Pageable pageable) {
+    public Flux<UserShowDto> findAllPublicUsers(Pageable pageable) {
         return userService.findAllPublicUsers(pageable)
                 .map(this::mapToUserShowDto);
     }
@@ -203,9 +196,6 @@ public class UserFacade {
         BeanUtils.copyProperties(user, userShowDto);
         return userShowDto;
     }
-
-
-
 
 
 }

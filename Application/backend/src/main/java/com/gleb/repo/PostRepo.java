@@ -2,13 +2,13 @@ package com.gleb.repo;
 
 import com.gleb.data.post.Post;
 import com.gleb.data.post.Status;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 @Repository
 public interface PostRepo extends R2dbcRepository<Post, Integer> {
 
@@ -23,11 +23,10 @@ public interface PostRepo extends R2dbcRepository<Post, Integer> {
     Mono<Boolean> deleteByPostIdForUserAndAuthorName(Integer postIdForUser, String authorName);
 
     @Query("SELECT * FROM posts WHERE status = :status")
-    Flux<Post> findByStatus(Status status , Pageable pageable);
+    Flux<Post> findByStatus(Status status, Pageable pageable);
 
     @Query("SELECT comments_count FROM posts WHERE id = :id  ")
-    Mono <Integer> commentsCount (Integer id);
-
+    Mono<Integer> commentsCount(Integer id);
 
 
 }

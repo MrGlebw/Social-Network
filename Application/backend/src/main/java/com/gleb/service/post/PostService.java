@@ -3,7 +3,6 @@ package com.gleb.service.post;
 import com.gleb.data.post.Post;
 import com.gleb.data.post.Status;
 import com.gleb.repo.PostRepo;
-import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -34,7 +33,6 @@ public class PostService {
     }
 
 
-
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
         Flux<Post> allPostsFlux = postRepo.allPostsByAuthorName(authorName);
 
@@ -42,7 +40,7 @@ public class PostService {
                 .map(List::size);
     }
 
-    public Mono<Post> publishPost(Integer postIdForUser , String authorName) {
+    public Mono<Post> publishPost(Integer postIdForUser, String authorName) {
         return postRepo.allPostsByAuthorName(authorName)
                 .filter(post -> post.getPostIdForUser().equals(postIdForUser))
                 .filter(post -> post.getAuthorName().equals(authorName))
@@ -55,17 +53,15 @@ public class PostService {
                 ));
     }
 
-    public Flux <Post> getAllPublishedPostsByAuthor(String authorName , Pageable pageable) {
+    public Flux<Post> getAllPublishedPostsByAuthor(String authorName, Pageable pageable) {
         return postRepo.allPostsByAuthorName(authorName)
                 .filter(post -> post.getStatus().equals(Status.PUBLISHED));
     }
 
-    public Flux <Post> getAllUnpublishedPostsByAuthor(String authorName ,Pageable pageable) {
+    public Flux<Post> getAllUnpublishedPostsByAuthor(String authorName, Pageable pageable) {
         return postRepo.allPostsByAuthorName(authorName)
                 .filter(post -> post.getStatus().equals(Status.DISAPPROVED) | post.getStatus().equals(Status.DRAFT));
     }
-
-
 
 
     public Mono<Post> updatePost(Integer postIdForUser, String title, String content, String username) {
@@ -86,21 +82,21 @@ public class PostService {
         return postRepo.deleteByPostIdForUserAndAuthorName(postIdForUser, authorName);
     }
 
-    public Mono <Void> deleteByPostId (Integer postId) {
+    public Mono<Void> deleteByPostId(Integer postId) {
         return postRepo.deleteById(postId);
     }
 
 
-    public Flux <Post> findByTitleContains (String title, Pageable pageable) {
-        return postRepo.findByTitleContains(title , pageable)
+    public Flux<Post> findByTitleContains(String title, Pageable pageable) {
+        return postRepo.findByTitleContains(title, pageable)
                 .filter(post -> post.getStatus().equals(Status.PUBLISHED));
     }
 
-    public Flux<Post> getFeed (Pageable pageable) {
+    public Flux<Post> getFeed(Pageable pageable) {
         return postRepo.findByStatus(Status.PUBLISHED, pageable);
     }
 
-    public Mono <Void> disapprovePost (Integer postId){
+    public Mono<Void> disapprovePost(Integer postId) {
         return postRepo.findById(postId)
                 .flatMap(post -> postRepo.save(
                         post.toBuilder()
@@ -109,14 +105,13 @@ public class PostService {
                 )).then();
     }
 
-    public Mono <Post> findById (Integer postId) {
+    public Mono<Post> findById(Integer postId) {
         return postRepo.findById(postId);
     }
 
-    public Mono <Post> save (Post post) {
+    public Mono<Post> save(Post post) {
         return postRepo.save(post);
     }
-
 
 
 }

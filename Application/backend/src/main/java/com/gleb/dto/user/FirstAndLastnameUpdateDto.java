@@ -1,6 +1,5 @@
 package com.gleb.dto.user;
 
-import ch.qos.logback.classic.pattern.LineOfCallerConverter;
 import com.gleb.validation.UserValidator;
 import lombok.Data;
 

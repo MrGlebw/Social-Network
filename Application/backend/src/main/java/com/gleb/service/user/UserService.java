@@ -29,12 +29,10 @@ public class UserService {
     private final PostRepo postRepo;
 
 
-
     public Mono<User> findUserByUsername(String username) {
         return userRepo.findByUsername(username)
                 .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found")));
     }
-
 
 
     public Mono<User> registerUser(User user) {
@@ -74,28 +72,28 @@ public class UserService {
     }
 
     @Transactional
-     public Mono <User> save (User user) {
+    public Mono<User> save(User user) {
         return userRepo.save(user);
-     }
+    }
 
 
-     public Mono <Void> deleteByUsername (String username) {
+    public Mono<Void> deleteByUsername(String username) {
         return userRepo.deleteByUsername(username);
-     }
+    }
 
 
-     public Mono <User> findById (Integer id) {
+    public Mono<User> findById(Integer id) {
         return userRepo.findById(id);
-     }
+    }
 
 
-     public Flux <User> findAll (Pageable pageable) {
+    public Flux<User> findAll(Pageable pageable) {
         return userRepo.findAll();
-     }
+    }
 
-     public Flux <User> findAllPublicUsers (Pageable pageable) {
+    public Flux<User> findAllPublicUsers(Pageable pageable) {
         return userRepo.findAllPublicUsers();
-     }
+    }
 
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
         return postRepo.allPostsByAuthorName(authorName)
@@ -108,27 +106,21 @@ public class UserService {
                 .flatMap(postCount -> userRepo.updatePostsCount(username, postCount));
     }
 
-    public Mono <Void> makePrivate (String username) {
+    public Mono<Void> makePrivate(String username) {
         return userRepo.makePrivate(username);
     }
 
-    public Mono <Void> makePublic (String username) {
+    public Mono<Void> makePublic(String username) {
         return userRepo.makePublic(username);
     }
 
-    public Mono <Void> ban (String username) {
+    public Mono<Void> ban(String username) {
         return userRepo.ban(username);
     }
 
-    public Mono <Void> unban (String username) {
+    public Mono<Void> unban(String username) {
         return userRepo.unban(username);
     }
-
-
-
-
-
-
 
 
 }

@@ -26,19 +26,16 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.NoOpServerSecurityContextRepository;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
-
 @Slf4j
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
 
-
     private final ReactiveUserDetailsService userDetailsService;
     private final UserWrapperService userWrapperService;
 
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl")UserDetailsServiceImpl userDetailsService, UserWrapperService userWrapperService) {
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsServiceImpl userDetailsService, UserWrapperService userWrapperService) {
         this.userDetailsService = userDetailsService;
         this.userWrapperService = userWrapperService;
     }
@@ -64,7 +61,7 @@ public class SecurityConfig {
                         .pathMatchers("/me/makePrivate").authenticated()
                         .pathMatchers("/me/makePublic").authenticated()
                         .pathMatchers("/me/delete").authenticated()
-                        .pathMatchers( "/me/posts/**").authenticated()
+                        .pathMatchers("/me/posts/**").authenticated()
                         .pathMatchers("/feed").authenticated()
                         .pathMatchers("/feed/moderatorFeed/delete/{id}").access((authentication, object) -> isModerator(authentication))
                         .pathMatchers("/feed/moderatorFeed").access((authentication, object) -> isModerator(authentication))
@@ -82,19 +79,20 @@ public class SecurityConfig {
     }
 
 
-     private Mono<AuthorizationDecision> isAdmin(Mono<Authentication> authentication) {
-    return authentication
-    .map(Authentication::getName)
-    .flatMap(userWrapperService::findUserByUsername)
-    .map(user -> user.getRoles().contains(Roles.ADMIN.name()))
-     .map(AuthorizationDecision::new);
+    private Mono<AuthorizationDecision> isAdmin(Mono<Authentication> authentication) {
+        return authentication
+                .map(Authentication::getName)
+                .flatMap(userWrapperService::findUserByUsername)
+                .map(user -> user.getRoles().contains(Roles.ADMIN.name()))
+                .map(AuthorizationDecision::new);
     }
+
     private Mono<AuthorizationDecision> isModerator(Mono<Authentication> authentication) {
-    return authentication
-    .map(Authentication::getName)
-    .flatMap(userWrapperService::findUserByUsername)
-     .map(user -> user.getRoles().contains(Roles.MODERATOR.name()) )
-    .map(AuthorizationDecision::new);
+        return authentication
+                .map(Authentication::getName)
+                .flatMap(userWrapperService::findUserByUsername)
+                .map(user -> user.getRoles().contains(Roles.MODERATOR.name()))
+                .map(AuthorizationDecision::new);
     }
 
     @Bean

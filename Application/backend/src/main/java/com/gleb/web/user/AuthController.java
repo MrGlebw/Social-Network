@@ -1,7 +1,6 @@
 package com.gleb.web.user;
 
 
-
 import com.gleb.dto.user.AuthenticationRequestDto;
 import com.gleb.dto.user.RegisterRequestDto;
 import com.gleb.facade.UserFacade;
@@ -157,25 +156,23 @@ public class AuthController {
     }
 
 
-
     @PostMapping("/refresh")
-        public Mono<ResponseEntity<Object>> refreshToken(@RequestBody Mono<Map<String, String>> refreshTokenMapMono) {
-            return refreshTokenMapMono.flatMap(refreshTokenMap -> {
-                String refreshToken = refreshTokenMap.get("refresh_token");
-                if (StringUtils.hasText(refreshToken) && tokenProvider.validateRefreshToken(refreshToken)) {
-                    Authentication authentication = tokenProvider.getAuthentication(refreshToken);
-                    String newAccessToken = tokenProvider.createAccessToken(authentication);
+    public Mono<ResponseEntity<Object>> refreshToken(@RequestBody Mono<Map<String, String>> refreshTokenMapMono) {
+        return refreshTokenMapMono.flatMap(refreshTokenMap -> {
+            String refreshToken = refreshTokenMap.get("refresh_token");
+            if (StringUtils.hasText(refreshToken) && tokenProvider.validateRefreshToken(refreshToken)) {
+                Authentication authentication = tokenProvider.getAuthentication(refreshToken);
+                String newAccessToken = tokenProvider.createAccessToken(authentication);
 
-                    Map<String, String> tokens = new HashMap<>();
-                    tokens.put("access_token", newAccessToken);
+                Map<String, String> tokens = new HashMap<>();
+                tokens.put("access_token", newAccessToken);
 
-                    return Mono.just(new ResponseEntity<>(tokens, HttpStatus.OK));
-                } else {
-                    return Mono.just(new ResponseEntity<>("Invalid or expired refresh token", HttpStatus.UNAUTHORIZED));
-                }
-            });
-        }
-
-
-
+                return Mono.just(new ResponseEntity<>(tokens, HttpStatus.OK));
+            } else {
+                return Mono.just(new ResponseEntity<>("Invalid or expired refresh token", HttpStatus.UNAUTHORIZED));
+            }
+        });
     }
+
+
+}

@@ -24,9 +24,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
-    private final UserRepo userRepo;
-
     private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
+    private final UserRepo userRepo;
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {

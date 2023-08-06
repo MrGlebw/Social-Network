@@ -30,8 +30,6 @@ public class JwtTokenProvider {
     private SecretKey secretKey;
 
 
-
-
     @PostConstruct
     public void init() {
         byte[] keyBytes = Base64.getDecoder().decode(jwtProperties.getSecret()); // Assuming 'secret' property contains base64-encoded secret key
@@ -127,8 +125,6 @@ public class JwtTokenProvider {
             return false;
         }
     }
-
-
 
 
 }

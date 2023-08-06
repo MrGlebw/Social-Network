@@ -2,7 +2,6 @@ package com.gleb.web.comment;
 
 
 import com.gleb.dto.comment.CommentForm;
-import com.gleb.dto.comment.CommentShowDto;
 import com.gleb.dto.comment.CurrentUserCommentDto;
 import com.gleb.facade.CommentFacade;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ public class CurrentUserCommentController {
     private final CommentFacade commentFacade;
 
     @PostMapping("/{postId}/commentPost")
-    public Mono<ResponseEntity <String>> createComment (@PathVariable Integer postId, @RequestBody CommentForm commentForm) {
+    public Mono<ResponseEntity<String>> createComment(@PathVariable Integer postId, @RequestBody CommentForm commentForm) {
         return commentFacade.commentPost(commentForm, postId)
                 .map(post -> ResponseEntity.status(HttpStatus.CREATED).body("Comment created"));
     }

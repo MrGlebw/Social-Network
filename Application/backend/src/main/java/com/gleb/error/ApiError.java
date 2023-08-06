@@ -2,9 +2,8 @@ package com.gleb.error;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import lombok.*;
-import org.springframework.web.bind.annotation.GetMapping;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 
 @Data
