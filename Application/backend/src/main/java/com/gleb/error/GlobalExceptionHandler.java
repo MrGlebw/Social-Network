@@ -1,4 +1,4 @@
-package com.gleb.web;
+package com.gleb.error;
 
 import com.gleb.error.ApiError;
 import com.gleb.exceptions.EmailAlreadyTakenException;
