@@ -44,7 +44,7 @@ public class UserService {
         return userRepo.existsByUsername(username)
                 .flatMap(exists -> {
                     if (exists) {
-                        return Mono.error(new UsernameAlreadyTakenException("Username already exists."));
+                        return Mono.error(new UsernameAlreadyTakenException("Username" + username + " already exists."));
                     } else {
                         return userRepo.existsByEmail(email)
                                 .flatMap(existsByEmail -> {

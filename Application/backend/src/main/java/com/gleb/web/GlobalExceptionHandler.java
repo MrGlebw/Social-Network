@@ -2,6 +2,7 @@ package com.gleb.web;
 
 import com.gleb.error.ApiError;
 import com.gleb.exceptions.EmailAlreadyTakenException;
+import com.gleb.exceptions.InvalidPasswordException;
 import com.gleb.exceptions.UsernameAlreadyTakenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,4 +56,13 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "An unexpected error occurred: " + ex.getMessage());
         return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError));
     }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<ResponseEntity<ApiError>> handleInvalidPasswordException(InvalidPasswordException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
+    }
+
+
 }

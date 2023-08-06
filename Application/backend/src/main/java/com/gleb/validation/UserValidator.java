@@ -1,12 +1,12 @@
 package com.gleb.validation;
 
+import com.gleb.dto.user.FirstAndLastnameUpdateDto;
 import com.gleb.dto.user.PasswordUpdateDto;
 import com.gleb.dto.user.RegisterRequestDto;
-import com.gleb.dto.user.FullUpdateDto;
 
 public class UserValidator {
     public static boolean isValidEmail(String email) {
-        return email != null && email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$");
+        return email != null && email.matches("^[A-Za-z0-9]+@[A-Za-z0-9]+\\.[A-Za-z]{2,6}$");
     }
 
     public static boolean isValidName(String name) {
@@ -14,7 +14,7 @@ public class UserValidator {
     }
 
     public static boolean isValidPassword(String password) {
-        return password != null && password.length() >= 8;
+        return password != null && password.length() >= 8 && password.length() <=30 && password.matches("^[A-Z][a-z]*${8,30}$");
     }
 
     public enum ValidationField {
@@ -41,20 +41,16 @@ public class UserValidator {
         return null;
     }
 
-    public static ValidationField validateFullUpdatedUser(FullUpdateDto fullUpdateDto) {
+    public static ValidationField validateFirstAndLastnameUpdate(FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
 
-        if (!isValidName(fullUpdateDto.getFirstName())) {
+        if (!isValidName(firstAndLastnameUpdateDto.getFirstName())) {
             return ValidationField.FIRST_NAME;
         }
 
-        if (!isValidName(fullUpdateDto.getLastName())) {
+        if (!isValidName(firstAndLastnameUpdateDto.getLastName())) {
             return ValidationField.LAST_NAME;
         }
 
-
-        if (!isValidEmail(fullUpdateDto.getEmail())) {
-            return ValidationField.EMAIL;
-        }
 
         return null;
     }
@@ -74,7 +70,7 @@ public class UserValidator {
         }
 
         if (!passwordUpdateDto.getNewPassword().equals(passwordUpdateDto.getNewPasswordConfirm())) {
-            return ValidationField.NEW_PASSWORD_CONFIRM;
+            return ValidationField.NEW_PASSWORD_CONFIRM ;
         }
 
         return null;
@@ -89,6 +85,13 @@ public class UserValidator {
             return ValidationField.LAST_NAME;
         }
 
+        return null;
+    }
+
+    public static ValidationField validateEmail(String email) {
+        if (!isValidEmail(email)) {
+            return ValidationField.EMAIL;
+        }
         return null;
     }
 

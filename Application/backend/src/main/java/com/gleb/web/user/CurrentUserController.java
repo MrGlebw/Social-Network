@@ -1,7 +1,8 @@
 package com.gleb.web.user;
 
 
-import com.gleb.dto.user.FullUpdateDto;
+import com.gleb.dto.user.EmailUpdateDto;
+import com.gleb.dto.user.FirstAndLastnameUpdateDto;
 import com.gleb.dto.user.PasswordUpdateDto;
 import com.gleb.dto.user.UserShowDto;
 import com.gleb.facade.UserFacade;
@@ -28,15 +29,15 @@ public class CurrentUserController {
         return userFacade.getCurrentUserInformation();
     }
 
-    @PatchMapping("/update")
-    public Mono<ResponseEntity<String>> updateCurrentUser(@Valid @RequestBody FullUpdateDto fullUpdateDto) {
-        UserValidator.ValidationField invalidField = UserValidator.validateFullUpdatedUser(fullUpdateDto);
+    @PatchMapping("/updateName")
+    public Mono<ResponseEntity<String>> update (@Valid @RequestBody FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
+        UserValidator.ValidationField invalidField = UserValidator.validateFirstAndLastnameUpdate(firstAndLastnameUpdateDto);
 
         if (invalidField != null) {
-            String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + fullUpdateDto.getFieldValue(invalidField);
+            String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + firstAndLastnameUpdateDto.getFieldValue(invalidField);
             return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage));
         } else {
-            return userFacade.updateUserByUsername(fullUpdateDto)
+            return userFacade.updateFirstAndLastName(firstAndLastnameUpdateDto)
                     .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User updated successfully")))
                     .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
                     .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
@@ -58,7 +59,21 @@ public class CurrentUserController {
         }
     }
 
+    @PatchMapping("/updateEmail")
+    public Mono <ResponseEntity<String>> updateCurrentUserEmail (@Valid @RequestBody EmailUpdateDto emailUpdateDto) {
+        UserValidator.ValidationField invalidField = UserValidator.validateEmail(emailUpdateDto.getEmail());
 
+        if (invalidField != null) {
+            String errorMessage = "Invalid " + invalidField.name().toLowerCase() + ": " + emailUpdateDto.getFieldValue(invalidField);
+            return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage));
+        } else {
+            return userFacade.updateEmail(emailUpdateDto)
+                    .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Email updated successfully")))
+                            .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
+                            .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error"));
+        }
+
+    }
 
     @DeleteMapping("/delete")
     public Mono<ResponseEntity<String>> deleteCurrentUser() {

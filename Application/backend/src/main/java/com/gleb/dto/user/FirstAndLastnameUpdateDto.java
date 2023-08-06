@@ -1,24 +1,25 @@
 package com.gleb.dto.user;
 
+import ch.qos.logback.classic.pattern.LineOfCallerConverter;
 import com.gleb.validation.UserValidator;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class FullUpdateDto {
+public class FirstAndLastnameUpdateDto {
+
     private String firstName;
     private String lastName;
-    private String email;
     private LocalDateTime updated;
-
 
     public String getFieldValue(UserValidator.ValidationField field) {
         return switch (field) {
-            case EMAIL -> email;
             case FIRST_NAME -> firstName;
             case LAST_NAME -> lastName;
             default -> "Unknown field.";
         };
+
+
     }
 }

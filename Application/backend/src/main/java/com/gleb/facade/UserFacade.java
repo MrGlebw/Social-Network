@@ -2,10 +2,7 @@ package com.gleb.facade;
 
 import com.gleb.data.user.Roles;
 import com.gleb.data.user.User;
-import com.gleb.dto.user.PasswordUpdateDto;
-import com.gleb.dto.user.RegisterRequestDto;
-import com.gleb.dto.user.FullUpdateDto;
-import com.gleb.dto.user.UserShowDto;
+import com.gleb.dto.user.*;
 import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,22 +81,7 @@ public class UserFacade {
                 });
     }
 
-    public Mono<User> updateUserByUsername(FullUpdateDto fullUpdateDto) {
-        return ReactiveSecurityContextHolder.getContext()
-                .map(SecurityContext::getAuthentication)
-                .flatMap(authentication -> {
-                    String username = authentication.getName();
-                    return userService.findUserByUsername(username)
-                            .map(user -> {
-                                user.setFirstName(fullUpdateDto.getFirstName());
-                                user.setLastName(fullUpdateDto.getLastName());
-                                user.setEmail(fullUpdateDto.getEmail());
-                                user.setUpdated(LocalDateTime.now()); // Set the updated field in the entity
-                                return user;
-                            })
-                .flatMap(userService::save);
-    });
-    }
+
 
 
     public Mono<User> updatePassword(PasswordUpdateDto passwordUpdateDto) {
@@ -110,24 +92,37 @@ public class UserFacade {
                     return userService.findUserByUsername(username)
                             .flatMap(user -> {
                                 String newPasswordHash = passwordEncoder.encode(passwordUpdateDto.getNewPassword());
-
-                                // Check if the new password is the same as the old one
-                                if (user.getPassword().equals(newPasswordHash)) {
-                                    return Mono.error(new IllegalArgumentException("New password cannot be the same as the old one."));
-                                }
-
-                                // Check if the old password is correct
-                                if (!passwordEncoder.matches(passwordUpdateDto.getPassword(), user.getPassword())) {
-                                    return Mono.error(new IllegalArgumentException("Old password is incorrect."));
-                                }
-
-                                // Check if the new password and new password confirmation match
-                                if (!passwordUpdateDto.getNewPassword().equals(passwordUpdateDto.getNewPasswordConfirm())) {
-                                    return Mono.error(new IllegalArgumentException("New password and new password confirmation do not match."));
-                                }
-
                                 // Update the user's password and set the updated field
                                 user.setPassword(newPasswordHash);
+                                user.setUpdated(LocalDateTime.now());
+                                return userService.save(user);
+                            });
+                });
+    }
+
+    public Mono<User> updateEmail (EmailUpdateDto emailUpdateDto) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.findUserByUsername(username)
+                            .flatMap(user -> {
+                                user.setEmail(emailUpdateDto.getEmail());
+                                user.setUpdated(LocalDateTime.now());
+                                return userService.save(user);
+                            });
+                });
+    }
+
+    public Mono <User> updateFirstAndLastName (FirstAndLastnameUpdateDto firstAndLastnameUpdateDto) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.findUserByUsername(username)
+                            .flatMap(user -> {
+                                user.setFirstName(firstAndLastnameUpdateDto.getFirstName());
+                                user.setLastName(firstAndLastnameUpdateDto.getLastName());
                                 user.setUpdated(LocalDateTime.now());
                                 return userService.save(user);
                             });
@@ -176,10 +171,6 @@ public class UserFacade {
     public Mono <Void> unban (String username) {
         return userService.unban(username);
     }
-
-
-
-
 
     public Mono<UserShowDto> findByUsername(String username) {
         return userService.findUserByUsername(username)
