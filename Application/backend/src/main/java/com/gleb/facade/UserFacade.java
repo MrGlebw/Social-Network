@@ -2,20 +2,21 @@ package com.gleb.facade;
 
 import com.gleb.data.user.Roles;
 import com.gleb.data.user.User;
+import com.gleb.dto.user.PasswordUpdateDto;
 import com.gleb.dto.user.RegisterRequestDto;
-import com.gleb.dto.user.UpdateDto;
+import com.gleb.dto.user.FullUpdateDto;
 import com.gleb.dto.user.UserShowDto;
 import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -83,22 +84,56 @@ public class UserFacade {
                 });
     }
 
-    public Mono<User> updateUserByUsername(UpdateDto updateDto) {
+    public Mono<User> updateUserByUsername(FullUpdateDto fullUpdateDto) {
         return ReactiveSecurityContextHolder.getContext()
-                .map(SecurityContext::getAuthentication).flatMap(authentication -> {
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
                     String username = authentication.getName();
                     return userService.findUserByUsername(username)
                             .map(user -> {
-                                user.setFirstName(updateDto.getFirstName());
-                                user.setLastName(updateDto.getLastName());
-                                user.setEmail(updateDto.getEmail());
-                                user.setPassword(passwordEncoder.encode(updateDto.getPassword()));
+                                user.setFirstName(fullUpdateDto.getFirstName());
+                                user.setLastName(fullUpdateDto.getLastName());
+                                user.setEmail(fullUpdateDto.getEmail());
                                 user.setUpdated(LocalDateTime.now()); // Set the updated field in the entity
                                 return user;
                             })
                 .flatMap(userService::save);
     });
     }
+
+
+    public Mono<User> updatePassword(PasswordUpdateDto passwordUpdateDto) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String username = authentication.getName();
+                    return userService.findUserByUsername(username)
+                            .flatMap(user -> {
+                                String newPasswordHash = passwordEncoder.encode(passwordUpdateDto.getNewPassword());
+
+                                // Check if the new password is the same as the old one
+                                if (user.getPassword().equals(newPasswordHash)) {
+                                    return Mono.error(new IllegalArgumentException("New password cannot be the same as the old one."));
+                                }
+
+                                // Check if the old password is correct
+                                if (!passwordEncoder.matches(passwordUpdateDto.getPassword(), user.getPassword())) {
+                                    return Mono.error(new IllegalArgumentException("Old password is incorrect."));
+                                }
+
+                                // Check if the new password and new password confirmation match
+                                if (!passwordUpdateDto.getNewPassword().equals(passwordUpdateDto.getNewPasswordConfirm())) {
+                                    return Mono.error(new IllegalArgumentException("New password and new password confirmation do not match."));
+                                }
+
+                                // Update the user's password and set the updated field
+                                user.setPassword(newPasswordHash);
+                                user.setUpdated(LocalDateTime.now());
+                                return userService.save(user);
+                            });
+                });
+    }
+
 
     public Mono <Void> makePrivate () {
         return ReactiveSecurityContextHolder.getContext()

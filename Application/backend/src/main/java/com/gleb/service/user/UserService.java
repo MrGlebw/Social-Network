@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -71,6 +72,8 @@ public class UserService {
     public Flux<User> findByFirstNameAndLastName(String firstName, String lastName, Pageable pageable) {
         return userRepo.findByFirstNameAndLastName(firstName, lastName);
     }
+
+    @Transactional
      public Mono <User> save (User user) {
         return userRepo.save(user);
      }

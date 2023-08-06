@@ -6,11 +6,10 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class UpdateDto {
+public class FullUpdateDto {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private LocalDateTime updated;
 
 
@@ -19,7 +18,6 @@ public class UpdateDto {
             case EMAIL -> email;
             case FIRST_NAME -> firstName;
             case LAST_NAME -> lastName;
-            case PASSWORD -> "Password must be at least 8 characters long.";
             default -> "Unknown field.";
         };
     }

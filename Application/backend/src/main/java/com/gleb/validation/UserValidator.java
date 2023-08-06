@@ -1,7 +1,8 @@
 package com.gleb.validation;
 
+import com.gleb.dto.user.PasswordUpdateDto;
 import com.gleb.dto.user.RegisterRequestDto;
-import com.gleb.dto.user.UpdateDto;
+import com.gleb.dto.user.FullUpdateDto;
 
 public class UserValidator {
     public static boolean isValidEmail(String email) {
@@ -17,7 +18,7 @@ public class UserValidator {
     }
 
     public enum ValidationField {
-        EMAIL, FIRST_NAME, LAST_NAME, PASSWORD
+        EMAIL, FIRST_NAME, LAST_NAME, PASSWORD, NEW_PASSWORD, NEW_PASSWORD_CONFIRM
     }
 
     public static ValidationField validateRegisteredUser(RegisterRequestDto registerRequestDto) {
@@ -40,24 +41,55 @@ public class UserValidator {
         return null;
     }
 
-    public static ValidationField validateUpdatedUser(UpdateDto updateDto) {
+    public static ValidationField validateFullUpdatedUser(FullUpdateDto fullUpdateDto) {
 
-        if (!isValidName(updateDto.getFirstName())) {
+        if (!isValidName(fullUpdateDto.getFirstName())) {
             return ValidationField.FIRST_NAME;
         }
 
-        if (!isValidName(updateDto.getLastName())) {
+        if (!isValidName(fullUpdateDto.getLastName())) {
             return ValidationField.LAST_NAME;
         }
 
-        if (!isValidPassword(updateDto.getPassword())) {
-            return ValidationField.PASSWORD;
-        }
 
-        if(!isValidEmail(updateDto.getEmail())){
+        if (!isValidEmail(fullUpdateDto.getEmail())) {
             return ValidationField.EMAIL;
         }
 
         return null;
     }
+
+    public static ValidationField validatePasswordUpdate(PasswordUpdateDto passwordUpdateDto) {
+
+        if (!isValidPassword(passwordUpdateDto.getPassword())) {
+            return ValidationField.PASSWORD;
+        }
+
+        if (!isValidPassword(passwordUpdateDto.getNewPassword())) {
+            return ValidationField.NEW_PASSWORD;
+        }
+
+        if (!isValidPassword(passwordUpdateDto.getNewPasswordConfirm())) {
+            return ValidationField.NEW_PASSWORD_CONFIRM;
+        }
+
+        if (!passwordUpdateDto.getNewPassword().equals(passwordUpdateDto.getNewPasswordConfirm())) {
+            return ValidationField.NEW_PASSWORD_CONFIRM;
+        }
+
+        return null;
+    }
+
+    public static ValidationField validateFirstAndLastName(String firstName, String lastName) {
+        if (!isValidName(firstName)) {
+            return ValidationField.FIRST_NAME;
+        }
+
+        if (!isValidName(lastName)) {
+            return ValidationField.LAST_NAME;
+        }
+
+        return null;
+    }
+
 }
