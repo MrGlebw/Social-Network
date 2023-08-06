@@ -1,4 +1,4 @@
-package com.gleb.service.post;
+package com.gleb.service;
 
 import com.gleb.data.post.Post;
 import com.gleb.data.post.Status;
@@ -27,9 +27,7 @@ public class PostService {
                         .createdDate(LocalDateTime.now())
                         .lastModifiedDate(LocalDateTime.now())
                         .build()
-        ).doOnSuccess(p -> {
-            log.info("IN createPost - post: {} created", p);
-        });
+        ).doOnSuccess(p -> log.info("IN createPost - post: {} created", p));
     }
 
 

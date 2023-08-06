@@ -42,7 +42,7 @@ public class UserService {
         return userRepo.existsByUsername(username)
                 .flatMap(exists -> {
                     if (exists) {
-                        return Mono.error(new UsernameAlreadyTakenException("Username" + username + " already exists."));
+                        return Mono.error(new UsernameAlreadyTakenException(username));
                     } else {
                         return userRepo.existsByEmail(email)
                                 .flatMap(existsByEmail -> {
@@ -87,9 +87,6 @@ public class UserService {
     }
 
 
-    public Flux<User> findAll(Pageable pageable) {
-        return userRepo.findAll();
-    }
 
     public Flux<User> findAllPublicUsers(Pageable pageable) {
         return userRepo.findAllPublicUsers();

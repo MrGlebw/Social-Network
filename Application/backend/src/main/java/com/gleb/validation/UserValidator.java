@@ -14,7 +14,7 @@ public class UserValidator {
     }
 
     public static boolean isValidPassword(String password) {
-        return password != null && password.length() >= 8 && password.length() <= 30 && password.matches("^[A-Z][a-z]*${8,30}$");
+        return password != null && password.length() >= 8 && password.length() <= 30 && password.matches("^[A-Za-z0-9]*${8,30}$");
     }
 
     public static ValidationField validateRegisteredUser(RegisterRequestDto registerRequestDto) {

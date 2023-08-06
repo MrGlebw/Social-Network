@@ -4,7 +4,7 @@ import com.gleb.data.post.Post;
 import com.gleb.dto.post.PostShowDto;
 import com.gleb.facade.PostFacade;
 import com.gleb.repo.CommentRepo;
-import com.gleb.service.post.PostService;
+import com.gleb.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,6 @@ import static java.util.Comparator.comparing;
 public class PostController {
 
 
-    private final CommentRepo commentRepo;
 
     private final PostFacade postFacade;
 

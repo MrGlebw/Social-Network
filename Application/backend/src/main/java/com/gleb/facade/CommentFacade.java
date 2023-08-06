@@ -5,7 +5,7 @@ import com.gleb.dto.comment.CommentForm;
 import com.gleb.dto.comment.CommentShowDto;
 import com.gleb.dto.comment.CurrentUserCommentDto;
 import com.gleb.service.CommentService;
-import com.gleb.service.post.PostService;
+import com.gleb.service.PostService;
 import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

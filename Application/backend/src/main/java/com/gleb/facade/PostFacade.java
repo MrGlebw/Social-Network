@@ -5,7 +5,7 @@ import com.gleb.data.user.User;
 import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.dto.post.PostForm;
 import com.gleb.dto.post.PostShowDto;
-import com.gleb.service.post.PostService;
+import com.gleb.service.PostService;
 import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

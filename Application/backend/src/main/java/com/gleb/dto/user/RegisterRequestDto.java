@@ -27,7 +27,7 @@ public class RegisterRequestDto {
             case EMAIL -> email;
             case FIRST_NAME -> firstName;
             case LAST_NAME -> lastName;
-            case PASSWORD -> "Password must be at least 8 characters long.";
+            case PASSWORD -> "Password length must be between 8 and 30 characters. It must contain only letters and numbers.";
             default -> "Unknown field.";
         };
     }
