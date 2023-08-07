@@ -1,9 +1,7 @@
 package com.gleb.error;
 
 import com.gleb.error.ApiError;
-import com.gleb.exceptions.EmailAlreadyTakenException;
-import com.gleb.exceptions.InvalidPasswordException;
-import com.gleb.exceptions.UsernameAlreadyTakenException;
+import com.gleb.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -58,6 +56,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidPasswordException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Mono<ResponseEntity<ApiError>> handleInvalidPasswordException(InvalidPasswordException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
+    }
+
+    @ExceptionHandler(SubscriptionAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<ResponseEntity<ApiError>> handleSubscriptionAlreadyExistsException(SubscriptionAlreadyExistsException ex) {
+        ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+        return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
+    }
+
+    @ExceptionHandler(SubscriptionNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<ResponseEntity<ApiError>> handleSubscriptionNotFoundException(SubscriptionNotFoundException ex) {
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
         return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError));
     }

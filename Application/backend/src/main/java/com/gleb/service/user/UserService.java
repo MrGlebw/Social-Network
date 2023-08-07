@@ -31,6 +31,7 @@ public class UserService {
 
     public Mono<User> findUserByUsername(String username) {
         return userRepo.findByUsername(username)
+                .doOnSuccess(user -> log.info("User found by username: {}", user))
                 .switchIfEmpty(Mono.error(new UsernameNotFoundException("User not found")));
     }
 
@@ -120,5 +121,8 @@ public class UserService {
     }
 
 
+    public Mono<Boolean> existsByUsername(String username) {
+        return userRepo.existsByUsername(username);
+    }
 }
 

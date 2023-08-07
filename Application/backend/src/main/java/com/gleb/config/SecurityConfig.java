@@ -72,6 +72,8 @@ public class SecurityConfig {
                         .pathMatchers("/posts/{postId}/comments").authenticated()
                         .pathMatchers("/posts/{postId}/comments/author/{authorName}").access((authentication, object) -> isModerator(authentication))
                         .pathMatchers("/posts/{postId}/comments/deleteComment/{commentIdForPost}").access((authentication, object) -> isModerator(authentication))
+                        .pathMatchers("/me/subscribe/{followedUsername}").authenticated()
+                        .pathMatchers("/me/unsubscribe/{followedUsername}").authenticated()
 
                         .anyExchange().permitAll()
                 )
