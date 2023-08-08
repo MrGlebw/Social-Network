@@ -1,5 +1,6 @@
 package com.gleb.service;
 
+import com.gleb.data.subscription.Status;
 import com.gleb.data.subscription.Subscription;
 import com.gleb.exceptions.SubscriptionAlreadyExistsException;
 import com.gleb.exceptions.SubscriptionNotFoundException;
@@ -21,12 +22,13 @@ public class SubscriptionService {
     private final UserService userService;
     private final SubscriptionRepo subscriptionRepo;
 
-    public Mono<Object> subscribe(String followedUsername, String followerUsername) {
+    public Mono<Void> subscribe(String followedUsername, String followerUsername) {
         return userService.existsByUsername(followedUsername)
                 .flatMap(exists -> {
                     return userService.findUserByUsername(followedUsername)
                             .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
-                                    .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
+                                    .flatMap(followerUser ->
+                                            subscriptionRepo.findByFollowedUserIdAndFollowerId(
                                                     followedUser.getId(), followerUser.getId())
                                             .flatMap(existingSubscription -> {
                                                 return Mono.error(new SubscriptionAlreadyExistsException(followedUsername));
@@ -46,7 +48,7 @@ public class SubscriptionService {
                                 return Mono.error(e);
                             }
                         }
-                );
+                ).then();
 
     }
 
@@ -58,15 +60,35 @@ public class SubscriptionService {
                                     .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
                                                     followedUser.getId(), followerUser.getId())
                                             .flatMap(existingSubscription -> {
-                                                return subscriptionRepo.deleteByFollowedUserIdAndFollowerId(followedUser.getId(), followerUser.getId())
-                                                        .doOnSuccess(subscription -> log.info("IN unsubscribe - subscription: {} deleted", subscription));
-                                        }
-                                    )
+                                                        return subscriptionRepo.deleteByFollowedUserIdAndFollowerId(followedUser.getId(), followerUser.getId())
+                                                                .doOnSuccess(subscription -> log.info("IN unsubscribe - subscription: {} deleted", subscription));
+                                                    }
+                                            )
                                     ));
                 });
-                }
-}
+    }
 
+    public Mono<Void> accept(String followerUsername, String followedUsername) {
+        return userService.findUserByUsername(followedUsername)
+                .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
+                        .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
+                                        followedUser.getId(), followerUser.getId())
+                                .flatMap(existingSubscription -> {
+                                    return subscriptionRepo.setStatusAccepted( Status.ACCEPTED, LocalDateTime.now(), followedUser.getId(), followerUser.getId())
+                                            .doOnSuccess(subscription -> log.info("IN accept - subscription: {} updated", subscription));
+                                }).onErrorResume(e -> {
+                                    if (e instanceof SubscriptionNotFoundException) {
+                                        return Mono.error(new SubscriptionNotFoundException(followedUsername));
+                                    } else {
+                                        return Mono.error(e);
+                                    }
+                                }
+
+                        )
+                ));
+    }
+
+}
 
 
 

@@ -17,21 +17,33 @@ public class SubscriptionFacade {
     private final SubscriptionService subscriptionService;
     private final UserService userService;
 
-    public Mono<Object> subscribe (String followerUsername) {
+    public Mono<Void> subscribe (String followerUsername) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
                     String followedUsername = authentication.getName();
+                    if (followedUsername.equals(followerUsername)) {
+                        return Mono.error(new Exception("You can't subscribe to yourself"));
+                    }
         return subscriptionService.subscribe(followerUsername, followedUsername);
                 });
     }
 
-    public Mono <Object> unsubscribe (String followerUsername) {
+    public Mono <Void> unsubscribe (String followerUsername) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
                     String followedUsername = authentication.getName();
                     return subscriptionService.unsubscribe(followerUsername, followedUsername);
+                });
+    }
+
+    public Mono <Object> accept (String followerUsername) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMap(authentication -> {
+                    String followedUsername = authentication.getName();
+                    return subscriptionService.accept(followerUsername, followedUsername);
                 });
     }
 }

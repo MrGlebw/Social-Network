@@ -35,4 +35,13 @@ public class CurrentUserSubscriptionController {
                 .onErrorResume(SubscriptionNotFoundException.class, ex ->
                         Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage())));
     }
+
+    @PatchMapping("/accept/{followerUsername}")
+    public Mono<ResponseEntity<String>> accept(@PathVariable String followerUsername) {
+        return subscriptionFacade.accept(followerUsername)
+                .thenReturn(ResponseEntity.status(HttpStatus.OK).body("Accepted"))
+                .onErrorResume(SubscriptionNotFoundException.class, ex ->
+                        Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage())));
+    }
+
 }

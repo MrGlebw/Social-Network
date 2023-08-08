@@ -63,10 +63,6 @@ public class User implements UserDetails {
     private Integer postsCount;
 
 
-    private Set<User> subscribers = new HashSet<>();
-
-    private Set<User> subscriptions = new HashSet<>();
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
