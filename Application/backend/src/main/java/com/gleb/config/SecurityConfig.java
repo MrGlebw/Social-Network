@@ -75,6 +75,10 @@ public class SecurityConfig {
                         .pathMatchers("/me/subscribe/{followedUsername}").authenticated()
                         .pathMatchers("/me/unsubscribe/{followedUsername}").authenticated()
                         .pathMatchers("/me/accept/{followerUsername}").authenticated()
+                        .pathMatchers("/me/reject/{followerUsername}").authenticated()
+                        .pathMatchers("/me/followers").authenticated()
+                        .pathMatchers("/me/followings").authenticated()
+                        .pathMatchers("/me/requestsToFollow").authenticated()
 
                         .anyExchange().permitAll()
                 )

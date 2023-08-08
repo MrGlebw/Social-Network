@@ -8,8 +8,11 @@ import com.gleb.repo.SubscriptionRepo;
 import com.gleb.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -86,6 +89,50 @@ public class SubscriptionService {
 
                         )
                 ));
+    }
+
+    public Mono<Void> reject (String followerUsername, String followedUsername) {
+        return userService.findUserByUsername(followedUsername)
+                .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
+                        .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
+                                        followedUser.getId(), followerUser.getId())
+                                .flatMap(existingSubscription -> {
+                                    return subscriptionRepo.setStatusRejected( Status.REJECTED, LocalDateTime.now(), followedUser.getId(), followerUser.getId())
+                                            .doOnSuccess(subscription -> log.info("IN reject - subscription: {} updated", subscription));
+                                }).onErrorResume(e -> {
+                                            if (e instanceof SubscriptionNotFoundException) {
+                                                return Mono.error(new SubscriptionNotFoundException(followedUsername));
+                                            } else {
+                                                return Mono.error(e);
+                                            }
+                                        }
+
+                                )
+                        ));
+    }
+
+    public Flux<Integer> getFollowersId(String followedUsername, Pageable pageable) {
+        return userService.findUserByUsername(followedUsername)
+                .flatMapMany(followedUser -> subscriptionRepo.getAllFollowersID (followedUser.getId(), pageable));
+
+    }
+
+    public Flux<Integer> getFollowedId(String followerUsername , Pageable pageable) {
+        return userService.findUserByUsername(followerUsername)
+                .flatMapMany(followerUser -> subscriptionRepo.getAllFollowedUsersID (followerUser.getId(), pageable));
+
+    }
+
+    public Flux<Integer>  getRequestedToFollowUsers(String followedUsername , Pageable pageable) {
+        return userService.findUserByUsername(followedUsername)
+                .flatMapMany(followedUser -> subscriptionRepo.getAllRequestedToFollowUsers (followedUser.getId(), pageable));
+
+    }
+
+    public Flux<Integer>  getRequests (String followerUsername, Pageable pageable) {
+        return userService.findUserByUsername(followerUsername)
+                .flatMapMany(followerUser -> subscriptionRepo.getAllRequests (followerUser.getId(), pageable));
+
     }
 
 }
