@@ -70,6 +70,13 @@ public class SubscriptionFacade {
                 });
     }
 
+    public Flux<ShowFollowerDto> showFollowersByUsername (String username , Pageable pageable ) {
+                    return subscriptionService.getFollowersId(username, pageable)
+                            .collectList().flatMapMany(Flux::fromIterable)
+                            .flatMap(this::wrapFollower);
+                }
+
+
     public Flux<ShowFollowingDto> showFollowings (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
@@ -79,6 +86,12 @@ public class SubscriptionFacade {
                             .collectList().flatMapMany(Flux::fromIterable)
                             .flatMap(this::wrapFollowing);
                 });
+    }
+
+    public Flux<ShowFollowingDto> showFollowingsByUsername (String username , Pageable pageable) {
+        return subscriptionService.getFollowedId(username, pageable)
+                .collectList().flatMapMany(Flux::fromIterable)
+                .flatMap(this::wrapFollowing);
     }
 
     public Flux<ShowFollowerDto> showRequestedToFollowUsers (Pageable pageable) {

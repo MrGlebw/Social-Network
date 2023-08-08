@@ -1,4 +1,4 @@
-package com.gleb.web;
+package com.gleb.web.subscription;
 
 import com.gleb.dto.comment.CommentShowDto;
 import com.gleb.dto.subscription.ShowFollowerDto;
