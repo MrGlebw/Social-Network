@@ -41,10 +41,11 @@ public class CustomWebSocketHandler implements WebSocketHandler {
                 sink.asFlux().map(session::textMessage)
         ).and(session.receive()
                 .map(WebSocketMessage::getPayloadAsText)
-                .doOnNext(sink::tryEmitNext)
+                .doOnNext(message -> sink.tryEmitNext(message))
                 .then());
-
     }
+
+
 
 }
 

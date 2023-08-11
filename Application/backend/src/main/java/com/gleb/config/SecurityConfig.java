@@ -81,7 +81,8 @@ public class SecurityConfig {
                         .pathMatchers("/me/requestsToFollow").authenticated()
                         .pathMatchers("users/{username}/followers").authenticated()
                         .pathMatchers("users/{username}/followings").authenticated()
-                        .pathMatchers("sendMessage/{recipientUsername}").authenticated()
+                        .pathMatchers("chat/sendMessage").authenticated()
+                        .pathMatchers("chat/history/{contact}").authenticated()
 
                         .anyExchange().permitAll()
                 )

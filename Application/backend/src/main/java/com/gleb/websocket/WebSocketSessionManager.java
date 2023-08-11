@@ -22,5 +22,9 @@ public class WebSocketSessionManager {
     public void removeUserSession(String username) {
         userSessions.remove(username);
     }
+
+    public Map<String, WebSocketSession> getUserSessions() {
+        return userSessions;
+    }
 }
 

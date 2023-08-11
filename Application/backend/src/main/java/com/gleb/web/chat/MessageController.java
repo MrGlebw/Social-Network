@@ -1,38 +1,36 @@
 package com.gleb.web.chat;
 
-import com.gleb.data.TextMessage;
+import com.gleb.dto.message.MessageShowDto;
 import com.gleb.dto.message.MessageSendDto;
+import com.gleb.dto.post.CurrentUserPostDto;
 import com.gleb.facade.MessageFacade;
+import com.gleb.service.MessageService;
 import com.gleb.service.user.UserService;
 import com.gleb.websocket.WebSocketSessionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Schedulers;
 
-import java.util.Objects;
+import java.util.List;
+
+import static java.util.Comparator.comparing;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/chat")
 public class MessageController {
 
 
     private final WebSocketSessionManager sessionManager;
 
-    private final UserService userService;
-
     private final MessageFacade messageFacade;
 
-    @PostMapping("/sendMessage/")
+    private final MessageService messageService;
+
+    @PostMapping("/sendMessage")
     public Mono<ResponseEntity<String>> sendMessage(@RequestBody Mono<MessageSendDto> message) {
         return message.flatMap(messageSendDto -> {
             WebSocketSession recipientSession = sessionManager.getUserSession(messageSendDto.getRecipient());
@@ -47,5 +45,14 @@ public class MessageController {
                 return Mono.just(ResponseEntity.badRequest().body("Recipient session not available"));
             }
         }).subscribeOn(Schedulers.boundedElastic());
+    }
+
+    @GetMapping("/history/{contact}")
+    public Mono<ResponseEntity<List<MessageShowDto>>> getChatHistory(@PathVariable String contact) {
+        return messageFacade.getChatHistory(contact)
+                .sort(comparing(MessageShowDto::getSentAt).reversed())
+                .collectList()
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }
