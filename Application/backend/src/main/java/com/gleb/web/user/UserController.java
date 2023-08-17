@@ -87,21 +87,6 @@ public class UserController {
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
-    @PatchMapping("/{username}/ban")
-    public Mono<ResponseEntity<String>> banUser(@PathVariable String username) {
-        return userFacade.ban(username)
-                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User banned successfully")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }
-
-    @PatchMapping("/{username}/unban")
-    public Mono<ResponseEntity<String>> unbanUser(@PathVariable String username) {
-        return userFacade.unban(username)
-                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("User unbanned successfully")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }
 
 
 }

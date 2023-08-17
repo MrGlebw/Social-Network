@@ -157,13 +157,6 @@ public class UserFacade {
 
     }
 
-    public Mono<Void> ban(String username) {
-        return userService.ban(username);
-    }
-
-    public Mono<Void> unban(String username) {
-        return userService.unban(username);
-    }
 
     public Mono<UserShowDto> findByUsername(String username) {
         return userService.findUserByUsername(username)

@@ -48,9 +48,6 @@ public class User implements UserDetails {
     private Boolean isDeleted;
 
 
-    private Boolean isBanned;
-
-
     private Boolean isPrivate;
 
 

@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.socket.WebSocketSession;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -33,6 +34,7 @@ private final MessageService messageService;
                 });
     }
 
+
     public Flux<MessageShowDto> getChatHistory(String contact) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
@@ -40,6 +42,8 @@ private final MessageService messageService;
                 .flatMapMany(currentUser -> messageService.getChatHistory(currentUser, contact))
                 .map(this::messageToMessageShowDto);
     }
+
+
 
 
 

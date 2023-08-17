@@ -1,11 +1,13 @@
 package com.gleb.websocket;
 
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketSession;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
 @Component
 public class WebSocketSessionManager {
 
@@ -23,8 +25,5 @@ public class WebSocketSessionManager {
         userSessions.remove(username);
     }
 
-    public Map<String, WebSocketSession> getUserSessions() {
-        return userSessions;
-    }
 }
 

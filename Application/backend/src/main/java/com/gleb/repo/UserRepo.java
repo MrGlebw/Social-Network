@@ -36,10 +36,6 @@ public interface UserRepo extends R2dbcRepository<User, Integer> {
     @Query("UPDATE users SET is_private = false WHERE username = :username")
     Mono<Void> makePublic(String username);
 
-    @Query("UPDATE users SET is_banned = true WHERE username = :username")
-    Mono<Void> ban(String username);
 
-    @Query("UPDATE users SET is_banned = false WHERE username = :username")
-    Mono<Void> unban(String username);
 
 }

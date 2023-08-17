@@ -112,13 +112,6 @@ public class UserService {
         return userRepo.makePublic(username);
     }
 
-    public Mono<Void> ban(String username) {
-        return userRepo.ban(username);
-    }
-
-    public Mono<Void> unban(String username) {
-        return userRepo.unban(username);
-    }
 
 
     public Mono<Boolean> existsByUsername(String username) {

@@ -1,7 +1,13 @@
 package com.gleb.websocket;
 
+import com.gleb.data.TextMessage;
+import com.gleb.facade.MessageFacade;
 import com.gleb.security.JwtTokenProvider;
+import com.gleb.service.BanService;
+import com.gleb.service.MessageService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.reactivestreams.Publisher;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.socket.WebSocketHandler;
@@ -23,7 +29,15 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 
     private final JwtTokenProvider tokenProvider;
 
+    private final MessageService messageService;
+
+    private final BanService banService;
+
+    private final MessageFacade messageFacade;
+
+
     @Override
+    @NonNull
     public Mono<Void> handle(WebSocketSession session) {
         String jwtToken = session.getHandshakeInfo().getHeaders().getFirst("Authorization");
 
@@ -37,15 +51,33 @@ public class CustomWebSocketHandler implements WebSocketHandler {
             }
         }
 
-        return session.send(
-                sink.asFlux().map(session::textMessage)
-        ).and(session.receive()
-                .map(WebSocketMessage::getPayloadAsText)
-                .doOnNext(message -> sink.tryEmitNext(message))
-                .then());
+        String currentUser = (String) session.getAttributes().get("username");
+        String recipient = (String) session.getAttributes().get("recipient");
+
+        // Handle sending messages based on ban checks
+        Mono<Void> sendMessageMono = session.receive()
+                .flatMap(message -> {
+                    return banService.existsByFromUsernameAndToUsername(currentUser, recipient)
+                            .flatMap(bannedBySender -> {
+                                if (bannedBySender) {
+                                    // The sender banned the recipient, so the recipient should receive nothing
+                                    return Mono.error(new RuntimeException("You have banned the recipient"));
+                                } else {
+                                    return banService.existsByFromUsernameAndToUsername(recipient, currentUser)
+                                            .flatMap(bannedByRecipient -> {
+                                                if (bannedByRecipient) {
+                                                    // The recipient banned the sender, so the sender should receive an exception
+                                                    return Mono.error(new RuntimeException("Recipient has banned you"));
+                                                } else {
+                                                    // Neither banned, so proceed to emit the message
+                                                    sink.tryEmitNext(message.getPayloadAsText());
+                                                    return Mono.empty();
+                                                }
+                                            });
+                                }
+                            });
+                }).then();
+
+        return sendMessageMono.then();
     }
-
-
-
 }
-
