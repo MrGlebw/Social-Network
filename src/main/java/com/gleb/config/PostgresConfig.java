@@ -21,10 +21,9 @@ public class PostgresConfig extends AbstractR2dbcConfiguration {
     public @NotNull ConnectionFactory connectionFactory() {
         final PostgresqlConnectionConfiguration connectionConfig = PostgresqlConnectionConfiguration.builder()
                 .database("social_network")
-                .host("localhost")
                 .password("postgres")
-                .port(5432)
                 .username("postgres")
+                .host("service-db")
                 .build();
 
         return new PostgresqlConnectionFactory(connectionConfig);
