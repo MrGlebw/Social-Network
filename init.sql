@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS comments (
                           content TEXT NOT NULL,
                           post_id integer NOT NULL REFERENCES posts(id),
                           author_name VARCHAR(64) NOT NULL REFERENCES users(username),
-                          created_at TIMESTAMP DEFAULT NOW(),
+                          created_date TIMESTAMP DEFAULT NOW(),
                           last_modified_date TIMESTAMP,
                           last_modified_by VARCHAR(64) NOT NULL REFERENCES users(username),
                           comment_id_for_post integer DEFAULT 1
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS comments (
 CREATE TABLE IF NOT EXISTS messages (
                         id BIGSERIAL PRIMARY KEY,
                         sender VARCHAR(64) NOT NULL REFERENCES users(username),
-                        receiver VARCHAR(64) NOT NULL REFERENCES users(username),
+                        recipient VARCHAR(64) NOT NULL REFERENCES users(username),
                         content TEXT NOT NULL,
-                        created_at TIMESTAMP DEFAULT NOW()
+                        sent_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE  IF NOT EXISTS subscriptions(
@@ -55,7 +55,8 @@ CREATE TABLE  IF NOT EXISTS subscriptions(
                      followed VARCHAR(64) NOT NULL REFERENCES users(username),
                      status VARCHAR(50),
                      request_date TIMESTAMP DEFAULT NOW(),
-                     accept_date TIMESTAMP
+                     accept_date TIMESTAMP,
+                     reject_date TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS bans(

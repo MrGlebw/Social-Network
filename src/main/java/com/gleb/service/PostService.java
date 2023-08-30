@@ -58,7 +58,7 @@ public class PostService {
 
     public Flux<Post> getAllUnpublishedPostsByAuthor(String authorName, Pageable pageable) {
         return postRepo.allPostsByAuthorName(authorName)
-                .filter(post -> post.getStatus().equals(Status.DISAPPROVED) | post.getStatus().equals(Status.DRAFT));
+                .filter(post -> post.getStatus().equals(Status.DRAFT));
     }
 
 

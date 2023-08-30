@@ -138,10 +138,8 @@ public class PostFacade {
                 .map(this::postToShowDto);
     }
 
-    public Mono<Boolean> deletePost(Integer id) {
-        return postService.deleteByPostId(id)
-                .thenReturn(true)
-                .defaultIfEmpty(false);
+    public Mono<Void> deletePost(Integer id) {
+        return postService.deleteByPostId(id);
     }
 
     public Mono<Boolean> disapprovePost(Integer postId) {

@@ -45,24 +45,20 @@ public class CurrentUserPostController {
     public Mono<ResponseEntity<List<CurrentUserPostDto>>> getAllPublishedPosts(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                                @RequestParam(value = "size", defaultValue = "10") int size) {
         return postFacade.getAllPublishedPosts(PageRequest.of(page, size))
-                .sort(comparing(CurrentUserPostDto::getPublishedDate).reversed())
                 .skip((long) page * size).take(size)
                 .collectList()
                 .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @GetMapping("/allUnpublishedPosts")
     public Mono<ResponseEntity<List<CurrentUserPostDto>>> getAllUnpublishedPosts(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                                  @RequestParam(value = "size", defaultValue = "10") int size) {
         return postFacade.getAllUnpublishedPosts(PageRequest.of(page, size))
-                .sort(comparing(CurrentUserPostDto::getPublishedDate).reversed())
                 .skip((long) page * size).take(size)
                 .collectList()
                 .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PatchMapping("/update/{id}")
@@ -70,15 +66,13 @@ public class CurrentUserPostController {
         return postForm
                 .flatMap(post -> postFacade.updatePost(id, post))
                 .map(post -> ResponseEntity.status(HttpStatus.OK).body("Post updated"))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @DeleteMapping("/delete/{id}")
     public Mono<ResponseEntity<String>> deletePost(@PathVariable Integer id) {
         return postFacade.deleteMyPost(id)
                 .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post deleted")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }
