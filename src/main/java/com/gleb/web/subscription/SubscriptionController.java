@@ -1,8 +1,7 @@
 package com.gleb.web.subscription;
 
 import com.gleb.facade.SubscriptionFacade;
-import com.gleb.dto.subscription.ShowFollowerDto;
-import com.gleb.dto.subscription.ShowFollowingDto;
+
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -13,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static java.util.Comparator.comparing;
+
 
 @RestController
 @RequestMapping("/users/{username}")
@@ -23,7 +22,7 @@ public class SubscriptionController {
     private final SubscriptionFacade subscriptionFacade;
 
     @GetMapping("/followers")
-    public Mono<ResponseEntity<List<ShowFollowerDto>>> getFollowers(@PathVariable String username, @RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<String>>> getFollowers(@PathVariable String username, @RequestParam(value = "page", defaultValue = "0") int page,
                                                     @RequestParam(value = "size", defaultValue = "10") int size) {
         return subscriptionFacade.showFollowersByUsername(username, PageRequest.of(page, size))
                 .skip((long) page * size).take(size)
@@ -34,7 +33,7 @@ public class SubscriptionController {
     }
 
     @GetMapping("/followings")
-    public Mono<ResponseEntity<List<ShowFollowingDto>>> getFollowings(@PathVariable String username, @RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<String>>> getFollowings(@PathVariable String username, @RequestParam(value = "page", defaultValue = "0") int page,
                                                                       @RequestParam(value = "size", defaultValue = "10") int size) {
         return subscriptionFacade.showFollowingsByUsername(username, PageRequest.of(page, size))
                 .skip((long) page * size).take(size)

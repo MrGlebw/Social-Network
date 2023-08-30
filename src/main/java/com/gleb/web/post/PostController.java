@@ -43,7 +43,6 @@ public class PostController {
                     .map(ResponseEntity::ok)
                     .defaultIfEmpty(ResponseEntity.notFound().build());
         } else {
-            // Use the getFeed method directly to get published posts
             return postFacade.getFeed(PageRequest.of(page, size))
                     .sort(comparing(PostShowDto::getPublishedDate).reversed())
                     .skip((long) page * size).take(size)
@@ -66,7 +65,6 @@ public class PostController {
                     .map(ResponseEntity::ok)
                     .defaultIfEmpty(ResponseEntity.notFound().build());
         } else {
-            // Use the getPublishedPosts method directly to get all published posts
             return postService.getFeed(PageRequest.of(page, size))
                     .sort(comparing(Post::getPublishedDate).reversed())
                     .skip((long) page * size).take(size)

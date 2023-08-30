@@ -25,8 +25,7 @@ public interface PostRepo extends R2dbcRepository<Post, Integer> {
     @Query("SELECT * FROM posts WHERE status = :status")
     Flux<Post> findByStatus(Status status, Pageable pageable);
 
-    @Query("SELECT comments_count FROM posts WHERE id = :id  ")
-    Mono<Integer> commentsCount(Integer id);
+
 
 
 }

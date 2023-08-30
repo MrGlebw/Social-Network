@@ -19,11 +19,11 @@ public class Subscription {
     @Column("id")
     private Integer id;
 
-    @Column("followed_user_id")
-    private Integer followedUserId;
+    @Column("follower")
+    private String follower;
 
-    @Column("follower_id")
-    private Integer followerId;
+    @Column("followed")
+    private String followed;
 
     @Column("status")
     @Builder.Default

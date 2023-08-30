@@ -1,8 +1,6 @@
 package com.gleb.web.subscription;
 
 import com.gleb.facade.SubscriptionFacade;
-import com.gleb.dto.subscription.ShowFollowerDto;
-import com.gleb.dto.subscription.ShowFollowingDto;
 import com.gleb.exceptions.SubscriptionAlreadyExistsException;
 import com.gleb.exceptions.SubscriptionNotFoundException;
 
@@ -63,7 +61,7 @@ public class CurrentUserSubscriptionController {
 
 
     @GetMapping("/followings")
-    public Mono<ResponseEntity<List<ShowFollowingDto>>> getMyFollowings(@RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<String>>> getMyFollowings(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                         @RequestParam(value = "size", defaultValue = "10") int size) {
         return subscriptionFacade.showFollowings(PageRequest.of(page, size))
                 .skip((long) page * size).take(size)
@@ -74,7 +72,7 @@ public class CurrentUserSubscriptionController {
 
     }
     @GetMapping("/followers")
-    public Mono<ResponseEntity<List<ShowFollowerDto>>> getMyFollowers(@RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<String>>> getMyFollowers(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                       @RequestParam(value = "size", defaultValue = "10") int size) {
         return subscriptionFacade.showFollowers(PageRequest.of(page, size))
                 .skip((long) page * size).take(size)
@@ -85,7 +83,7 @@ public class CurrentUserSubscriptionController {
 
     }
     @GetMapping("/requestsToFollow")
-    public Mono<ResponseEntity<List<ShowFollowerDto>>> getRequestsToFollow(@RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<String>>> getRequestsToFollow(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                         @RequestParam(value = "size", defaultValue = "10") int size) {
         return subscriptionFacade.showRequestedToFollowUsers(PageRequest.of(page, size))
                 .skip((long) page * size).take(size)
@@ -97,7 +95,7 @@ public class CurrentUserSubscriptionController {
     }
 
     @GetMapping("/myRequests")
-    public Mono<ResponseEntity<List<ShowFollowingDto>>> getMyRequests(@RequestParam(value = "page", defaultValue = "0") int page,
+    public Mono<ResponseEntity<List<String>>> getMyRequests(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                              @RequestParam(value = "size", defaultValue = "10") int size) {
         return subscriptionFacade.showMyRequests(PageRequest.of(page, size))
                 .skip((long) page * size).take(size)

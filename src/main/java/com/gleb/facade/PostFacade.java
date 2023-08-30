@@ -93,8 +93,10 @@ public class PostFacade {
                 .flatMap(userService::findUserByUsername)
                 .flatMap(user -> postService.updatePost(postIdForUser, postForm.getTitle(), postForm.getContent(), user.getUsername()))
                 .map(post -> {
-                    BeanUtils.copyProperties(postForm, post);
-                    return postForm;
+                    PostForm updatedPostForm = new PostForm();
+                    updatedPostForm.setTitle(post.getTitle());
+                    updatedPostForm.setContent(post.getContent());
+                    return updatedPostForm;
                 });
     }
 
@@ -153,6 +155,7 @@ public class PostFacade {
         BeanUtils.copyProperties(post, currentUserPostDto);
         return currentUserPostDto;
     }
+
 
 
 }

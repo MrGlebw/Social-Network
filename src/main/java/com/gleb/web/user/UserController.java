@@ -63,17 +63,6 @@ public class UserController {
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
-    @GetMapping("/all")
-    public Mono<ResponseEntity<List<UserShowDto>>> getAllUsers(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                               @RequestParam(value = "size", defaultValue = "10") int size) {
-        return userFacade.findAll(PageRequest.of(page, size))
-                .sort(comparing(UserShowDto::getUsername).reversed())
-                .skip((long) page * size).take(size)
-                .collect(Collectors.toList())
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
-    }
 
     @GetMapping("")
     public Mono<ResponseEntity<List<UserShowDto>>> getAllPublicUsers(@RequestParam(value = "page", defaultValue = "0") int page,

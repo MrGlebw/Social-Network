@@ -30,12 +30,12 @@ public class SubscriptionService {
                 .flatMap(exists -> userService.findUserByUsername(followedUsername)
                         .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
                                 .flatMap(followerUser ->
-                                        subscriptionRepo.findByFollowedUserIdAndFollowerId(
-                                                followedUser.getId(), followerUser.getId())
+                                        subscriptionRepo.findByFollowedUserAndFollower(
+                                                followedUsername, followerUsername)
                                         .flatMap(existingSubscription -> Mono.error(new SubscriptionAlreadyExistsException(followedUsername)))
                                         .switchIfEmpty(subscriptionRepo.save(Subscription.builder()
-                                                        .followedUserId(followedUser.getId())
-                                                        .followerId(followerUser.getId())
+                                                        .followed(followedUser.getUsername())
+                                                        .follower(followerUser.getUsername())
                                                         .requestDate(LocalDateTime.now())
                                                         .build())
                                                 .doOnSuccess(subscription -> log.info("IN subscribe - subscription: {} created", subscription))
@@ -55,9 +55,9 @@ public class SubscriptionService {
         return userService.existsByUsername(followedUsername)
                 .flatMap(exists -> userService.findUserByUsername(followedUsername)
                         .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
-                                .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
-                                                followedUser.getId(), followerUser.getId())
-                                        .flatMap(existingSubscription -> subscriptionRepo.deleteByFollowedUserIdAndFollowerId(followedUser.getId(), followerUser.getId())
+                                .flatMap(followerUser -> subscriptionRepo.findByFollowedUserAndFollower(
+                                                followedUsername, followerUsername)
+                                        .flatMap(existingSubscription -> subscriptionRepo.deleteByFollowedUserAndFollower(followedUser.getUsername(), followerUser.getUsername())
                                                             .doOnSuccess(subscription -> log.info("IN unsubscribe - subscription: {} deleted", subscription))
                                         )
                                 )));
@@ -66,9 +66,9 @@ public class SubscriptionService {
     public Mono<Void> accept(String followerUsername, String followedUsername) {
         return userService.findUserByUsername(followedUsername)
                 .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
-                        .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
-                                        followedUser.getId(), followerUser.getId())
-                                .flatMap(existingSubscription -> subscriptionRepo.setStatusAccepted( Status.ACCEPTED, LocalDateTime.now(), followedUser.getId(), followerUser.getId())
+                        .flatMap(followerUser -> subscriptionRepo.findByFollowedUserAndFollower(
+                                        followedUser.getUsername(), followerUser.getUsername())
+                                .flatMap(existingSubscription -> subscriptionRepo.setStatusAccepted( Status.ACCEPTED, LocalDateTime.now(), followedUser.getUsername(), followerUser.getUsername())
                                         .doOnSuccess(subscription -> log.info("IN accept - subscription: {} updated", subscription))).onErrorResume(e -> {
                                     if (e instanceof SubscriptionNotFoundException) {
                                         return Mono.error(new SubscriptionNotFoundException(followedUsername));
@@ -84,9 +84,9 @@ public class SubscriptionService {
     public Mono<Void> reject (String followerUsername, String followedUsername) {
         return userService.findUserByUsername(followedUsername)
                 .flatMap(followedUser -> userService.findUserByUsername(followerUsername)
-                        .flatMap(followerUser -> subscriptionRepo.findByFollowedUserIdAndFollowerId(
-                                        followedUser.getId(), followerUser.getId())
-                                .flatMap(existingSubscription -> subscriptionRepo.setStatusRejected( Status.REJECTED, LocalDateTime.now(), followedUser.getId(), followerUser.getId())
+                        .flatMap(followerUser -> subscriptionRepo.findByFollowedUserAndFollower(
+                                        followedUser.getUsername(), followerUser.getUsername())
+                                .flatMap(existingSubscription -> subscriptionRepo.setStatusRejected( Status.REJECTED, LocalDateTime.now(), followedUser.getUsername(), followerUser.getUsername())
                                         .doOnSuccess(subscription -> log.info("IN reject - subscription: {} updated", subscription))).onErrorResume(e -> {
                                             if (e instanceof SubscriptionNotFoundException) {
                                                 return Mono.error(new SubscriptionNotFoundException(followedUsername));
@@ -99,27 +99,27 @@ public class SubscriptionService {
                         ));
     }
 
-    public Flux<Integer> getFollowersId(String followedUsername, Pageable pageable) {
+    public Flux<String> getFollowers (String followedUsername, Pageable pageable) {
         return userService.findUserByUsername(followedUsername)
-                .flatMapMany(followedUser -> subscriptionRepo.getAllFollowersID (followedUser.getId(), pageable));
+                .flatMapMany(followedUser -> subscriptionRepo.getAllFollowers (followedUser.getUsername(), pageable));
 
     }
 
-    public Flux<Integer> getFollowedId(String followerUsername , Pageable pageable) {
+    public Flux<String> getFollowedId(String followerUsername , Pageable pageable) {
         return userService.findUserByUsername(followerUsername)
-                .flatMapMany(followerUser -> subscriptionRepo.getAllFollowedUsersID (followerUser.getId(), pageable));
+                .flatMapMany(followerUser -> subscriptionRepo.getAllFollowedUsers (followerUser.getUsername(), pageable));
 
     }
 
-    public Flux<Integer>  getRequestedToFollowUsers(String followedUsername , Pageable pageable) {
+    public Flux<String>  getRequestedToFollowUsers(String followedUsername , Pageable pageable) {
         return userService.findUserByUsername(followedUsername)
-                .flatMapMany(followedUser -> subscriptionRepo.getAllRequestedToFollowUsers (followedUser.getId(), pageable));
+                .flatMapMany(followedUser -> subscriptionRepo.getAllRequestedToFollowUsers (followedUser.getUsername(), pageable));
 
     }
 
-    public Flux<Integer>  getRequests (String followerUsername, Pageable pageable) {
+    public Flux<String>  getRequests (String followerUsername, Pageable pageable) {
         return userService.findUserByUsername(followerUsername)
-                .flatMapMany(followerUser -> subscriptionRepo.getAllRequests (followerUser.getId(), pageable));
+                .flatMapMany(followerUser -> subscriptionRepo.getAllRequests (followerUser.getUsername(), pageable));
 
     }
 

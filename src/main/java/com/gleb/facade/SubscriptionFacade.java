@@ -1,9 +1,8 @@
 package com.gleb.facade;
 
-import com.gleb.dto.subscription.ShowFollowerDto;
-import com.gleb.dto.subscription.ShowFollowingDto;
+
 import com.gleb.service.SubscriptionService;
-import com.gleb.service.user.UserService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,6 @@ import reactor.core.publisher.Mono;
 public class SubscriptionFacade {
 
     private final SubscriptionService subscriptionService;
-    private final UserService userService;
 
     public Mono<Void> subscribe (String followerUsername) {
         return ReactiveSecurityContextHolder.getContext()
@@ -42,7 +40,7 @@ public class SubscriptionFacade {
                 });
     }
 
-    public Mono <Object> accept (String followerUsername) {
+    public Mono <Void> accept (String followerUsername) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
@@ -51,7 +49,7 @@ public class SubscriptionFacade {
                 });
     }
 
-    public Mono <Object> reject (String followerUsername) {
+    public Mono <Void> reject (String followerUsername) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMap(authentication -> {
@@ -59,72 +57,58 @@ public class SubscriptionFacade {
                     return subscriptionService.reject(followerUsername, followedUsername);
                 });
     }
-    public Flux<ShowFollowerDto> showFollowers (Pageable pageable) {
+    public Flux<String> showFollowers (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMapMany(authentication -> {
                     String followedUsername = authentication.getName();
-                    return subscriptionService.getFollowersId(followedUsername, pageable)
-                            .collectList().flatMapMany(Flux::fromIterable)
-                            .flatMap(this::wrapFollower);
+                    return subscriptionService.getFollowers(followedUsername, pageable)
+                            .collectList().flatMapMany(Flux::fromIterable);
                 });
     }
 
-    public Flux<ShowFollowerDto> showFollowersByUsername (String username , Pageable pageable ) {
-                    return subscriptionService.getFollowersId(username, pageable)
-                            .collectList().flatMapMany(Flux::fromIterable)
-                            .flatMap(this::wrapFollower);
+    public Flux<String> showFollowersByUsername (String username , Pageable pageable ) {
+                    return subscriptionService.getFollowers(username, pageable)
+                            .collectList().flatMapMany(Flux::fromIterable);
                 }
 
 
-    public Flux<ShowFollowingDto> showFollowings (Pageable pageable) {
+    public Flux<String> showFollowings (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMapMany(authentication -> {
                     String followerUsername = authentication.getName();
                     return subscriptionService.getFollowedId(followerUsername, pageable)
-                            .collectList().flatMapMany(Flux::fromIterable)
-                            .flatMap(this::wrapFollowing);
+                            .collectList().flatMapMany(Flux::fromIterable);
                 });
     }
 
-    public Flux<ShowFollowingDto> showFollowingsByUsername (String username , Pageable pageable) {
+    public Flux<String> showFollowingsByUsername (String username , Pageable pageable) {
         return subscriptionService.getFollowedId(username, pageable)
-                .collectList().flatMapMany(Flux::fromIterable)
-                .flatMap(this::wrapFollowing);
+                .collectList().flatMapMany(Flux::fromIterable);
     }
 
-    public Flux<ShowFollowerDto> showRequestedToFollowUsers (Pageable pageable) {
+    public Flux<String> showRequestedToFollowUsers (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMapMany(authentication -> {
                     String followedUsername = authentication.getName();
                     return subscriptionService.getRequestedToFollowUsers(followedUsername, pageable)
-                            .collectList().flatMapMany(Flux::fromIterable)
-                            .flatMap(this::wrapFollower);
+                            .collectList().flatMapMany(Flux::fromIterable);
                 });
     }
 
-    public Flux<ShowFollowingDto> showMyRequests (Pageable pageable) {
+    public Flux<String> showMyRequests (Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .flatMapMany(authentication -> {
                     String followerUsername = authentication.getName();
                     return subscriptionService. getRequests(followerUsername, pageable)
-                            .collectList().flatMapMany(Flux::fromIterable)
-                            .flatMap(this::wrapFollowing);
+                            .collectList().flatMapMany(Flux::fromIterable);
                 });
     }
 
 
-    private  Mono <ShowFollowerDto> wrapFollower (Integer followerId) {
-        return userService.findById(followerId)
-                .map(user -> new ShowFollowerDto(user.getUsername()));
-    }
 
-    private Mono <ShowFollowingDto> wrapFollowing (Integer followedId) {
-        return userService.findById(followedId)
-                .map(user -> new ShowFollowingDto(user.getUsername()));
-    }
 
 }

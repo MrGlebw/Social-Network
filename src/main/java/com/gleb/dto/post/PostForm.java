@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostForm implements Serializable {
+public class PostForm {
 
     @NotBlank
     private String title;
