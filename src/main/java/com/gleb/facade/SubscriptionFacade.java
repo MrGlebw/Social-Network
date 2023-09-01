@@ -57,15 +57,7 @@ public class SubscriptionFacade {
                     return subscriptionService.reject(followerUsername, followedUsername);
                 });
     }
-    public Flux<String> showFollowers (Pageable pageable) {
-        return ReactiveSecurityContextHolder.getContext()
-                .map(SecurityContext::getAuthentication)
-                .flatMapMany(authentication -> {
-                    String followedUsername = authentication.getName();
-                    return subscriptionService.getFollowers(followedUsername, pageable)
-                            .collectList().flatMapMany(Flux::fromIterable);
-                });
-    }
+
 
     public Flux<String> showFollowersByUsername (String username , Pageable pageable ) {
                     return subscriptionService.getFollowers(username, pageable)
@@ -79,6 +71,16 @@ public class SubscriptionFacade {
                 .flatMapMany(authentication -> {
                     String followerUsername = authentication.getName();
                     return subscriptionService.getFollowedId(followerUsername, pageable)
+                            .collectList().flatMapMany(Flux::fromIterable);
+                });
+    }
+
+    public Flux<String> showFollowers (Pageable pageable) {
+        return ReactiveSecurityContextHolder.getContext()
+                .map(SecurityContext::getAuthentication)
+                .flatMapMany(authentication -> {
+                    String followedUsername = authentication.getName();
+                    return subscriptionService.getFollowers(followedUsername, pageable)
                             .collectList().flatMapMany(Flux::fromIterable);
                 });
     }

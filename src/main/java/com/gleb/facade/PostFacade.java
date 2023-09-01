@@ -142,10 +142,9 @@ public class PostFacade {
         return postService.deleteByPostId(id);
     }
 
-    public Mono<Boolean> disapprovePost(Integer postId) {
+    public Mono<Void> disapprovePost(Integer postId) {
         return postService.disapprovePost(postId)
-                .thenReturn(true)
-                .defaultIfEmpty(false);
+                .then();
     }
 
     private CurrentUserPostDto postToCurrentUserPostDto(Post post) {

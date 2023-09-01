@@ -79,8 +79,7 @@ public class PostController {
     @DeleteMapping("/moderatorFeed/delete/{id}")
     public Mono<ResponseEntity<String>> deletePost(@PathVariable Integer id) {
         return postFacade.deletePost(id)
-                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post deleted")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
+                .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.OK).body("Post deleted")))
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
 
 
@@ -89,13 +88,8 @@ public class PostController {
     @PatchMapping("/moderatorFeed/disapprove/{id}")
     public Mono<ResponseEntity<String>> disapprovePost(@PathVariable Integer id) {
         return postFacade.disapprovePost(id)
-                .flatMap(disapproved -> {
-                    if (disapproved) {
-                        return Mono.just(ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post disapproved"));
-                    } else {
-                        return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post not found or disapproved"));
-                    }
-                });
+                .then(Mono.defer(() -> Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.OK).body("Post disapproved"))))
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
 

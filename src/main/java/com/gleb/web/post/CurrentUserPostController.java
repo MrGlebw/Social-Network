@@ -58,7 +58,7 @@ public class CurrentUserPostController {
                 .skip((long) page * size).take(size)
                 .collectList()
                 .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
     @PatchMapping("/update/{id}")
@@ -66,7 +66,7 @@ public class CurrentUserPostController {
         return postForm
                 .flatMap(post -> postFacade.updatePost(id, post))
                 .map(post -> ResponseEntity.status(HttpStatus.OK).body("Post updated"))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No post with id " + id));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -8,6 +8,10 @@ import com.gleb.repo.PostRepo;
 import com.gleb.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +26,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@CacheConfig(cacheNames = "userCache")
 public class UserService {
 
     private final UserRepo userRepo;
@@ -29,13 +34,15 @@ public class UserService {
     private final PostRepo postRepo;
 
 
+
+    @Cacheable(cacheNames = "user", key = "#username", unless = "#result == null")
     public Mono<User> findUserByUsername(String username) {
         return userRepo.findByUsername(username)
                 .doOnSuccess(user -> log.info("User found by username: {}", user))
                 .switchIfEmpty(Mono.error(new UserNotFoundException(username)));
     }
 
-
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public Mono<User> registerUser(User user) {
         String username = user.getUsername();
         String email = user.getEmail();
@@ -67,28 +74,34 @@ public class UserService {
                 .onErrorMap(DataIntegrityViolationException.class, ex -> new EmailAlreadyTakenException("Email or username already exist.")); // Optional: Handle DataIntegrityViolationException from userRepo.save() if necessary
     }
 
-
+    @Cacheable(cacheNames = "users")
     public Flux<User> findByFirstNameAndLastName(String firstName, String lastName, Pageable pageable) {
         return userRepo.findByFirstNameAndLastName(firstName, lastName);
     }
 
+    @CacheEvict(cacheNames = "users", allEntries = true)
     @Transactional
     public Mono<User> save(User user) {
         return userRepo.save(user);
     }
 
 
+    @Caching(evict = { @CacheEvict(cacheNames = "user", key = "#username"),
+            @CacheEvict(cacheNames = "users", allEntries = true) })
     public Mono<Void> deleteByUsername(String username) {
         return userRepo.deleteByUsername(username);
     }
 
 
+
+    @Cacheable(cacheNames = "user", key = "#id", unless = "#result == null")
     public Mono<User> findById(Integer id) {
         return userRepo.findById(id);
     }
 
 
 
+    @Cacheable(cacheNames = "users")
     public Flux<User> findAllPublicUsers(Pageable pageable) {
         return userRepo.findAllPublicUsers();
     }

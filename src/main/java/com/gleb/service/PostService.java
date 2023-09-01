@@ -58,7 +58,7 @@ public class PostService {
 
     public Flux<Post> getAllUnpublishedPostsByAuthor(String authorName, Pageable pageable) {
         return postRepo.allPostsByAuthorName(authorName)
-                .filter(post -> post.getStatus().equals(Status.DRAFT));
+                .filter(post -> post.getStatus().equals(Status.DRAFT) || post.getStatus().equals(Status.DISAPPROVED));
     }
 
 
@@ -99,6 +99,7 @@ public class PostService {
                 .flatMap(post -> postRepo.save(
                         post.toBuilder()
                                 .status(Status.DISAPPROVED)
+                                .disapprovedDate(LocalDateTime.now())
                                 .build()
                 )).then();
     }
