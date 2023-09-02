@@ -17,8 +17,8 @@ public class CurrentUserPostDto {
     private String title;
     private String content;
 
-    @Builder.Default
-    private Status status = Status.DRAFT;
+
+    private Status status;
 
 
     private LocalDateTime createdDate;

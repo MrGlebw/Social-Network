@@ -1,5 +1,6 @@
 package com.gleb.facade;
 
+import com.gleb.repo.PostRepo;
 import com.gleb.service.CommentService;
 import com.gleb.service.PostService;
 import com.gleb.service.user.UserService;
@@ -29,6 +30,7 @@ public class CommentFacade {
     private final CommentService commentService;
     private final PostService postService;
     private final UserService userService;
+    private final PostRepo postRepo;
 
     @Transactional
     public Mono<Object> commentPost(CommentForm commentForm, Integer postId) {
@@ -49,7 +51,7 @@ public class CommentFacade {
                                 comment.setCommentIdForPost(newCommentsCount);
 
                                 // Save the post with the updated comments count
-                                return postService.save(post)
+                                return postRepo.save(post)
                                         .then(commentService.commentPost(comment, postId));
                             });
                 });

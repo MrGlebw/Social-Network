@@ -58,7 +58,7 @@ public class CurrentUserPostController {
                 .skip((long) page * size).take(size)
                 .collectList()
                 .map(ResponseEntity::ok)
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     @PatchMapping("/update/{id}")
@@ -66,13 +66,14 @@ public class CurrentUserPostController {
         return postForm
                 .flatMap(post -> postFacade.updatePost(id, post))
                 .map(post -> ResponseEntity.status(HttpStatus.OK).body("Post updated"))
-                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No post with id " + id));
+                .onErrorReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).body("No post with id " + id));
+
     }
 
     @DeleteMapping("/delete/{id}")
     public Mono<ResponseEntity<String>> deletePost(@PathVariable Integer id) {
         return postFacade.deleteMyPost(id)
                 .then(Mono.fromCallable(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).body("Post deleted")))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .onErrorReturn(ResponseEntity.status(HttpStatus.NOT_FOUND).body("No post with id " + id));
     }
 }

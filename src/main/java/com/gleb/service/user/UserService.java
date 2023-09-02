@@ -63,7 +63,6 @@ public class UserService {
                                                         .roles(user.getRoles())
                                                         .enabled(true)
                                                         .created(LocalDateTime.now())
-                                                        .updated(LocalDateTime.now())
                                                         .build()
                                         );
                                     }
@@ -112,15 +111,18 @@ public class UserService {
                 .map(List::size);
     }
 
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public Mono<Void> updatePostCountForUser(String username) {
         return getPostsCountByAuthor(username)
                 .flatMap(postCount -> userRepo.updatePostsCount(username, postCount));
     }
 
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public Mono<Void> makePrivate(String username) {
         return userRepo.makePrivate(username);
     }
 
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public Mono<Void> makePublic(String username) {
         return userRepo.makePublic(username);
     }

@@ -5,11 +5,15 @@ import com.gleb.data.post.Status;
 import com.gleb.repo.PostRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,6 +24,7 @@ public class PostService {
 
     private final PostRepo postRepo;
 
+    @CacheEvict(cacheNames = "posts", allEntries = true)
     public Mono<Post> createPost(Post post) {
         return postRepo.save(
                 post.toBuilder()
@@ -31,6 +36,7 @@ public class PostService {
     }
 
 
+
     public Mono<Integer> getPostsCountByAuthor(String authorName) {
         Flux<Post> allPostsFlux = postRepo.allPostsByAuthorName(authorName);
 
@@ -38,6 +44,8 @@ public class PostService {
                 .map(List::size);
     }
 
+
+    @CacheEvict(cacheNames = "posts", allEntries = true)
     public Mono<Post> publishPost(Integer postIdForUser, String authorName) {
         return postRepo.allPostsByAuthorName(authorName)
                 .filter(post -> post.getPostIdForUser().equals(postIdForUser))
@@ -51,17 +59,20 @@ public class PostService {
                 ));
     }
 
+    @Cacheable(cacheNames = "publishedPosts", key = "#authorName")
     public Flux<Post> getAllPublishedPostsByAuthor(String authorName, Pageable pageable) {
         return postRepo.allPostsByAuthorName(authorName)
                 .filter(post -> post.getStatus().equals(Status.PUBLISHED));
     }
 
+    @Cacheable(cacheNames = "unpublishedPosts", key = "#authorName")
     public Flux<Post> getAllUnpublishedPostsByAuthor(String authorName, Pageable pageable) {
         return postRepo.allPostsByAuthorName(authorName)
-                .filter(post -> post.getStatus().equals(Status.DRAFT) || post.getStatus().equals(Status.DISAPPROVED));
+                .filter(post -> post.getStatus().equals(Status.DRAFT) | post.getStatus().equals(Status.DISAPPROVED));
     }
 
 
+    @CacheEvict(cacheNames = "posts", allEntries = true)
     public Mono<Post> updatePost(Integer postIdForUser, String title, String content, String username) {
         return postRepo.allPostsByAuthorName(username)
                 .filter(post -> post.getPostIdForUser().equals(postIdForUser))
@@ -76,24 +87,33 @@ public class PostService {
                 ));
     }
 
+    @Caching(evict = { @CacheEvict(cacheNames = "post", key = "#authorName"),
+            @CacheEvict(cacheNames = "posts", allEntries = true) })
     public Mono<Boolean> deleteByPostIdForUser(Integer postIdForUser, String authorName) {
         return postRepo.deleteByPostIdForUserAndAuthorName(postIdForUser, authorName);
     }
 
+
+    @Caching(evict = { @CacheEvict(cacheNames = "post", key = "#postId"),
+            @CacheEvict(cacheNames = "posts", allEntries = true) })
     public Mono<Void> deleteByPostId(Integer postId) {
         return postRepo.deleteById(postId);
     }
 
 
+    @Cacheable(cacheNames = "posts" , key =  "title")
     public Flux<Post> findByTitleContains(String title, Pageable pageable) {
         return postRepo.findByTitleContains(title, pageable)
                 .filter(post -> post.getStatus().equals(Status.PUBLISHED));
     }
 
+
+    @Cacheable(cacheNames = "posts")
     public Flux<Post> getFeed(Pageable pageable) {
         return postRepo.findByStatus(Status.PUBLISHED, pageable);
     }
 
+    @CacheEvict(cacheNames = "posts", allEntries = true)
     public Mono<Void> disapprovePost(Integer postId) {
         return postRepo.findById(postId)
                 .flatMap(post -> postRepo.save(
@@ -104,13 +124,11 @@ public class PostService {
                 )).then();
     }
 
+    @Cacheable(cacheNames = "post", key = "#postId", unless = "#result == null")
     public Mono<Post> findById(Integer postId) {
         return postRepo.findById(postId);
     }
 
-    public Mono<Post> save(Post post) {
-        return postRepo.save(post);
-    }
 
 
 }

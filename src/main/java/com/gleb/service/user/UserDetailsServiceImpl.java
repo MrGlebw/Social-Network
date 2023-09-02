@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
@@ -26,7 +27,7 @@ public class UserDetailsServiceImpl implements ReactiveUserDetailsService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     private final UserRepo userRepo;
-
+    @Cacheable(cacheNames = "userDetails", key = "#username", unless = "#result == null")
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return userRepo.findByUsername(username)
