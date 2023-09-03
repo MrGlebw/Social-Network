@@ -1,6 +1,6 @@
 # Social Network
 
-This is a backend code for Social Network application.
+This is a backend code for Social Network application written using Spring Boot with reactive stack.
 
 
 ## Getting Started
