@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS posts(
                       id SERIAL PRIMARY KEY,
                       title VARCHAR(150),
                       content Text NOT NULL,
-                      author_name VARCHAR(64) NOT NULL REFERENCES users(username),
+                      author_name VARCHAR(64) NOT NULL REFERENCES users(username)  ON DELETE CASCADE,
                       created_date TIMESTAMP NOT NULL,
                       last_modified_date TIMESTAMP,
                       status VARCHAR(20),
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS posts(
 CREATE TABLE IF NOT EXISTS comments (
                           id SERIAL PRIMARY KEY,
                           content TEXT NOT NULL,
-                          post_id integer NOT NULL REFERENCES posts(id),
+                          post_id integer NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
                           author_name VARCHAR(64) NOT NULL REFERENCES users(username),
                           created_date TIMESTAMP,
                           last_modified_date TIMESTAMP,

@@ -79,12 +79,12 @@ public class PostFacade {
                 .map(this::postToCurrentUserPostDto);
     }
 
-    public Flux<CurrentUserPostDto> getAllUnpublishedPosts(Pageable pageable) {
+    public Flux<CurrentUserPostDto> getAllPosts(Pageable pageable) {
         return ReactiveSecurityContextHolder.getContext()
                 .map(SecurityContext::getAuthentication)
                 .map(Principal::getName)
                 .flatMap(userService::findUserByUsername)
-                .flatMapMany(user -> postService.getAllUnpublishedPostsByAuthor(user.getUsername(), pageable))
+                .flatMapMany(user -> postService.getAllPostsByAuthor(user.getUsername(), pageable))
                 .map(this::postToCurrentUserPostDto);
     }
 

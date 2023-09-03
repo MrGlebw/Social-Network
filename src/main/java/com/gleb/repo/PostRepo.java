@@ -26,6 +26,10 @@ public interface PostRepo extends R2dbcRepository<Post, Integer> {
     Flux<Post> findByStatus(Status status, Pageable pageable);
 
 
+    @Query("SELECT * FROM posts WHERE author_name = :author_name AND status = :status")
+    Flux<Post> allPostsByAuthorNameAndStatus(String authorName, Status status, Pageable pageable);
+
+
 
 
 }

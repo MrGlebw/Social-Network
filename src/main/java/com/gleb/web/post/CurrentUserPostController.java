@@ -35,7 +35,7 @@ public class CurrentUserPostController {
     @PatchMapping("/publish/{id}")
     public Mono<ResponseEntity<String>> publishPost(@PathVariable Integer id) {
         return postFacade.publishPost(id)
-                .map(post -> ResponseEntity.status(HttpStatus.OK).body("Post published"))
+                .map(post -> ResponseEntity.status(HttpStatus.CREATED).body("Post published"))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build())
                 .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No post with id " + id));
     }
@@ -51,14 +51,14 @@ public class CurrentUserPostController {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
-    @GetMapping("/allUnpublishedPosts")
-    public Mono<ResponseEntity<List<CurrentUserPostDto>>> getAllUnpublishedPosts(@RequestParam(value = "page", defaultValue = "0") int page,
+    @GetMapping("/allPosts")
+    public Mono<ResponseEntity<List<CurrentUserPostDto>>> getAllPosts(@RequestParam(value = "page", defaultValue = "0") int page,
                                                                                  @RequestParam(value = "size", defaultValue = "10") int size) {
-        return postFacade.getAllUnpublishedPosts(PageRequest.of(page, size))
+        return postFacade.getAllPosts(PageRequest.of(page, size))
                 .skip((long) page * size).take(size)
                 .collectList()
                 .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .onErrorReturn(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
     }
 
     @PatchMapping("/update/{id}")

@@ -61,14 +61,12 @@ public class PostService {
 
     @Cacheable(cacheNames = "publishedPosts", key = "#authorName")
     public Flux<Post> getAllPublishedPostsByAuthor(String authorName, Pageable pageable) {
-        return postRepo.allPostsByAuthorName(authorName)
-                .filter(post -> post.getStatus().equals(Status.PUBLISHED));
+        return postRepo.allPostsByAuthorNameAndStatus(authorName, Status.PUBLISHED, pageable);
     }
 
-    @Cacheable(cacheNames = "unpublishedPosts", key = "#authorName")
-    public Flux<Post> getAllUnpublishedPostsByAuthor(String authorName, Pageable pageable) {
-        return postRepo.allPostsByAuthorName(authorName)
-                .filter(post -> post.getStatus().equals(Status.DRAFT) | post.getStatus().equals(Status.DISAPPROVED));
+
+    public Flux<Post> getAllPostsByAuthor(String authorName, Pageable pageable) {
+        return postRepo.allPostsByAuthorName(authorName);
     }
 
 

@@ -35,8 +35,7 @@ public class Post implements Serializable {
     @NotBlank
     private String content;
 
-    @Builder.Default
-    private Status status = Status.DRAFT;
+    private Status status;
 
     @CreatedDate
     @Column("created_date")
