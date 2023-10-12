@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6e3db3b8-232f-4950-b3f2-2be9e31034aa" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/backend/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/init.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/init.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/config/PostgresConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/config/PostgresConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/config/RedisConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/config/RedisConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/Ban.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/Ban.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/TextMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/TextMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/chat/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/chat/ChatMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/chat/MessageType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/chat/MessageType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/post/Post.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/post/Post.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/post/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/post/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/subscription/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/subscription/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/subscription/Subscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/subscription/Subscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/user/Roles.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/user/Roles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/data/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/data/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/comment/CommentForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/comment/CommentForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/comment/CommentShowDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/comment/CommentShowDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/comment/CurrentUserCommentDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/comment/CurrentUserCommentDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/message/MessageSendDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/message/MessageSendDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/message/MessageShowDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/message/MessageShowDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/post/CurrentUserPostDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/post/CurrentUserPostDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/post/PostForm.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/post/PostForm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/post/PostShowDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/post/PostShowDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/user/AuthenticationRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/user/AuthenticationRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/user/EmailUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/user/EmailUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/user/FirstAndLastnameUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/user/FirstAndLastnameUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/user/PasswordUpdateDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/user/PasswordUpdateDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/user/RegisterRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/user/RegisterRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/dto/user/UserShowDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/dto/user/UserShowDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/error/ApiError.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/error/ApiError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/error/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/error/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/exceptions/EmailAlreadyTakenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/exceptions/EmailAlreadyTakenException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/exceptions/InvalidPasswordException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/exceptions/InvalidPasswordException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/exceptions/SubscriptionAlreadyExistsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/exceptions/SubscriptionAlreadyExistsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/exceptions/SubscriptionNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/exceptions/SubscriptionNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/exceptions/UserNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/exceptions/UserNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/exceptions/UsernameAlreadyTakenException.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/exceptions/UsernameAlreadyTakenException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/facade/CommentFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/facade/CommentFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/facade/MessageFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/facade/MessageFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/facade/PostFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/facade/PostFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/facade/SubscriptionFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/facade/SubscriptionFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/facade/UserFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/facade/UserFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/repo/BanRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/repo/BanRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/repo/CommentRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/repo/CommentRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/repo/MessageRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/repo/MessageRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/repo/PostRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/repo/PostRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/repo/SubscriptionRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/repo/SubscriptionRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/repo/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/repo/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/security/JwtProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/security/JwtProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/security/JwtTokenAuthFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/security/JwtTokenAuthFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/security/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/security/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/BanService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/BanService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/MessageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/MessageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/PostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/PostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/SubscriptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/user/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/user/UserDetailsServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/service/user/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/service/user/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/validation/UserValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/validation/UserValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/chat/MessageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/chat/MessageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/comment/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/comment/CommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/post/CurrentUserPostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/post/CurrentUserPostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/post/PostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/post/PostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/subscription/CurrentUserSubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/subscription/CurrentUserSubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/subscription/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/subscription/SubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/user/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/user/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/user/BanController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/user/BanController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/user/CurrentUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/user/CurrentUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/web/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/web/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/websocket/CustomWebSocketHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/websocket/CustomWebSocketHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/websocket/WebSocketSessionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/websocket/WebSocketSessionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/websocket/WebsocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/websocket/WebsocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/wrapper/UserWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/wrapper/UserWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/gleb/wrapper/UserWrapperService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/gleb/wrapper/UserWrapperService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/logback-spring.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2Wf3j83ixHEa5x7hufTlLqYynSz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\projects\Social-Network\application\backend" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="application" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.gleb.Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6e3db3b8-232f-4950-b3f2-2be9e31034aa" name="Changes" comment="" />
+      <created>1697109943019</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1697109943019</updated>
+      <workItem from="1697109944224" duration="183000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
