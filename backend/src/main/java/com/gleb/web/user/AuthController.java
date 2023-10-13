@@ -20,18 +20,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/auth")
 @RequiredArgsConstructor
+@RequestMapping("/auth")
 public class AuthController {
 
     private final JwtTokenProvider tokenProvider;
@@ -60,7 +57,7 @@ public class AuthController {
                         return userFacade.registerUser(registerRequestDto)
                                 .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
                                 .onErrorResume(DataIntegrityViolationException.class, ex -> {
-                                    String usernameErrorMessage = "Username or email already exists.";
+                                    String usernameErrorMessage = "Something went wrong";
                                     return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
                                 })
                                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
@@ -83,7 +80,7 @@ public class AuthController {
                         return userFacade.registerAdmin(registerRequestDto)
                                 .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
                                 .onErrorResume(DataIntegrityViolationException.class, ex -> {
-                                    String usernameErrorMessage = "Username or email already exists.";
+                                    String usernameErrorMessage = "Something went wrong";
                                     return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
                                 })
                                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
@@ -106,7 +103,7 @@ public class AuthController {
                         return userFacade.registerModerator(registerRequestDto)
                                 .map(registeredUser -> ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully"))
                                 .onErrorResume(DataIntegrityViolationException.class, ex -> {
-                                    String usernameErrorMessage = "Username or email already exists.";
+                                    String usernameErrorMessage = "Something went wrong";
                                     return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body(usernameErrorMessage));
                                 })
                                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
