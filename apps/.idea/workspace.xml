@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="66450dc1-bbd4-419b-9ab0-64eefedf6635" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/compose.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/init.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/.npmrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/app/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/app/page.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/next-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/next.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/public/circles.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/public/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/public/turborepo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/public/vercel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/docs/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/app/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/app/page.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/next-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/next.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/public/circles.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/public/next.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/public/turborepo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/public/vercel.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/apps/web/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/eslint-config/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/eslint-config/library.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/eslint-config/next.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/eslint-config/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/eslint-config/react-internal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/typescript-config/base.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/typescript-config/nextjs.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/typescript-config/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/typescript-config/react-library.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/src/button.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/src/card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/src/code.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/tsconfig.lint.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/turbo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/turbo/generators/config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/packages/ui/turbo/generators/templates/component.hbs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/pnpm-lock.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/pnpm-workspace.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/project/turbo.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/config/PostgresConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/config/RedisConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/config/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/Ban.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/TextMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/chat/ChatMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/chat/MessageType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/post/Post.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/post/Status.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/subscription/Status.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/subscription/Subscription.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/user/Roles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/data/user/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/comment/CommentForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/comment/CommentShowDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/comment/CurrentUserCommentDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/message/MessageSendDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/message/MessageShowDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/post/CurrentUserPostDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/post/PostForm.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/post/PostShowDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/user/AuthenticationRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/user/EmailUpdateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/user/FirstAndLastnameUpdateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/user/PasswordUpdateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/user/RegisterRequestDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/dto/user/UserShowDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/error/ApiError.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/error/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/exceptions/EmailAlreadyTakenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/exceptions/InvalidPasswordException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/exceptions/SubscriptionAlreadyExistsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/exceptions/SubscriptionNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/exceptions/UserNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/exceptions/UsernameAlreadyTakenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/facade/CommentFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/facade/MessageFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/facade/PostFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/facade/SubscriptionFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/facade/UserFacade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/repo/BanRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/repo/CommentRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/repo/MessageRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/repo/PostRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/repo/SubscriptionRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/repo/UserRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/security/JwtProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/security/JwtTokenAuthFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/security/JwtTokenProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/BanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/CommentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/MessageService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/PostService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/SubscriptionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/user/UserDetailsServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/service/user/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/validation/UserValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/chat/MessageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/comment/CommentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/post/CurrentUserPostController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/post/PostController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/subscription/CurrentUserSubscriptionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/subscription/SubscriptionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/user/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/user/BanController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/user/CurrentUserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/web/user/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/websocket/CustomWebSocketHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/websocket/WebSocketSessionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/websocket/WebsocketConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/wrapper/UserWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/java/com/gleb/wrapper/UserWrapperService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/src/main/resources/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/META-INF/spring-configuration-metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/Application.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/config/PostgresConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/config/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/Ban$BanBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/Ban.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/Comment$CommentBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/Comment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/TextMessage$TextMessageBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/TextMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/chat/ChatMessage$ChatMessageBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/chat/ChatMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/chat/MessageType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/post/Post$PostBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/post/Post.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/post/Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/subscription/Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/subscription/Subscription$SubscriptionBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/subscription/Subscription.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/user/Roles.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/user/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/data/user/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/comment/CommentForm$CommentFormBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/comment/CommentForm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/comment/CommentShowDto$CommentShowDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/comment/CommentShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/comment/CurrentUserCommentDto$CurrentUserCommentDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/comment/CurrentUserCommentDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/message/MessageSendDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/message/MessageShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/post/CurrentUserPostDto$CurrentUserPostDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/post/CurrentUserPostDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/post/PostForm$PostFormBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/post/PostForm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/post/PostShowDto$PostShowDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/post/PostShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/AuthenticationRequestDto$AuthenticationRequestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/AuthenticationRequestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/EmailUpdateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/FirstAndLastnameUpdateDto$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/FirstAndLastnameUpdateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/PasswordUpdateDto$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/PasswordUpdateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/RegisterRequestDto$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/RegisterRequestDto$RegisterRequestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/RegisterRequestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/dto/user/UserShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/error/ApiError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/error/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/exceptions/EmailAlreadyTakenException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/exceptions/InvalidPasswordException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/exceptions/SubscriptionAlreadyExistsException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/exceptions/SubscriptionNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/exceptions/UserNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/exceptions/UsernameAlreadyTakenException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/facade/CommentFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/facade/MessageFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/facade/PostFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/facade/SubscriptionFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/facade/UserFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/repo/BanRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/repo/CommentRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/repo/MessageRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/repo/PostRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/repo/SubscriptionRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/repo/UserRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/security/JwtProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/security/JwtTokenAuthFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/security/JwtTokenProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/BanService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/CommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/MessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/PostService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/SubscriptionService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/user/UserDetailsServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/service/user/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/validation/UserValidator$ValidationField.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/validation/UserValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/chat/MessageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/comment/CommentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/post/CurrentUserPostController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/post/PostController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/subscription/CurrentUserSubscriptionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/subscription/SubscriptionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/user/AuthController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/user/BanController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/user/CurrentUserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/web/user/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/websocket/CustomWebSocketHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/websocket/WebSocketSessionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/websocket/WebsocketConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/wrapper/UserWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/com/gleb/wrapper/UserWrapperService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/target/classes/logback-spring.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontend.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/RegisterForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/setupTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/users.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/META-INF/spring-configuration-metadata.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/Application.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/config/PostgresConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/config/SecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/Ban$BanBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/Ban.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/Comment$CommentBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/Comment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/TextMessage$TextMessageBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/TextMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/chat/ChatMessage$ChatMessageBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/chat/ChatMessage.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/chat/MessageType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/post/Post$PostBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/post/Post.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/post/Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/subscription/Status.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/subscription/Subscription$SubscriptionBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/subscription/Subscription.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/user/Roles.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/user/User$UserBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/data/user/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/comment/CommentForm$CommentFormBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/comment/CommentForm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/comment/CommentShowDto$CommentShowDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/comment/CommentShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/comment/CurrentUserCommentDto$CurrentUserCommentDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/comment/CurrentUserCommentDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/message/MessageSendDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/message/MessageShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/post/CurrentUserPostDto$CurrentUserPostDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/post/CurrentUserPostDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/post/PostForm$PostFormBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/post/PostForm.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/post/PostShowDto$PostShowDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/post/PostShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/AuthenticationRequestDto$AuthenticationRequestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/AuthenticationRequestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/EmailUpdateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/FirstAndLastnameUpdateDto$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/FirstAndLastnameUpdateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/PasswordUpdateDto$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/PasswordUpdateDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/RegisterRequestDto$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/RegisterRequestDto$RegisterRequestDtoBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/RegisterRequestDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/dto/user/UserShowDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/error/ApiError.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/error/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/exceptions/EmailAlreadyTakenException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/exceptions/InvalidPasswordException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/exceptions/SubscriptionAlreadyExistsException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/exceptions/SubscriptionNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/exceptions/UserNotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/exceptions/UsernameAlreadyTakenException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/facade/CommentFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/facade/MessageFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/facade/PostFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/facade/SubscriptionFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/facade/UserFacade.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/repo/BanRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/repo/CommentRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/repo/MessageRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/repo/PostRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/repo/SubscriptionRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/repo/UserRepo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/security/JwtProperties.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/security/JwtTokenAuthFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/security/JwtTokenProvider.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/BanService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/CommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/MessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/PostService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/SubscriptionService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/user/UserDetailsServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/service/user/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/validation/UserValidator$ValidationField.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/validation/UserValidator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/chat/MessageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/comment/CommentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/post/CurrentUserPostController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/post/PostController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/subscription/CurrentUserSubscriptionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/subscription/SubscriptionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/user/AuthController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/user/BanController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/user/CurrentUserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/web/user/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/websocket/CustomWebSocketHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/websocket/WebSocketSessionManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/websocket/WebsocketConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/wrapper/UserWrapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../target/classes/com/gleb/wrapper/UserWrapperService.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
+  <component name="ProjectId" id="2augaVKsPDZ7f9HQhBaGgmzHCol" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "D:/projects/project",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="66450dc1-bbd4-419b-9ab0-64eefedf6635" name="Changes" comment="" />
+      <created>1705173941858</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705173941858</updated>
+      <workItem from="1705173942926" duration="17000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
