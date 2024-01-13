@@ -1,81 +1,96 @@
-# Turborepo starter
+# Social Network
 
-This is an official starter Turborepo.
+This is a backend code for Social Network application written using Spring Boot with reactive stack.
 
-## Using this example
 
-Run the following command:
+## Getting Started
 
-```sh
-npx create-turbo@latest
-```
 
-## What's inside?
+Clone this repository to your local machine:
 
-This Turborepo includes the following packages/apps:
+1) On https://github.com/MrGlebw/Social-Network navigate to the main page of the repository.
 
-### Apps and Packages
+  * Above the list of files, click the button **Code**
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+  * Copy the URL for the repository
 
-### Utilities
+* Open Terminal.
 
-This Turborepo has some additional tools already setup for you:
+Change the current working directory to the location where you want the cloned directory.
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+Type git clone, and then paste the URL you copied earlier:
+git clone https://github.com/MrGlebw/Social-Network.git
 
-### Build
 
-To build all apps and packages, run the following command:
+1) You can also download the repository as a zip file and unpack it locally.
+2) You can also clone the repository using your favorite IDE.
 
-```
-cd my-turborepo
-pnpm build
-```
+Running with docker:
 
-### Develop
+1) Install docker
+2) Open terminal in the project directory
+3) run `mvn clean package`
+4) run `mvn install`
+5) run `docker-compose up `
+6) You can access the application on `localhost:8080`
 
-To develop all apps and packages, run the following command:
 
-```
-cd my-turborepo
-pnpm dev
-```
 
-### Remote Caching
+## Features
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+Project's key features include:
 
-```
-cd my-turborepo
-npx turbo login
-```
+**USERS**
+- Registration/Login of **Users**
+- Refreshing **Tokens**
+- Authentication/Authorization
+- Changing **User's** details
+- Deleting **User's** account
+- Making account **Private/Public**
+-  Searching for other **Users**/ Getting all public **Users**
+- Subscribing/Unsubscribing to **Users**
+- Viewing **User's** Subscribers/Subscriptions
+- Ban/Unban **Users**
+- Admin operations with **Users**
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+**POSTS**
+- Creating/Updating/Deleting **Posts**
+- Publishing **Posts**
+- Viewing published **Posts**
+- Moderator operations with **Posts**: deleting, disapproving, viewing **Posts**
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+**COMMENTS**
 
-```
-npx turbo link
-```
+- Creating/Updating/Deleting **Comments** on **Posts**
+- Viewing **Comments** on **Posts** 
+- Moderator operations with **Posts**
 
-## Useful Links
+**MESSAGES**
+- Chatting with other **Users** using WebSocket
 
-Learn more about the power of Turborepo:
 
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+
+
+
+## Technology Stack
+
+- Java 17
+- Spring Boot 3.1.1
+- Spring Security
+- Spring Data R2DBC
+- Spring WebFlux
+- PostgreSQL
+- Lombok
+- Redis
+- WebSocket
+- Docker
+- Maven
+
+
+
+
+## Author
+
+* **Gleb Shcherbyna** - [GitHub](https://github.com/MrGlebw)
