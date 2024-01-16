@@ -26,14 +26,12 @@ git clone https://github.com/MrGlebw/Social-Network.git
 1) You can also download the repository as a zip file and unpack it locally.
 2) You can also clone the repository using your favorite IDE.
 
-Running with docker:
+Running backend with docker:
 
 1) Install docker
-2) Open terminal in the project directory
-3) run `mvn clean package`
-4) run `mvn install`
-5) run `docker-compose up `
-6) You can access the application on `localhost:8080`
+2) Open terminal in the directory apps/backend
+3) run `docker-compose up `
+4) You can access the application on `localhost:8080`
 
 
 
